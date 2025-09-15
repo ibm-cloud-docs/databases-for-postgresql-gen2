@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "title": "IBM Cloud® Databases for PostgreSQL",
+  "introduction": "PostgreSQL is a powerful, open source object-relational database that is highly customizable.",
+  "product_page": "https://www.ibm.com/products/databases-for-postgresql",
+  "console_page": "/databases/databases-for-postgresql/create",
+   "section_topics": {
+    "links": [
+      {
+        "title": "Getting started",
+        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-getting-started&interface=ui"
+      },
+      {
+        "title": "Upgrading to a new major version",
+        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-upgrading&interface=ui"
+      },
+      {
+        "title": "The read-only replica",
+        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-read-only-replicas&interface=ui"
+      },
+      {
+        "title": "Scaling and switching hosting models",
+        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-resources-scaling&interface=ui"
+      },
+      {
+        "title": "Changing your Databases for PostgreSQL configuration",
+        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-changing-configuration&interface=cli"
+      },
+      {
+        "title": "Connecting an external application to your PostgreSQL deployment",
+        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-external-app"
+      },
+      {
+        "title": "Connecting with psql",
+        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql"
+      }
+    ]
+  },
+  "section_highlights": [
+    {
+      "title": "IBM named a leader for cloud database management systems",
+      "description": "Gartner named IBM a leader in Gartner Magic Quadrant for 2021 Cloud Database Management Systems.",
+      "href": "https://www.ibm.com/blog/ibm-is-named-a-leader-in-the-2021-gartner-magic-quadrant-for-cloud-database-management-systems-dbms/",
+      "type": "blog"
+    },
+    {
+      "title": "IBM Training - Cloud",
+      "description": "Includes Power Virtual Server, SAP, VMware, Advocate, Architect, Developer, and Site Reliability Engineer, and more",
+      "href": "https://www.ibm.com/training/cloud",
+      "type": "training"
+    }
+  ],
+  "section_devtools": {
+    "api": "/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction", 
+    "cli": "/docs/databases-cli-plugin", 
+    "terraform": "https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database"
+    },
+  "section_updates": {
+    "view_more": "/docs/databases-for-postgresql?topic=databases-for-postgresql-postgresql-relnotes",
+    "tiles": [
+      {
+        "date": "22 October 2024",
+        "title": "Databases for PostgreSQL end-of-life procedure change"
+      },
+      {
+        "date": "27 September 2024",
+        "title": "Databases for PostgreSQL version 13 End of life on October 22, 2025"
+      },
+      {
+        "date": "16 September 2024",
+        "title": "Private endpoints as new default"
+      },
+      {
+        "date": "1 May 2024",
+        "title": "New hosting models"
+      }
+    ]
+  }
+}

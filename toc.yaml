@@ -1,0 +1,151 @@
+toc:
+  properties:
+    subcollection: databases-for-postgresql
+    service-name: databases-for-postgresql
+    version: 2
+    category: database
+    audience: service
+    href: /docs/databases-for-postgresql
+    console-page: /catalog/services/databases-for-postgresql
+    product-page: https://www.ibm.com/cloud/databases-for-postgresql
+    path: databases-for-postgresql
+    label: Databases for PostgreSQL
+  entries:
+  - navgroup:
+      id: learn
+      topics:
+      - link:
+          label: IBM Cloud Databases
+          href: https://cloud.ibm.com/docs/cloud-databases
+      - link:
+          label: What is PostgreSQL?
+          href: https://www.ibm.com/cloud/learn/postgresql
+      - topic: getting-started.md
+        navtitle: Getting started
+      - topicgroup:
+          label: Hosting models
+          topics:
+          - include: ../cloud-databases/hosting-models.md
+          - include: ../cloud-databases/hosting-models-transition.md
+          - include: ../cloud-databases/hosting-models-faq.md
+          - include: ../cloud-databases/hosting-pricing.md
+      - learn-dashboard-overview.md
+      - learn-performance.md
+      - learn-pricing.md
+      - release-notes.md
+  - navgroup:
+      id: howto
+      topics:
+      - howto-provisioning.md
+      - howto-user-management.md
+      - howto-upgrading.md
+      - howto-getting-connection-strings.md
+      - include: ../cloud-databases/ha-dr.md
+      - topicgroup:
+          label: Connecting to Databases for PostgreSQL
+          topics:
+          - connecting-external.md
+          - connecting-ibmcloud-app.md
+          - connecting-psql.md
+      - topicgroup:
+          label: Managing resources
+          topics:
+          - howto-resources-scaling.md
+          - howto-autoscaling.md
+          - howto-horizontal-scaling.md
+          - howto-managing-connections.md
+      - include: ../cloud-databases/howto-manage-backups.md
+      - howto-pitr.md
+      - howto-migration.md
+      - topicgroup:
+          label: Replication
+          topics:
+          - howto-read-replica.md
+          - howto-ha-read-replica.md
+          - howto-logical-replication.md
+          - howto-filter-logical-replication.md
+          - link:
+              label: Upgrading PostgreSQL with minimal downtime using logical replication
+              href: https://www.ibm.com/blog/upgrading-ibm-cloud-databases-for-postgresql-with-minimal-downtime/
+      - topicgroup:
+          label: Configuring PostgreSQL
+          topics:
+          - topic: howto-changing-config.md
+            navtitle: Changing your configuration
+          - topic: howto-extensions.md
+            navtitle: Managing extensions
+          - howto-wal2json.md
+          - howto-pgaudit.md
+          - howto-pg-repack.md
+          - topic: howto-pg-vector.md
+            navtitle: Exploring vector-based search using pg_vector
+          - topic: howto-icu.md
+            navtitle: ICU support
+      - topicgroup:
+          label: Observability
+          topics:
+          - include: ../cloud-databases/cdb-logging-monitoring.md
+          - include: ../cloud-databases/logging.md
+          - include: ../cloud-databases/reference-monitoring.md
+          - include: ../cloud-databases/at-events.md
+      - topicgroup:
+          label: Enhancing security
+          topics:
+          - include: ../cloud-databases/manage-scc.md
+          - learn-security-compliance.md
+          - include: ../cloud-databases/howto-cbr.md
+          - include: ../cloud-databases/howto-allowlists.md
+          - include: ../cloud-databases/reference-service-endpoints.md
+          - include: ../cloud-databases/howto-vpes.md
+          - include: ../cloud-databases/reference-iam.md
+          - include: ../cloud-databases/reference-key-protect.md
+          - include: ../cloud-databases/reference-hpcs.md
+          - include: ../cloud-databases/cbr-tutorial.md
+          - include: ../cloud-databases/howto-deprovisioning.md
+  - navgroup:
+      id: tutorial
+      topics:
+      - topicgroup:
+          label: Databases for PostgreSQL tutorials
+          topics:
+          - howto-deploy-pgadmin-tutorial.md
+          - include: ../cloud-databases/terra-postgres-tutorial.md
+      - topicgroup:
+          label: Cloud Databases tutorials
+          topics:
+          - include: ../cloud-databases/hello-world-tutorial.md
+          - include: ../cloud-databases/k8-tutorial.md
+          - include: ../cloud-databases/cbr-tutorial.md
+          - include: ../cloud-databases/disk-util-alerts-tutorial.md
+  - navgroup:
+      id: reference
+      topics:
+      - include: ../cloud-databases/icd-cli.md
+      - link:
+          label: Cloud Databases API
+          href: https://cloud.ibm.com/apidocs/cloud-databases-api
+      - include: ../cloud-databases/db-version-policy.md
+      - include: ../cloud-databases/learn-getting-to-production.md
+      - include: ../cloud-databases/reference-responsibilities.md
+      - topic: ha-dr.md
+        navtitle: Understanding high availability and disaster recovery
+      - topic: data-portability.md
+        navtitle: Data portability
+  - navgroup:
+      id: help
+      topics:
+      - topicgroup:
+          label: Troubleshooting
+          topics:
+          - ts-connect.md
+          - ts-max-connections.md
+          - ts-no-space-left.md
+          - queries.md
+          - include: ../cloud-databases/ts-terraform.md
+      - topicgroup:
+          label: FAQs
+          topics:
+          - include: ../cloud-databases/status-page-faq.md
+          - include: ../cloud-databases/resource-config-faq.md
+          - include: ../cloud-databases/availability-zones-faq.md
+          - include: ../cloud-databases/cert-faq.md
