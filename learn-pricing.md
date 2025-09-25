@@ -1,11 +1,11 @@
 ---
 copyright:
-  years: 2017, 2025
-lastupdated: "2025-09-15"
+  years: 2025, 2025
+lastupdated: "2025-09-25"
 
-keywords: postgresql pricing
+keywords: postgresql, gen 2, pricing
 
-subcollection: databases-for-postgresql
+subcollection: databases-for-postgresql-gen2
 
 ---
 
@@ -14,41 +14,64 @@ subcollection: databases-for-postgresql
 # Pricing
 {: #pricing}
 
-A {{site.data.keyword.databases-for-postgresql}} Standard plan deploys as one highly available PostgreSQL cluster with two data members, with your data replicated on both members. It's priced based on the total amount of disk storage, RAM, dedicated cores, and backup storage that is allocated to deployments, prorated hourly. {{site.data.keyword.databases-for-postgresql}} deployments have a minimum of 5 GB of disk and 4 GB of RAM per data member.
+A {{site.data.keyword.databases-for-postgresql}} Standard plan deploys as one highly available PostgreSQL cluster with two data members, with your data replicated on both members. It's priced based on the total amount of disk storage, RAM, virtual CPU cores, and backup storage that is allocated to deployments, prorated hourly. Gen 2 {{site.data.keyword.databases-for-postgresql}} deployments have a minimum of 5 GB of disk and the smallest profile provides 4 vCPU cores.
 
 ## Using the pricing calculator
 {: #pricing-calc}
 
-For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-postgresql}} catalog page](https://cloud.ibm.com/databases/databases-for-postgresql/create). Input your total consumption across two data members into the calculator. This is roughly double the size of your data because your data is replicated to both members. For example, 5 GB of disk and 1 GB of RAM across two data members would be priced at 10 GB of disk and 2 GB of RAM respectively. 
+For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-postgresql}} catalog page](https://cloud.ibm.com/databases/databases-for-postgresql/create). Input your total consumption across two data members into the calculator. This is roughly double the size of your data because your data is replicated to both members. For example, 5 GB of disk with a 4 by 20 profile across two data members would be priced at 10 GB of disk and 8vCPU, 40 GB of RAM respectively. 
 
-## Backups pricing
+## Gen 2 backups pricing
 {: #pricing-backup}
 
-You receive your total disk space purchased, per database, in free backup storage. For example, in a given month, if you have a {{site.data.keyword.databases-for-postgresql}} deployment that has 20 GB of disk per member, and has three data members, you receive 60 GB of backup storage free for that month. If your backup storage utilization is greater than 60 GB for the month (in this scenario), you are charged an overage of $0.03/month per gigabyte. 
+{{site.data.keyword.databases}} uses a snapshot based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies, therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database. 
 
-By default, {{site.data.keyword.databases-for}} provides a daily backup that is stored for 30 days. These backups, and any on-demand backups you make, all count toward the above allocation.
 
-In the above example, if your database contains 2 GB of data and you have not taken any on-demand backups, then your total backup size is 2 GB x 30 = 60 GB. Your backup costs are nil.
+By default, {{site.data.keyword.databases-for-postgresql}} provides a daily backup that is stored for 30 days. These backups, and any on-demand backups you make, all count toward the above allocation.
 
-If your database contains 15 GB of data and you have not taken any on-demand backups, then your total backup size is 15 GB x 30 = 450 GB. In this scenario, your backup costs are (450 GB - 60 GB) * 0.03 = $11.7 per month.
 
-Most deployments will not ever go over the allotted credit.
+Backup storage included:
 
-## Dedicated cores pricing
-{: #core-pricing}
+* You receive free backup storage equal to the total provisioned disk size of your deployment. 
 
-You have the option of selecting the CPU allocation for your deployment. With dedicated cores, your resource group is given a single-tenant host with a guaranteed minimum reserve of cpu shares. Your deployments are then allocated the number of CPUs you specify. The cost of dedicated cores is $30 per core per month, and each member gets the selected number of cores. For example, if you provision a deployment with three dedicated cores per member that is a total of six cores and billed at $180 per month. 
+* This includes both automated daily backups and manual (on-demand) snapshots.
 
-Dedicated cores are an optional feature. The default `Shared CPU` setting provisions your deployment on hosts with shared compute resources and incurs no additional charge.
+* Example: If your 2 member {{site.data.keyword.databases-for-postgresql}} deployment is provisioned with 100 GB of disk per member, you get 200 GB of backup storage included at no cost.
+
+Overage charges:
+
+* The overage is billed monthly.
+
+* Total snapshot storage = Day 1 full + (Daily change × 29 days x number of members)
+
+* Overage is charged at $0.095 per GB per month.
+
+Worked example, for a 2-member PostgreSQL deployment with 100 GB of data per member:
+
+* Day 1: A full snapshot is taken. Each snapshot captures the full volume, so you consume 200 GB of snapshot storage (100 GB × 2).
+
+This worked example models the worst case scenario. The full snapshot is equal to the file system and in most cases, this will be smaller than the entire disk volume. New databases will be small and grow over time, therefore the first snapshot will be considerably smaller for new instances, reducing your overall bill for backups. 
+{: note} 
+
+* Day 2: You write 10 GB of new data to each member. The next snapshot is incremental — it only stores the changes since the last snapshot. So you consume an additional 20 GB (10 GB × 2 members), bringing your total snapshot usage to 220 GB.
+
+* Day 30: You write 2 GB of data per day, bringing your total snapshot usage to ((2x28) + 220) = 276 GB.
+
+* In a given month, if you have a {{site.data.keyword.databases-for-postgresql}} deployment that has 100 GB of disk per member, and have two data members, you receive 200 GB of snapshot storage free for that month. Your backup storage utilization is greater than 200 GB for the month (in this scenario), you are charged an overage of $0.095/month per gigabyte, therefore your total bill = (276 GB - 200 GB) X 0.095 = $7.22.
+
+* With large deployments and frequent writes, you’re more likely to exceed the free tier after the first snapshot, and your snapshot storage costs will grow quickly.
+
+* Cross-region copies: If you choose to copy snapshots to another region, {{site.data.keyword.cloud}} charges for the full size of the snapshot in the destination region (not incremental) and continued incremental growth in the original region as new snapshots are taken.
+
 
 ## Scaling per member
 {: #scaling-member}
 
-{{site.data.keyword.databases-for-postgresql}} deployments have minimum and maximum allocation for disk and RAM as shown. Scaling deployments through the API/CLI provides more granularity and also allows a user to scale a database instance up to 4 TB of disk per member.
+{{site.data.keyword.databases-for-postgresql}} deployments have minimum and maximum allocation for disk and RAM as shown. Scaling deployments through the API and CLI provides more granularity and also allows you to scale a database instance up to 4 TB of disk per member. Minimum and maximum CPU and RAM combinations vary per region, see [Isolated Compute](add link). 
 
-| Resource | Minimum | Maximum | Scaling Granularity (API/CLI) |
+| Resource | Minimum | Maximum | Scaling granularity (API/CLI) |
 | ---------- | ----- | ----- | ------- |
 | Disk | 5 GB per member | 4 TB per member | 1024 MB per member |
-| RAM | 1 GB per member | 112 GB per member | 128 MB per member |
-| CPU (if enabled) | 0.5 vCPUs per member | 28 vCPUs per member| 2 CPU per member |
-{: caption="Per Member Scaling Limits" caption-side="top"}
+| RAM | 16 GB | 240 GB | Isolated Compute – Resource scaling via T-shirt sizes |
+| CPU | 4 vCPU | 48 vCPU| Isolated Compute – Resource scaling via T-shirt sizes |
+{: caption="Scaling limits" caption-side="top"}
