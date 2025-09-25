@@ -1,10 +1,10 @@
 ---
 
 copyright:
-  years: 2018, 2025
-lastupdated: "2025-09-15"
+  years: 2025
+lastupdated: "2025-09-25"
 
-keywords: pgAdmin, postgresql gui, postgresql, postgres, postgresql cloud database, potgres getting started
+keywords: pgAdmin, postgresql gui, PostgreSQL, PostgreSQL cloud database, PostgreSQL getting started, Gen 2
 
 subcollection: databases-for-postgresql
 
@@ -23,17 +23,18 @@ completion-time: 30m
 {: toc-services=""}
 {: toc-completion-time="30m"}
 
-This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} by provisioning an instance, setting up pgAdmin, setting your admin password, and setting up logging and monitoring.
+This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} on the Gen 2 platform by provisioning an instance, setting up a secure connection through a VSI and VPE, and enabling logging and monitoring.
 
 Follow these steps to complete the tutorial: {: ui}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the console](#provision_instance_ui)
-* [Step 2: Set your admin password through the console](#admin_pw)
-* [Step 3: Set up pgAdmin](#pgadmin)
+* [Step 2: Place holder for Manager service credential-Replace-Set your admin password through the console](#admin_pw)
+* [Step 3: Place holder for psql-Replace pgAdmin- Set up pgAdmin](#pgadmin)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
-* [Step 6: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
+* [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+* [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
+* [Step 7: Connect IBM Cloud Logs](#postgresql_logs)
 * [Next Steps](#next_steps)
 {: ui}
 
@@ -41,11 +42,12 @@ Follow these steps to complete the tutorial: {: cli}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the CLI](#provision_instance_cli)
-* [Step 2: Set your admin password through the CLI](#admin_pw)
-* [Step 3: Set up pgAdmin](#pgadmin)
+* [Step 2: Place holder for Manager service credential-Replace-Set your admin password through the console](#admin_pw)
+* [Step 3: Place holder for psql-Replace pgAdmin- Set up pgAdmin](#pgadmin)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_cli)
-* [Step 6: Connect {{site.data.keyword.atracker_full}}}](#activity_tracker_cli)
+* [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+* [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
+* [Step 7: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
 * [Next Steps](#next_steps)
 {: cli}
 
@@ -53,11 +55,12 @@ Follow these steps to complete the tutorial: {: api}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the API](#provision_instance_api)
-* [Step 2: Set your admin password](#admin_pw)
-* [Step 3: Set up pgAdmin](#pgadmin)
+* [Step 2: Place holder for Manager service credential-Replace-Set your admin password through the console](#admin_pw)
+* [Step 3: Place holder for psql-Replace pgAdmin- Set up pgAdmin](#pgadmin)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_api)
-* [Step 6: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_api)
+* [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+* [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
+* [Step 7: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
 * [Next Steps](#next_steps)
 {: api}
 
@@ -65,11 +68,12 @@ Follow these steps to complete the tutorial: {: terraform}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through Terraform](#provision_instance_tf)
-* [Step 2: Set your admin password](#admin_pw)
-* [Step 3: Set up pgAdmin](#pgadmin)
+* [Step 2: Place holder for Manager service credential-Replace-Set your admin password through the console](#admin_pw)
+* [Step 3: Place holder for psql-Replace pgAdmin- Set up pgAdmin](#pgadmin)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_tf)
-* [Step 6: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_tf)
+* [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+* [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
+* [Step 7: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
 * [Next Steps](#next_steps)
 {: terraform}
 
@@ -87,16 +91,14 @@ Follow these steps to complete the tutorial: {: terraform}
 1. Click the [**{{site.data.keyword.databases-for-postgresql}} service**](https://cloud.ibm.com/databases/databases-for-postgresql/create){: external} in the **catalog**.
 
 1. In **Service details**, configure the following:
+    - **Location** - Select a location that supports Gen 2
     - **Service name** - The name can be any string and is the name that is used on the web and in the CLI to identify the new deployment.
-    - **Resource group** - If you are organizing your services into [resource groups](/docs/account?topic=account-account_setup), specify the resource group in this field. Otherwise, you can leave it at default. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
-    - **Location** - The deployment's public cloud region.
+    - **Resource group** - If you are organizing your services into [resource groups](/docs/account?topic=account-account_setup), specify the resource group in this field. Otherwise, you can leave it at the default. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
+  
 1. **Resource allocation** - Specify the initial RAM, disk, and cores for your databases. The minimum sizes of memory and disk are selected by default. With dedicated cores, your resource group is given a single-tenant host with a minimum reserve of CPU shares. Your deployments are then allocated the number of cores that you specify. *Once provisioned, disk cannot be scaled down.*
 1. In **Service configuration**, configure the following:
     - **Database version** [Set only at deployment]{: tag-red} - The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database versioning policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy){: external}.
     - **Encryption** - If you use [Key Protect](/docs/cloud-databases?topic=cloud-databases-key-protect&interface=ui), an instance and key can be selected to encrypt the deployment's disk. If you do not use your own key, the deployment automatically creates and manages its own disk encryption key.
-    - **Endpoints** [Set only at deployment]{: tag-red} - Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) on your deployment.
-
-    After you configure the appropriate settings, click **Create** to start the provisioning process. The {{site.data.keyword.databases-for-postgresql}} **Resource list** page opens.
 
 1. Click **Create**. The {{site.data.keyword.databases-for}} **Resource list** page opens.
 
@@ -248,7 +250,7 @@ ibmcloud resource service-instance-create databases-for-postgresql <SERVICE_NAME
 Follow these steps to provision by using the [resource controller API](https://cloud.ibm.com/apidocs/resource-controller/resource-controller){: external}.
 
 1. Obtain an [IAM token from your API token](https://cloud.ibm.com/apidocs/resource-controller/resource-controller#authentication){: external}.
-1. You need to know the ID of the resource group that you would like to deploy to. This information is available through the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-ibmcloud_commands_resource#ibmcloud_resource_groups).
+1. You need to know the ID of the resource group to which you would like to deploy. This information is available through the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-ibmcloud_commands_resource#ibmcloud_resource_groups).
 
    Use a command like:
    ```sh
@@ -256,7 +258,7 @@ Follow these steps to provision by using the [resource controller API](https://c
    ```
    {: pre}
 
-1. You need to know the region that you would like to deploy into.
+1. You need to know the region where you would like to deploy.
 
    To list all of the regions that deployments can be provisioned into from the current region, use the [{{site.data.keyword.databases-for}} CLI plug-in](https://cloud.ibm.com/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}.
 
@@ -315,6 +317,7 @@ Use Terraform to manage your infrastructure through the [`ibm_database` Resource
 {: api}
 
 Use the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction){: external} to work with your {{site.data.keyword.databases-for-postgresql}} instance. The resource controller API is used to [provision an instance](#provision_instance_api).
+
 
 ## Step 2: Set the admin password
 {: #admin_pw}
@@ -389,7 +392,7 @@ ibmcloud cdb user-password example-deployment admin <newpassword>
 {: #admin_pw_set_api}
 {: api}
 
-The Foundation Endpoint that is shown in the Overview Deployment Details section of your service provides the base URL to access this deployment through the API. Use it with the [Set specified user's password](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#changeuserpassword){: external} endpoint to set the admin password.
+The Foundation Endpoint, as shown in the Overview Deployment Details section of your service, provides the base URL for accessing this deployment through the API. Use it with the [Set specified user's password](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#changeuserpassword){: external} endpoint to set the admin password.
 
 ```sh
 curl -X PATCH `https://api.{region}.databases.cloud.ibm.com/v5/ibm/deployments/{id}/users/admin` \
@@ -405,7 +408,7 @@ curl -X PATCH `https://api.{region}.databases.cloud.ibm.com/v5/ibm/deployments/{
 
 To set the Admin password, use the API:
 
-The Foundation Endpoint that is shown in the Overview Deployment Details section of your service provides the base URL to access this deployment through the API. Use it with the [Set specified user's password](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#changeuserpassword){: external} endpoint to set the admin password.
+The Foundation Endpoint, as shown in the Overview Deployment Details section of your service, provides the base URL for accessing this deployment through the API. Use it with the [Set specified user's password](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#changeuserpassword){: external} endpoint to set the admin password.
 
 ```sh
 curl -X PATCH `https://api.{region}.databases.cloud.ibm.com/v5/ibm/deployments/{id}/users/admin` \
@@ -430,18 +433,18 @@ To set the admin password through the UI, follow these steps:
 
 Set your admin password through the UI by selecting your instance from the Resource List in the [{{site.data.keyword.cloud_notm}} Dashboard](https://cloud.ibm.com/){: external}. Then, select **Settings**. Next, select *Change Database admin password*.
 
-## Step 3: Set up pgAdmin
-{: #pgadmin}
+## Step 3: Set up pSQL ( Replace pgAdmin instructions)
+{: #psql}
 
 pgAdmin runs as a server and you connect to it through a browser. When the server is started, it runs on localhost, at default `http://127.0.0.1:53113/browser/`.
 
-When you first open pgAdmin, you get a prompt for setting a primary password. This password is different from your instance's password as it is used specifically for pgAdmin to store passwords to your PostgreSQL servers or PostgreSQL instance.
+When you first open pgAdmin, you are prompted to set a primary password. This password differs from your instance's password, as it is explicitly used by pgAdmin to store passwords for your PostgreSQL servers or PostgreSQL instance.
 
 The *Dashboard* panel has a *Welcome* screen. From the *Quick links*, click *Add new server*.
 
 On your instance's *Overview* page, there is an *Endpoints* panel with all the relevant connection information.
 
-Back in pgAdmin, provide pgAdmin with the information it needs to connect to your instance.
+Back in pgAdmin, provide the necessary information to connect to your instance.
 
 First, complete the *Connection* information,
 - For *Host name/address*, use the *Hostname* of your instance.
@@ -460,10 +463,10 @@ Back on the *General* tab, give your instance a name and add any comments that y
 
 If the *Connect now?* field is checked, pgAdmin attempts to connect to your instance when you click the **Save** button.
 
-### Use pgAdmin
+### Use pSQL ( Replace pgAdmin usage instructions)
 {: #using-pgadmin}
 
-Once pgAdmin connects, your instance appears in the *Servers* list and you get a *Dashboard* with information and statistics.
+Once pgAdmin connects, your instance appears in the *Servers* list, and you get a *Dashboard* with information and statistics.
 
 In the list of databases in the *Browser*, there is both the `postgres` database, which you are connected to, and the `ibmclouddb` database, which is the default database for all {{site.data.keyword.databases-for-postgresql}} deployments. Click `ibmclouddb` to connect to it and expand the information about it.
 
@@ -479,7 +482,9 @@ Context-based restrictions give account owners and administrators the ability to
 
 To set up context-based restrictions for your {{site.data.keyword.databases-for-postgresql}} instance, follow the steps at [Protecting {{site.data.keyword.databases-for}} resources with context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr){: external}.
 
-## Step 5: Connect {{site.data.keyword.mon_full_notm}} through the console
+## Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+
+## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the console
 {: #connect_monitoring_ui}
 {: ui}
 
@@ -488,7 +493,7 @@ You can use {{site.data.keyword.mon_full_notm}} to get operational visibility in
 For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
 
 
-## Step 5: Connect {{site.data.keyword.mon_full_notm}} through the CLI
+## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the CLI
 {: #connect_monitoring_cli}
 {: cli}
 
@@ -499,7 +504,7 @@ For more information about how to use {{site.data.keyword.monitoringshort}} with
 You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
 {: note}
 
-## Step 5: Connect {{site.data.keyword.mon_full_notm}} through the API
+## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the API
 {: #connect_monitoring_api}
 {: api}
 
@@ -510,7 +515,7 @@ For more information about how to use {{site.data.keyword.monitoringshort}} with
 You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
 {: note}
 
-## Step 5: Connect {{site.data.keyword.mon_full_notm}} through Terraform
+## Step 6: Connect {{site.data.keyword.mon_full_notm}} through Terraform
 {: #connect_monitoring_tf}
 {: terraform}
 
@@ -521,22 +526,13 @@ For more information about how to use {{site.data.keyword.monitoringshort}} with
 You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
 {: note}
 
-## Step 6: Connect {{site.data.keyword.atracker_full_notm}}
-{: #activity_tracker_ui}
+
+## Step 7: Connect IBM Cloud Logs (#postgresql_logs)
+{: #acloudlogs_ui}
 {: ui}
 
-{{site.data.keyword.atracker_full}} allows you to view, manage, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-postgresql}} service.
 
-To get up and running with {{site.data.keyword.atracker_short}}, see [Getting started with {{site.data.keyword.atracker_full}}](/docs/atracker?topic=atracker-getting-started){: external}.
-
-{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_full}} service in the same location where your service instance is available.
-
-For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql?topic=databases-for-postgresql-at_events).
-
-Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
-
-
-## Step 6: Connect {{site.data.keyword.atracker_full_notm}} through the CLI
+## Step 7: Connect {{site.data.keyword.atracker_full_notm}} through the CLI
 {: #activity_tracker_cli}
 {: cli}
 
@@ -553,7 +549,7 @@ Events are formatted according to the Cloud Auditing Data Federation (CADF) stan
 You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql?topic=databases-for-postgresql-at_events&interface=api).
 {: note}
 
-## Step 6: Connect {{site.data.keyword.atracker_full}} through the API
+## Step 7: Connect {{site.data.keyword.atracker_full}} through the API
 {: #activity_tracker_api}
 {: api}
 
@@ -570,7 +566,7 @@ Events are formatted according to the Cloud Auditing Data Federation (CADF) stan
 You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql?topic=databases-for-postgresql-at_events&interface=api).
 {: note}
 
-## Step 6: Connect {{site.data.keyword.atracker_full_notm}} through Terraform
+## Step 7: Connect {{site.data.keyword.atracker_full_notm}} through Terraform
 {: #activity_tracker_tf}
 {: terraform}
 
