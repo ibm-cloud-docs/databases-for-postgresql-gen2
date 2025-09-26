@@ -2,9 +2,9 @@
 
 copyright:
   years: 2018, 2025
-lastupdated: "2025-09-15"
+lastupdated: "2025-09-26"
 
-keywords: deployment, crn, task, gui, api endpoint, postgresql dashboard
+keywords: deployment, crn, task, gui, api endpoint, postgresql dashboard, Gen 2
 
 subcollection: databases-for-postgresql
 
@@ -20,19 +20,18 @@ subcollection: databases-for-postgresql
 
 The _Overview_ page shows you information about your {{site.data.keyword.databases-for-postgresql_full}} deployment. The overview includes essential identifying information.
 
-The _Overview_ page shows you information about your {{site.data.keyword.databases-for-postgresql_full}} deployment. The overview includes essential identifying information.
 
 ### Type
 {: #type}
 
-The type of database that is offered by the service, and the database version that your service uses.
+The type of database offered by the service and the database version used by your service.
 
 ### CRN (deployment ID)
 {: #id}
 
 The ID is a [CRN (Cloud Resource Name)](/docs/account?topic=account-crn){: external} that uniquely identifies the database instance. The CRN is used to refer to the database in the API and can be used with the CLI. The _Overview_ pane shows details of your service.
 
-### Recent tasks
+### Recent tasks (Probably needs refinement based on how Scaling works on VPC)
 {: #recent-tasks}
 
 Each time that you make administrative changes to your service (such as scaling, or taking a manual backup), a task starts up. The _Recent Tasks_ panel shows the task name and progress bar for any running tasks, and a list of the most recently completed tasks. Depending on how busy your deployment is, successful tasks can be shown for 24 - 48 hours. Unsuccessful tasks can show for 7 - 8 days. Tasks can also be retrieved from the [{{site.data.keyword.databases-for}} API](/apidocs/cloud-databases-api/cloud-databases-api-v5#listdeploymenttasks){: external} and [CLI plug-in](https://cloud.ibm.com/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-tasks-list). A historical record of tasks from any time period is available through [{{site.data.keyword.atracker_full}}](/docs/databases-for-postgresql?topic=databases-for-postgresql-at_events).
@@ -48,17 +47,13 @@ Connection strings reflect whether your instance uses public endpoints, private 
 
 You can manage your {{site.data.keyword.databases-for-postgresql}} service through the {{site.data.keyword.databases-for}} API. This panel provides the essential information for using the API. For more information about the {{site.data.keyword.databases-for}} API, see the [API reference](https://{DomainName}/apidocs/cloud-databases-api) page.
 
-## Resources
+## Resources ( - Needs refinement based on how scaling works on VPC and if preset flavor is the only option)
 {: #resources-tab}
 
 The resources tab contains information and configuration options on the size and resource usage of your deployment. You can
-- [Scale disk, memory, and CPU](/docs/databases-for-postgresql?topic=databases-for-postgresql-resources-scaling)
+- [Scale disk, memory, and CPU](/docs/databases-for-postgresql?topic=databases-for-postgresql-resources-scaling) 
 - [Configure autoscaling](/docs/databases-for-postgresql?topic=databases-for-postgresql-autoscaling)
 
-## Read-only replicas
-{: #read-replicas-tab}
-
-The _Read-only replicas_ tab contains the UI for details for the read replicas for your deployment. Updates to replication leaders are asynchronously copied to their read-only replicas. For more information, see [Configuring read-only replicas](/docs/databases-for-postgresql?topic=databases-for-postgresql-read-only-replicas).
 
 ## Backups and restore
 {: #backups-tab}
@@ -74,7 +69,7 @@ The _Observability_ tab provides access to the IBM Cloud Monitoring, logging, an
 - [{{site.data.keyword.logs_routing_full}}](/docs/databases-for-postgresql?topic=databases-for-postgresql-logging)
 - [{{site.data.keyword.monitoringfull}}](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring)
 
-## Settings
+## Settings  (Refinement needed on the page that addresses the admin user password changes via the manager user on Gen2)
 {: #settings-tab}
 
 The _Settings_ tab contains the UI for many of the tunable settings for your deployment. You can:
