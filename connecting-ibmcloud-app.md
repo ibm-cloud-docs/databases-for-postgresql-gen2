@@ -1,24 +1,16 @@
 ---
 
 copyright:
-  years: 2018, 2025
-lastupdated: "2025-09-15"
+  years: 2025
+lastupdated: "2025-10-10"
 
-keywords: postgresql, databases, postgresql connection strings, postgresql connection ibm application
+keywords: postgresql, databases, postgresql connection strings, postgresql connection ibm application, Gen 2
 
-subcollection: databases-for-postgresql
+subcollection: databases-for-postgresql-gen2
 
 ---
 
-{:external: .external target="_blank"}
-{:shortdesc: .shortdesc}
-{:screen: .screen}
-{:codeblock: .codeblock}
-{:pre: .pre}
-{:tip: .tip}
-{:deprecated: .deprecated}
 {{site.data.keyword.attribute-definition-list}}
-
 
 # Connecting an {{site.data.keyword.cloud_notm}} application
 {: #ibmcloud-app}
@@ -38,15 +30,7 @@ Before connecting your Kubernetes Service application to a deployment, make sure
 ### Binding your deployment
 {: #bind-deployment}
 
-**Public endpoints** -  If you are using the default public service endpoint to connect to your deployment, you can run the `cluster service bind` command with your cluster name, the resource group, and your deployment name.
-
-```sh
-ibmcloud ks cluster service bind <CLUSTER_NAME> <RESOURCE_GROUP> <DEPLOYMENT_NAME_OR_CRN>
-```
-{: pre}
-
-OR
-**Private endpoints** - If you want to use a private endpoint (if one is enabled on your deployment), then create a service key for Kubernetes to use when binding to the database.
+**Private endpoints** - To use a private endpoint, create a service key that Kubernetes can use when binding to the database.
 
 ```sh
 ibmcloud resource service-key-create <PRIVATE_KEY> --instance-name <DEPLOYMENT_NAME_OR_CRN> --service-endpoint private  
@@ -67,7 +51,7 @@ kubectl get secrets --namespace=default
 ```
 {: pre}
 
-More information on binding services is found in the [Kubernetes Service documentation](/docs/containers?topic=containers-service-binding#bind-services).
+For more information, see the [Kubernetes service documentation](/docs/containers?topic=containers-service-binding#bind-services).
 
 ### Configuring in your Kubernetes app
 {: #configure-kubernetes}
@@ -76,4 +60,4 @@ When you bind your application to Kubernetes Service, it creates an environment 
 
 The [Connection strings](/docs/databases-for-postgresql?topic=databases-for-postgresql-connection-strings#connection-string-breakdown) page contains a reference of the JSON fields.
 
-For more information, see the [Kubernetes Service documentation](https://cloud.ibm.com/docs/containers?topic=containers-service-binding#reference_secret).
+For more information, see the [Kubernetes service documentation](https://cloud.ibm.com/docs/containers?topic=containers-service-binding#reference_secret).
