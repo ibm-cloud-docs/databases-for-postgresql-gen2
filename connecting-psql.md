@@ -1,11 +1,11 @@
 ---
 copyright:
-  years: 2017, 2025
-lastupdated: "2025-09-15"
+  years: 2025
+lastupdated: "2025-10-10"
 
-keywords: postgresql, databases, psql, postgresql command line
+keywords: postgresql, databases, psql, postgresql command line, Gen 2
 
-subcollection: databases-for-postgresql
+subcollection: databases-for-postgresql-gen2
 
 ---
 
@@ -17,9 +17,9 @@ subcollection: databases-for-postgresql
 
 Use `psql` for direct interaction and monitoring of the data structures that are created within the database. `psql` is also useful for testing and monitoring queries and performance, installing and modifying scripts, and other management activities.
 
-The `admin` user comes with the PostgreSQL default role [`pg_monitor`](https://www.postgresql.org/docs/10/static/default-roles.html){: .external}, that allows access to PostgreSQL monitoring views and functions. By default, the `admin` user does not have permissions on objects that are created by other users.
+Ensure that the user connecting to the deployment has the role [`pg_monitor`](https://www.postgresql.org/docs/10/static/default-roles.html){: .external}, which allows access to PostgreSQL monitoring views and functions.
 
-You must set the `admin` password before you use it to connect to the database. For more information, see the [Setting the Admin Password](/docs/databases-for-postgresql?topic=databases-for-postgresql-user-management&interface=ui#user-management-set-admin-password-ui) page.
+{{site.data.keyword.databases-for-postgresql}} deployments no longer include a default admin user. Instead, customers create a user with the 'Manager', 'Writer', or 'Reader' role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. The process provides credentials for connecting to the deployment.
 {: .tip}
 
 ## Installing `psql`
@@ -95,7 +95,7 @@ sudo dnf install postgresql.x86_64
 
 For Windows, use the [PostgreSQL installer from Enterprise DB](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads){: external}. It's a full installation package for PostgreSQL on Windows but you can set it to only install the command line tools like `psql`. Select your PostgreSQL and Windows versions. Once the executable file is downloaded, run it. Select only the *Command Line Tools*, if you don't need the server installed. 
 
-After it installs, you set up your Windows environment variables so that you can use the `psql` client in the command prompt. Go to the **Control Panel** > **System and Security** > **System** and select* Advanced system settings*. From there you see a box called **System Properties**. Select **Environment Variables**. A window appears with the two sets of environment variables. In the top set, marked "User variables for...", select the `PATH` entry and then click the **Edit** button. An edit window will appear. Click *New* and add the path to the `psql` client. Your path will depend on where PostgreSQL installed, but typically that would be:
+After it installs, you set up your Windows environment variables so that you can use the `psql` client in the command prompt. Go to the **Control panel** > **System and security** > **System** and select* Advanced system settings*. From there you see a box called **System properties**. Select **Environment variables**. A window appears with the two sets of environment variables. In the top set, marked "User variables for...", select the `PATH` entry and then click the **Edit** button. An edit window will appear. Click *New* and add the path to the `psql` client. Your path will depend on where PostgreSQL installed, but typically that would be:
 
 ```sh
 C:\Program Files\PostgreSQL\<POSTGRES_VERSION>\bin
@@ -127,7 +127,7 @@ The information that you need to make a connection with `psql` is in the "cli" s
 ## Creating a command-line client connection
 {: #create-cli-connection}
 
-Before creating a command-line client connection, ensure that you have [set the Admin password](/docs/databases-for-postgresql?topic=databases-for-postgresql-user-management&interface=ui#user-management-set-admin-password-ui) for your deployment.
+Before creating a command-line client connection, ensure that you have the username and password for your deployment.
 
 The `ibmcloud cdb deployment-connections` command handles everything that is involved in creating a command-line client connection. For example, to connect to a deployment named "example-postgres", use the following command:
 
@@ -142,7 +142,7 @@ ibmcloud cdb cxn <INSTANCE_NAME_OR_CRN> -s
 ```
 {: pre}
 
-The command prompts for the admin password and then runs the `psql` command-line client to connect to the database.
+The command prompts for the user password and then runs the `psql` command-line client to connect to the database.
 
 If you have not installed the {{site.data.keyword.databases-for}} CLI plug-in, connect to your PostgreSQL databases using `psql` by giving it the "composed" connection string. It provides environment variables `PGPASSWORD` and `PGSSLROOTCERT`. Set `PGPASSWORD` to the admin's password and `PGSSLROOTCERT` to the path or file name for the service proprietary certificate. 
 
@@ -160,6 +160,7 @@ PGPASSWORD=$PASSWORD PGSSLROOTCERT=0b22f14b-7ba2-11e8-b8e9-568642342d40 psql 'ho
 4. Provide the path to the certificate to the `ROOTCERT` environment variable.
 
 You can display the decoded certificate for your deployment with the CLI plug-in with the command:
+
 ```sh
 ibmcloud cdb deployment-cacert <INSTANCE_NAME_OR_CRN>
 ```
