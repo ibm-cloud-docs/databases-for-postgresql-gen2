@@ -69,14 +69,7 @@ This will install the PostgreSQL client.
 
 For Red Hat Enterprise Linux (or RHEL as it's usually written), there's a little more setup than with Ubuntu. For RHEL, the package manager is [`Yum`](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/ch-yum#doc-wrapper){: external}. 
 
-First, you need to point `Yum` to the PostgreSQL repository, like this on RHEL/CentOS 7:
-
-```sh
-sudo yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
-```
-{: pre}
-
-On RHEL/CentOS 8 use:
+First, you need to point `Yum` to the PostgreSQL repository, like this on RHEL/CentOS 8:
 
 ```
 sudo yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
