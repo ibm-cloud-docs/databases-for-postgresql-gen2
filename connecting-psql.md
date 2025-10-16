@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-10-10"
+lastupdated: "2025-10-16"
 
 keywords: postgresql, databases, psql, postgresql command line, Gen 2
 
@@ -17,9 +17,9 @@ subcollection: databases-for-postgresql-gen2
 
 Use `psql` for direct interaction and monitoring of the data structures that are created within the database. `psql` is also useful for testing and monitoring queries and performance, installing and modifying scripts, and other management activities.
 
-Ensure that the user connecting to the deployment has the role [`pg_monitor`](https://www.postgresql.org/docs/10/static/default-roles.html){: .external}, which allows access to PostgreSQL monitoring views and functions.
+Ensure that the user connecting to the deployment has the role [`pg_monitor`](https://www.postgresql.org/docs/current/static/default-roles.html){: .external}, which allows access to PostgreSQL monitoring views and functions.
 
-{{site.data.keyword.databases-for-postgresql}} deployments no longer include a default admin user. Instead, customers create a user with the 'Manager', 'Writer', or 'Reader' role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. The process provides credentials for connecting to the deployment.
+{{site.data.keyword.databases-for-postgresql}} deployments no longer include a default admin user. Instead, customers create a user with the 'Manager' or 'Writer' role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. The process provides credentials for connecting to the deployment.
 {: .tip}
 
 ## Installing `psql`
@@ -69,17 +69,31 @@ This will install the PostgreSQL client.
 
 For Red Hat Enterprise Linux (or RHEL as it's usually written), there's a little more setup than with Ubuntu. For RHEL, the package manager is [`Yum`](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/ch-yum#doc-wrapper){: external}. 
 
-First, you need to point `Yum` to the PostgreSQL repository, like this:
+First, you need to point `Yum` to the PostgreSQL repository, like this on RHEL/CentOS 7:
 
 ```sh
-sudo yum install https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-redhat10-10-2.noarch.rpm
+sudo yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+```
+{: pre}
+
+On RHEL/CentOS 8 use:
+
+```
+sudo yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+```
+{: pre}
+
+On RHEL/CentOS 9 use:
+
+```
+sudo yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 ```
 {: pre}
 
 `Yum` goes to that URL and configures itself to use that package repository. With that done, you can add packages by name:
 
 ```sh
-sudo yum install postgresql15
+sudo yum install postgresql18
 ```
 {: pre}
 
@@ -127,49 +141,36 @@ The information that you need to make a connection with `psql` is in the "cli" s
 ## Creating a command-line client connection
 {: #create-cli-connection}
 
-Before creating a command-line client connection, ensure that you have the username and password for your deployment.
+Before creating a command-line client connection, ensure that you have the username and password for your instance. You will need the the username and password returned to you when you created either a Manager or Writer user using the service credential route. 
 
-The `ibmcloud cdb deployment-connections` command handles everything that is involved in creating a command-line client connection. For example, to connect to a deployment named "example-postgres", use the following command:
+Run the following command:
 
-```sh
-ibmcloud cdb deployment-connections <INSTANCE_NAME_OR_CRN> --start
+```
+export PGUSER=<username>
+export PGPASSWORD=<password>
 ```
 {: pre}
 
-or
-```sh
-ibmcloud cdb cxn <INSTANCE_NAME_OR_CRN> -s
+Then, execute the following command:
+
+```
+ibmcloud resource service-instance <instance name or instance id> -o json
 ```
 {: pre}
 
-The command prompts for the user password and then runs the `psql` command-line client to connect to the database.
+Look for the psql connection string in the output. Alternatively, if you have `jq` installed, run the following command:
 
-If you have not installed the {{site.data.keyword.databases-for}} CLI plug-in, connect to your PostgreSQL databases using `psql` by giving it the "composed" connection string. It provides environment variables `PGPASSWORD` and `PGSSLROOTCERT`. Set `PGPASSWORD` to the admin's password and `PGSSLROOTCERT` to the path or file name for the service proprietary certificate. 
-
-```sh
-PGPASSWORD=$PASSWORD PGSSLROOTCERT=0b22f14b-7ba2-11e8-b8e9-568642342d40 psql 'host=4a8148fa-3806-4f9c-b3fc-6467f11b13bd.8f7bfd7f3faa4218aec56e069eb46187.databases.appdomain.cloud port=32325 dbname=ibmclouddb user=admin sslmode=verify-full'
 ```
-{: .codeblock}
-
-## Using the service proprietary certificate
-{: #using-certificate}
-
-1. Copy the certificate information from the _Endpoints_ panel or the Base64 field of the connection information. 
-2. If needed, decode the Base64 string into text. 
-3. Save the certificate to a file. (You can use the Name that is provided or your own file name).
-4. Provide the path to the certificate to the `ROOTCERT` environment variable.
-
-You can display the decoded certificate for your deployment with the CLI plug-in with the command:
-
-```sh
-ibmcloud cdb deployment-cacert <INSTANCE_NAME_OR_CRN>
+ibmcloud resource service-instance <instance name or instance id> -o json | jq '.[0].extensions.dataservices.connection.cli.compose[0]'
 ```
 {: pre}
 
-The command decodes the base64 into text. Copy and save the command's output to a file and provide the file's path to the `ROOTCERT` environment variable.
-
-Another option is to add `&sslrootcert=/path/to/cert` to your connection string, for example:
+The connection string has the following format:
 
 ```sh
-postgres://$USERNAME:$PASSWORD@6eb96148-90bc-49a0-a5a4-dc2b53334653.btdl8mld0r95fevivv30.databases.appdomain.cloud:32109/ibmclouddb?sslmode=verify-full&sslrootcert=/path/to/cert
+PGUSER=$PGUSER PGPASSWORD=$PASSWORD PGSSLMODE=verify-full PGSSLROOTCERT=system psql 'host=<instance>.<subdomain>.appdomain.cloud port=5432 dbname=postgres
 ```
+{: pre}
+
+You can only connect from within a VPE that is configured for your PostgreSQL instance.
+{: note}
