@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-09-26"
+lastupdated: "2025-10-21"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision PostgreSQL, Gen 2
 
@@ -17,11 +17,18 @@ subcollection: databases-for-postgresql-gen2
 
 Provision an {{site.data.keyword.databases-for-postgresql_full}} deployment through the [catalog](https://cloud.ibm.com/databases/databases-for-postgresql/create){: external}, the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}, the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5){: external}, or through [Terraform](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
 
-## Provisioning through the {{site.data.keyword.cloud_notm}} console
+## Provisioning through the {{site.data.keyword.cloud_notm}} console (UI)
 {: #catalog}
 {: ui}
 
 Deploy from the console by specifying the following parameters:
+
+### Location and platform
+{: #location_and_platform}
+{: ui}
+
+- **Location** - Choose the region where you want to deploy your database. Each region in the list shows which platform it supports, [Gen 1 or Gen 2](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-overview-gen1-gen2) to help guide your selection.
+- **Platform** - Select the platform you want to deploy your database on. Available options depend on the region you choose. For more information on the differences between Gen 1 and Gen 2 , see [Overview of Gen 1 and Gen 2](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-overview-gen1-gen2).
 
 ### Service details
 {: #service_details}
@@ -29,30 +36,37 @@ Deploy from the console by specifying the following parameters:
 
 - **Service name** - The name can be any string and is the name that is used on the web and in the CLI to identify the new deployment.
 - **Resource group** - If you are organizing your services into [resource groups](/docs/account?topic=account-account_setup), specify the resource group in this field. Otherwise, you can leave it at default. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
-- **Location** - The deployment's designated cloud region.
 
 ### Hosting model
 {: #hosting_model}
 {: ui}
 
-- **Isolated:** Secure single-tenant offering for complex, highly-performant enterprise workloads.
-- **Shared:** Flexible multi-tenant offering for dynamic, fine-tuned, and decoupled capacity selections.
-For more information, see [Hosting models](/docs/cloud-databases?topic=cloud-databases-hosting-models).
+For Gen 2 deployments, only the Isolated hosting model is available.
+{: note}
+
+- **Isolated:** Secure single-tenant offering for complex, highly-performant enterprise workloads. For more information, see [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute&interface=ui).
 
 ### Resource allocation
 {: #resource_allocation}
 {: ui}
 
-Fine tune your resource allocation. The available options differ based on your selected hosting model.
+Fine tune your resource allocation.
 
 - **Isolated:** Use the table to choose the machine size for each member of your deployment, and specify the disk size.
-- **Shared:** By default, the smallest possible resource allocation is selected. This is ideal for small applications or testing. For larger allocations, select the *Custom* tile, which allows flexible resource configuration with 2+ cores.
-
-The Shared Compute hosting model supports more fine-grained resource allocations that are not shown in the UI to maintain clarity. For more information, see [Hosting models](/docs/cloud-databases?topic=cloud-databases-hosting-models).
-{: note}
 
 Specify the disk size depending on your requirements. It can be increased after provisioning but cannot be decreased to prevent data loss.
 {: note}
+
+   | **Host sizes/members**     |
+   |:--------------------------:|
+   | Isolated Compute           |
+   | 4 vCPU x 16 RAM            |
+   | 8 vCPU x 32 RAM            |
+   | 8 vCPU x 64 RAM            |
+   | 16 vCPU x 64 RAM           |
+   | 32 vCPU x 128 RAM          |
+   | 30 vCPU x 240 RAM          |
+   {: caption="Isolated compute sizing parameter" caption-side="bottom"}
 
 ### Service configuration
 {: #service_configuration}
@@ -60,7 +74,7 @@ Specify the disk size depending on your requirements. It can be increased after 
 
 - **Database version** [Set only at deployment]{: tag-red} - The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Versioning policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy){: external}.
 - **Encryption** - If you use [Key Protect](/docs/cloud-databases?topic=cloud-databases-key-protect&interface=ui), an instance and key can be selected to encrypt the deployment's disk. If you do not use your own key, the deployment automatically creates and manages its own disk encryption key.
-- **Endpoints** [Set only at deployment]{: tag-red} - Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) on your deployment. The default setting is *private*.
+- **Endpoints** [Set only at deployment]{: tag-red} - Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) on your deployment. For Gen 2, only private endpoints are supported.
 
 After you select the appropriate settings, click **Create** to start the provisioning process.
 
@@ -89,7 +103,7 @@ Before provisioning, follow the instructions provided in the documentation to in
     ibmcloud resource service-instance-create <INSTANCE_NAME> <SERVICE_NAME> <SERVICE_PLAN_NAME> <LOCATION> <RESOURCE_GROUP> -p '{"members_host_flavor": "<members_host_flavor value>"}' --service-endpoints="<Endpoint>"
     ```
     {: pre}
-
+THIS WILL NEED TO BE UPDATED TO ISOLATED EXAMPLE  - WAITING ON OMAR'S FEEDBACK
     For example, to provision a {{site.data.keyword.databases-for-postgresql}} Shared Compute hosting model instance, use a command like:
 
     ```sh
@@ -203,7 +217,7 @@ The `members_host_flavor` parameter defines your Compute sizing. To provision a 
    | 30 CPU x 240 RAM          | `m3c.30x240.encrypted`  |
    {: caption="Host flavor sizing parameter" caption-side="bottom"}
 
-CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute. Disk autoscaling is available. If you have provisioned an Isolated instance or switched over from a deployment with autoscaling, keep an eye on your resources using [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases?topic=cloud-databases-monitoring), which provides metrics for memory, disk space, and disk I/O utilization. To add resources to your instance, manually scale your deployment.
+vCPU and RAM autoscaling is not yet available. Disk autoscaling is supported. Keep an eye on your resources using [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases?topic=cloud-databases-monitoring), which provides metrics for memory, disk space, and disk I/O utilization. To add resources to your instance, manually scale your deployment.
 {: note}
 
 ### The `--parameters` parameter
