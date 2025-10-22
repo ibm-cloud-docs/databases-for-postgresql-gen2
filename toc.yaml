@@ -2,7 +2,6 @@ toc:
   properties:
     subcollection: databases-for-postgresql-gen2
     service-name: databases-for-postgresql-gen2
-    version: 1
     category: database
     audience: service
     href: /docs/databases-for-postgresql-gen2

@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "title": "IBM Cloud® Databases for PostgreSQL",
+  "title": "IBM Cloud\u00ae Databases for PostgreSQL",
   "introduction": "PostgreSQL is a powerful, open source object-relational database that is highly customizable.",
   "product_page": "https://www.ibm.com/products/databases-for-postgresql",
   "console_page": "/databases/databases-for-postgresql/create",
-   "section_topics": {
+  "section_topics": {
     "links": [
       {
         "title": "Getting started",
@@ -51,10 +51,10 @@
     }
   ],
   "section_devtools": {
-    "api": "/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction", 
-    "cli": "/docs/databases-cli-plugin", 
+    "api": "/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction",
+    "cli": "/docs/databases-cli-plugin",
     "terraform": "https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database"
-    },
+  },
   "section_updates": {
     "view_more": "/docs/databases-for-postgresql?topic=databases-for-postgresql-postgresql-relnotes",
     "tiles": [
