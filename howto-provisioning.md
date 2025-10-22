@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-10-21"
+lastupdated: "2025-10-22"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision PostgreSQL, Gen 2
 
@@ -54,12 +54,8 @@ Fine tune your resource allocation.
 
 - **Isolated:** Use the table to choose the machine size for each member of your deployment, and specify the disk size.
 
-Specify the disk size depending on your requirements. It can be increased after provisioning but cannot be decreased to prevent data loss.
-{: note}
-
    | **Host sizes/members**     |
    |:--------------------------:|
-   | Isolated Compute           |
    | 4 vCPU x 16 RAM            |
    | 8 vCPU x 32 RAM            |
    | 8 vCPU x 64 RAM            |
@@ -67,14 +63,17 @@ Specify the disk size depending on your requirements. It can be increased after 
    | 32 vCPU x 128 RAM          |
    | 30 vCPU x 240 RAM          |
    {: caption="Isolated compute sizing parameter" caption-side="bottom"}
+Specify the disk size depending on your requirements. It can be increased after provisioning but cannot be decreased to prevent data loss.
+{: note}
+
 
 ### Service configuration
 {: #service_configuration}
 {: ui}
 
-- **Database version** [Set only at deployment]{: tag-red} - The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Versioning policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy){: external}.
+- **Database version** [Set only at deployment] {: tag-red} - The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Versioning policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy){: external}.
 - **Encryption** - If you use [Key Protect](/docs/cloud-databases?topic=cloud-databases-key-protect&interface=ui), an instance and key can be selected to encrypt the deployment's disk. If you do not use your own key, the deployment automatically creates and manages its own disk encryption key.
-- **Endpoints** [Set only at deployment]{: tag-red} - Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) on your deployment. For Gen 2, only private endpoints are supported.
+- **Endpoints** [Set only at deployment] {: tag-red} - Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) on your deployment. For Gen 2, only private endpoints are supported.
 
 After you select the appropriate settings, click **Create** to start the provisioning process.
 
