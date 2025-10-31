@@ -1,11 +1,11 @@
 ---
 copyright:
-  years: 2017, 2025
-lastupdated: "2025-09-15"
+  years: 2025
+lastupdated: "2025-10-31"
 
 keywords: postgresql, databases, postgresql extensions, postgres extensions, ibm_extension
 
-subcollection: databases-for-postgresql
+subcollection: databases-for-postgresql-gen2
 
 ---
 
@@ -14,7 +14,7 @@ subcollection: databases-for-postgresql
 # Managing PostgreSQL extensions
 {: #extensions}
 
-In PostgreSQL, extensions are modules that supply extra functions, operators, or types. Many extensions are available in {{site.data.keyword.databases-for-postgresql_full}}. To use them, [set the admin password](/docs/databases-for-postgresql?topic=databases-for-postgresql-user-management&interface=ui#user-management-set-admin-password-ui) for your service and use it to [connect with `psql`](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql).
+In PostgreSQL, extensions are modules that supply extra functions, operators, or types. Many extensions are available in {{site.data.keyword.databases-for-postgresql_full}}. For the following examples, use your service credentials and [connect to `psql`](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql) before proceeding.
 
 ## Listing installed extensions
 {: #listing-installed-extensions}
@@ -31,11 +31,12 @@ ibmclouddb=> \dx
  plpgsql | 1.0     | pg_catalog | PL/pgSQL procedural language
 (1 row)
 ```
+{: pre}
 
 ## Installing extensions
 {: #installing-extensions}
 
-To install an extension on to a database use [`CREATE EXTENSION`](https://www.postgresql.org/docs/current/static/sql-createextension.html){: .external}. For example, to install `pg_stat_statements` on the `ibmclouddb` database, use the following command:
+To install an extension on to a database, use  [`CREATE EXTENSION`](https://www.postgresql.org/docs/current/static/sql-createextension.html){: .external}. For example, to install `pg_stat_statements` on the `ibmclouddb` database, use the following command:
 
 ```sh
 ibmclouddb=> CREATE EXTENSION pg_stat_statements;
@@ -43,8 +44,7 @@ CREATE EXTENSION
 ```
 {: pre}
 
-Extensions are installed into the read-only `ibm_extension` schema. The schema is part of the `search_path` so extension objects do not need to be qualified with a schema.
-The change from `public` schema to `ibm_extension` schema is necessary to protect the security and integrity of your data.
+Extensions are installed into the `public` schema by default. Because the `search_path` automatically includes this schema, you can reference (or "call") extension objects without needing to specify the schema qualifier.
 
 If you run the `\dx` command after installing an extension, it appears in the table.
 
@@ -53,17 +53,18 @@ ibmclouddb=> \dx
                                      List of installed extensions
         Name        | Version |   Schema      |                        Description
 --------------------+---------+---------------+-----------------------------------------------------------
- pg_stat_statements | 1.5     | ibm_extension | track execution statistics of all SQL statements executed
+ pg_stat_statements | 1.5     | public        | track execution statistics of all SQL statements executed
  plpgsql            | 1.0     | pg_catalog    | PL/pgSQL procedural language
 (2 rows)
 ```
+{: pre}
 
 Database extensions in PostgreSQL are managed per database. If you have multiple databases that you need to install an extension on, run the `CREATE` command on each database.
 
 ## Upgrading extensions
 {: #upgrading-extensions}
 
-If there is a newer version of an extension available than the one you currently have installed, use the `ALTER EXTENSION` to upgrade it.
+When a newer version of your installed extension is available, you can upgrade it by running `ALTER EXTENSION`. 
 
 ## Extension-specific notes
 {: #extensions-specific-notes}
@@ -79,28 +80,15 @@ If there is a newer version of an extension available than the one you currently
    ```
    {: pre}
 
-- For `pg_repack` to run reliably, your deployment should be on PostgreSQL 9.6 and above.
+- For `pg_repack` to run reliably, your deployment should be on the most recent version of PostgreSQL.
 - Any user can run `pg_repack`, but the command is only able to repack a table that they have permissions on.
-- `pg_repack` needs to take an exclusive lock on objects it is reorganizing at the end of the reorganization. If it can't get this lock after a certain period, it cancels all conflicting queries. If it can't do so, the reorg fails. By default, only the admin user on PostgreSQL 9.6 and greater is able to cancel conflicting queries. To expose the ability to cancel queries to other database users, grant the `pg_signal_backend` role [from the admin user](/docs/databases-for-postgresql?topic=databases-for-postgresql-user-management#the-admin-user).
-
-
-### pgaudit
-{: #pgaudit}
-
-- `pgaudit` libraries are preloaded and do not require execution of `create extension pgaudit`. For more information, see [Logging with pgAudit](/docs/databases-for-postgresql?topic=databases-for-postgresql-pgaudit) to enable pgaudit logs. 
-
-
-### pgvector
-{: #pgvector}
-
--  To add the `pgvector` extension to your deployment, use the `create extension vector` command.
--  Important: `pgvector` requires PostgreSQL version 15 or higher.
+- `pg_repack` needs to take an exclusive lock on objects it is reorganizing at the end of the reorganization. If it can't get this lock after a certain period, it cancels all conflicting queries. If it can't do so, the reorg fails. To expose the ability to cancel queries to other database users, grant the `pg_signal_backend` role [from the Manager user](/docs/databases-for-postgresql?topic=databases-for-postgresql-user-management#the-admin-user).
 
 
 ## Available extensions
 {: #available-extensions}
 
-See the following list of all available extensions. For a list of available extensions on your deployment, use `SELECT name FROM pg_available_extensions;` in `psql`.
+See the following list of all available extensions. For the latest list of available extensions on your deployment, execute the query `SELECT name FROM pg_available_extensions;` in `psql`.
 
 ```sh
 ibmclouddb=> SELECT name FROM pg_available_extensions order by 1;
@@ -108,68 +96,52 @@ ibmclouddb=> SELECT name FROM pg_available_extensions order by 1;
 {: pre}
 
 ```sh
-             name             
-------------------------------
- address_standardizer
- address_standardizer_data_us
- amcheck
- autoinc
- bloom
- btree_gin
- btree_gist
- citext
- cube
- dblink
- dict_int
- dict_xsyn
- earthdistance
- file_fdw
- fuzzystrmatch
- hstore
- insert_username
- intagg
- intarray
- isn
- lo
- ltree
- moddatetime
- old_snapshot
- pageinspect
- pg_buffercache
- pg_freespacemap
- pg_prewarm
- pg_repack
- pg_stat_statements
- pg_surgery
- pg_trgm
- pg_visibility
- pg_walinspect
- pgaudit
- pgcrypto
- pgrouting
- pgrowlocks
- pgstattuple
- plpgsql
- postgis
- postgis_raster
- postgis_tiger_geocoder
- postgis_topology
- postgres_fdw
- refint
- seg
- sslinfo
- tablefunc
- tcn
- tsm_system_rows
- tsm_system_time
- unaccent
- uuid-ossp
- xml2
-(55 rows)
+List of currently available extensions on VPC
 
-ibmclouddb=> select version();
-                                                 version
-----------------------------------------------------------------------------------------------------------
- PostgreSQL 16.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 11.5.0 20240719 (Red Hat 11.5.0-2), 64-bit
-(1 row)
+ amcheck                              | functions for verifying relation integrity
+ autoinc                              | functions for autoincrementing fields
+ bloom                                | bloom access method - signature file based index
+ btree_gin                            | support for indexing common datatypes in GIN
+ btree_gist                           | support for indexing common datatypes in GiST
+ citext                               | data type for case-insensitive character strings
+ cube                                 | data type for multidimensional cubes
+ dblink                               | connect to other PostgreSQL databases from within a database
+ dict_int                             | text search dictionary template for integers
+ dict_xsyn                            | text search dictionary template for extended synonym processing
+ earthdistance                        | calculate great-circle distances on the surface of the Earth
+ file_fdw                             | foreign-data wrapper for flat file access
+ fuzzystrmatch                        | determine similarities and distance between strings
+ hstore                               | data type for storing sets of (key, value) pairs
+ insert_username                      | functions for tracking who changed a table
+ intagg                               | integer aggregator and enumerator (obsolete)
+ intarray                             | functions, operators, and index support for 1-D arrays of integers
+ isn                                  | data types for international product numbering standards
+ lo                                   | Large Object maintenance
+ ltree                                | data type for hierarchical tree-like structures
+ moddatetime                          | functions for tracking last modification time
+ pageinspect                          | inspect the contents of database pages at a low level
+ pg_buffercache                       | examine the shared buffer cache
+ pg_freespacemap                      | examine the free space map (FSM)
+ pg_logicalinspect                    | functions to inspect logical decoding components
+ pg_prewarm                           | prewarm relation data
+ pg_stat_statements                   | track planning and execution statistics of all SQL statements executed
+ pg_surgery                           | extension to perform surgery on a damaged relation
+ pg_trgm                              | text similarity measurement and index searching based on trigrams
+ pg_visibility                        | examine the visibility map (VM) and page-level visibility info
+ pg_walinspect                        | functions to inspect contents of PostgreSQL Write-Ahead Log
+ pgcrypto                             | cryptographic functions
+ pgrowlocks                           | show row-level locking information
+ pgstattuple                          | show tuple-level statistics
+ plpgsql                              | PL/pgSQL procedural language
+ postgres_fdw                         | foreign-data wrapper for remote PostgreSQL servers
+ refint                               | functions for implementing referential integrity (obsolete)
+ seg                                  | data type for representing line segments or floating-point intervals
+ sslinfo                              | information about SSL certificates
+ tablefunc                            | functions that manipulate whole tables, including crosstab
+ tcn                                  | Triggered change notifications
+ tsm_system_rows                      | TABLESAMPLE method which accepts number of rows as a limit
+ tsm_system_time                      | TABLESAMPLE method which accepts time in milliseconds as a limit
+ unaccent                             | text search dictionary that removes accents
+ xml2                                 | XPath querying and XSLT
  ```
+{: pre}
