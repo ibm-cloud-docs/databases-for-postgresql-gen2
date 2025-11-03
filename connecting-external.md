@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-10-10"
+lastupdated: "2025-11-03"
 
 keywords: postgresql drivers, python, java, javascript, certificate, postgresql connection string, postgresql connecting external application, postgresql python, Gen 2
 
@@ -67,7 +67,7 @@ public class PGConnect {
         final String url = "jdbc:postgresql://host:port/ibmclouddb";
 
         Properties props = new Properties();
-        props.setProperty("user","admin");
+        props.setProperty("user","username");
         props.setProperty("password","mypassword123");
         props.setProperty("ssl","true");
         props.setProperty("sslmode","verify-full");
