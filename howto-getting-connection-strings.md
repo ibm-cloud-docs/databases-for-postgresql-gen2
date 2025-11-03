@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-10-10"
+lastupdated: "2025-11-03"
 
 keywords: postgresql, databases, postgres connections string, postgresql connection string, Gen 2
 
@@ -15,40 +15,57 @@ subcollection: databases-for-postgresql-gen2
 # Getting connection strings
 {: #connection-strings}
 
+
 ## Getting connection strings in the UI
 {: #connection-strings-ui}
 {: ui}
 
-To connect to {{site.data.keyword.databases-for-postgresql_full}}, you need some users and connection strings. Connection Strings for your deployment are displayed on the _Overview_ page, in the _Endpoints_ panel. 
+Follow these steps to retrieve your {{site.data.keyword.databases-for-postgresql_full}} instance connection strings:
 
-![Endpoints panel on the Dashboard Overview](images/getting-started-endpoints-panel.png){: caption="Endpoints panel on the Dashboard Overview" caption-side="bottom"}
+1. In your deployment's **Overview page**, scroll down to the **Service endpoints** section. 
+1.  The **Service endpoints** section displays tabs for available connection methods:  
+   - **PostgreSQL** – Shows the connection string, hostnames, ports, database name, authentication source, and replica set for your deployment.  
+   - **CLI** – Provides details for connecting by using the [{{site.data.keyword.IBM_notm}} CLI](https://www.ibm.com/cloud/cli){: external}.  
 
-
-{{site.data.keyword.databases-for-postgresql}} deployment no longer include a default `admin user`. Instead, customers create a user with the 'Manager', 'Writer', or 'Reader' role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. This provides a username(ibm_...), password, and connection string that can be used to connect to your deployment.
+{{site.data.keyword.databases-for-postgresql}} deployments no longer include a default `admin user`. Instead, you create a user with the 'Manager', 'Writer', or 'Reader' role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. This provides a username(ibm_...), password, and connection string that can be used to connect to your deployment.
 {: .tip}
+
 
 ## Getting connection strings in the CLI
 {: #connection-strings-cli}
 {: cli}
 
-Grab connection strings from the [CLI](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-connections).
+You can also retrieve connection strings using the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-connections) Connection command.
+
+The command looks like this: 
 
 ```sh
-ibmcloud cdb deployment-connections example-deployment -u <NEW_USERNAME> [--endpoint-type <ENDPOINT_TYPE>]
+ibmcloud resource service-instance <INSTANCE_NAME_OR_CRN> 
 ```
 {: pre}
 
-Full connection information is returned by the `ibmcloud cdb deployment-connections` command with the `--all` flag. To retrieve all the connection information for a deployment named "example-deployment", use the following command.
-
-```sh
-ibmcloud cdb deployment-connections example-deployment -u <NEW_USERNAME> --all [--endpoint-type <ENDPOINT_TYPE>]
-```
-{: pre}
+For more information, see [Connections command options](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#connections-command-options).
 
 {{site.data.keyword.databases-for-postgresql}} deployment no longer include a default admin user. Instead, customers create a user with the 'Manager', 'Writer', or 'Reader' role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. This provides a username(ibm_...), password, and connection string that can be used to connect to your deployment. If your deployment has only a private endpoint, you must specify `--endpoint-type private` or the commands return an error. The user and endpoint type is not enforced. You can use any user on your deployment with the private endpoint, which is the designated connection option.
 
 To use the `ibmcloud cdb` CLI commands, you must [install the {{site.data.keyword.databases-for}} plug-in](/docs/cloud-databases?topic=cloud-databases-icd-cli).
 {: .tip}
+
+## Getting connection strings in the API
+{: #connection-strings-api}
+{: api}
+
+To retrieve users' connection strings from the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction){: external}, use the [Connections endpoint](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#getconnection){: external}. To create the connection strings, ensure that the path includes the specific user and endpoint type that should be used. The `user` is not restricted or enforced. You have the flexibility to utilize any user available in your deployment. 
+
+The API command looks like: 
+
+```sh
+curl -X GET 'https://resource-controller.cloud.ibm.com/v2/resource_instances/{id}' -H "Authorization: Bearer <IAM token>""
+```
+{: pre}
+
+Remember to replace {region}, {id}, {userid}, and {endpoint_type} with the appropriate values.
+{: note}
 
 ## Getting connection strings in the API
 {: #connection-strings-api}
@@ -79,8 +96,6 @@ The "PostgreSQL" tab contains information that is suited to applications that ma
 | `Authentication` | `Method`|How authentication takes place; "direct" authentication is handled by the driver. |
 | `Hosts` | `0...` | A hostname and port to connect to. |
 | `Composed` | `0...` | A URI combining Scheme, Authentication, Host, and Path. |
-| `Certificate` | `Name` | The allocated name for the service proprietary certificate for database deployment. |
-| `Certificate` | Base64 | A base64 encoded version of the certificate. |
 {: caption="PostgreSQL/URI connection information" caption-side="top"}
 
 * `0...` indicates one or more of these entries in an array.
@@ -97,8 +112,6 @@ The "CLI" section contains information that is suited for connecting with `psql`
 | `Composed` | | A formatted command to establish a connection to your deployment. The command combines the `Bin` executable, `Environment` variable settings, and uses `Arguments` as command line parameters. |
 | `Environment` | | A list of key/values you set as environment variables. |
 | `Arguments` | 0... | The information that is passed as arguments to the command shown in the Bin field. |
-| `Certificate` | Base64 | A service proprietary certificate that is used to confirm that an application is connecting to the appropriate server. It is base64 encoded. |
-| `Certificate` | Name | The allocated name for the service proprietary certificate. |
 | `Type` | | The type of package that uses this connection information; in this case `cli`.  |
 {: caption="PostgreSQL/cli connection information" caption-side="top"}
 
