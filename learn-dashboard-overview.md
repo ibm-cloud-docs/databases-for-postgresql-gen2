@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-11-03"
+lastupdated: "2025-11-04"
 
 keywords: deployment, crn, task, gui, api endpoint, postgresql dashboard, Gen 2
 
@@ -12,7 +12,7 @@ subcollection: databases-for-postgresql-gen2
 
 {{site.data.keyword.attribute-definition-list}}
 
-# Overview page
+# The console overview page
 {: #dashboard-overview}
 
 The _Overview_ page shows you information about your {{site.data.keyword.databases-for-postgresql_full}} deployment. The overview includes essential identifying information.
