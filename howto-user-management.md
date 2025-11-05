@@ -88,19 +88,17 @@ ibmcloud resource service-key-create <service_key_name> Manager --instance-id <g
 
 These commands can be used when creating a user with either the Writer or Manager role. In this example, the command creates a PostgreSQL user (ibmcloud_d0388…) with CREATEROLE and CREATEDB privileges. This user inherits permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the deployment.
 
-```sh
-|                  rolname                  | rolsuper | rolinherit | rolcreaterole | rolcreatedb | rolcanlogin |                                                                             memberof                                   |
-|-------------------------------------------|----------|------------|---------------|-------------|-------------|------------------------------------------------------------------------------------------------------------------------|
-| ibm_admin                                 | f        | t          | f             | f           | f           | {pg_read_all_data,pg_write_all_data,pg_monitor,pg_read_all_settings,pg_read_all_stats,pg_stat_scan_tables,pg_signal_backend,pg_checkpoint,pg_create_subscription} |
-| ibm_monitoring                            | f        | f          | f             | f           | t           | {pg_monitor,pg_use_reserved_connections} |
-| ibm_replication                           | f        | t          | f             | f           | t           | {pg_use_reserved_connections} |
-| ibm_rest                                  | f        | f          | t             | t           | t           | {pg_use_reserved_connections,ibm_admin,ibm_writer,ibmcloud_d0388c96d13841b1b45f1039c73ea6c7} |
-| ibm_rewind                                | f        | t          | f             | f           | t           | {} |
-| ibm_superuser                             | t        | t          | t             | t           | t           | {} |
-| ibm_writer                                | f        | t          | f             | f           | f           | {pg_read_all_data,pg_write_all_data} |
-| ibmcloud_d0388c96d13841b1b45f1039c73ea6c7 | f        | t          | t             | t           | t           | {ibm_admin,ibm_writer} |
-```
-{: pre}
+|  rolname  | rolsuper | rolinherit | rolcreaterole | rolcreatedb | rolcanlogin |   memberof  |
+|---|---|---|---|---|---|---|
+| ibm_admin                                 | f  | t  | f             | f           | f           | {pg_read_all_data,pg_write_all_data,pg_monitor,pg_read_all_settings,pg_read_all_stats,pg_stat_scan_tables,pg_signal_backend,pg_checkpoint,pg_create_subscription} |
+| ibm_monitoring                            | f  | f  | f             | f           | t           | {pg_monitor,pg_use_reserved_connections} |
+| ibm_replication                           | f  | t  | f             | f           | t           | {pg_use_reserved_connections} |
+| ibm_rest                                  | f  | f  | t             | t           | t           | {pg_use_reserved_connections,ibm_admin,ibm_writer,ibmcloud_d0388c96d13841b1b45f1039c73ea6c7} |
+| ibm_rewind                                | f  | t  | f             | f           | t           | {} |
+| ibm_superuser                             | t  | t  | t             | t           | t           | {} |
+| ibm_writer                                | f  | t  | f             | f           | f           | {pg_read_all_data,pg_write_all_data} |
+| ibmcloud_d0388c96d13841b1b45f1039c73ea6c7 | f  | t  | t             | t           | t           | {ibm_admin,ibm_writer} |
+{: caption="`ibm_admin` and `ibm_writer` permissions" caption-side="top"}
 
 Similarly, for creating a user with the `Writer` role, use the following command:
 
@@ -111,10 +109,9 @@ ibmcloud resource service-key-create <service_key_name> Writer --instance-name <
 
 The user (`ibmcloud_b153...`) with `writer` role inherits the `ibm_writer` permissions:
 
-```sh
-|                 rolname                  | rolsuper | rolinherit | rolcreaterole | rolcreatedb | rolcanlogin |                                                                             memberof                                   |
-|------------------------------------------|----------|------------|---------------|-------------|-------------|------------------------------------------------------------------------------------------------------------------------|
-| ibm_admin                                 | f        | t          | f             | f           | f           | {pg_read_all_data,pg_write_all_data,pg_monitor,pg_read_all_settings,pg_read_all_stats,pg_stat_scan_tables,pg_signal_backend,pg_checkpoint,pg_create_subscription}|
+| rolname | rolsuper | rolinherit | rolcreaterole | rolcreatedb | rolcanlogin |  memberof  |
+|---|---|---|---|---|---|---|
+| ibm_admin                                 | f        | t          | f             | f           | f           | {pg_read_all_data,pg_write_all_data,pg_monitor,pg_read_all_settings,pg_read_all_stats,pg_stat_scan_tables,pg_signal_backend,pg_checkpoint,pg_create_subscription} |
 | ibm_monitoring                            | f        | f          | f             | f           | t           | {pg_monitor,pg_use_reserved_connections} |
 | ibm_replication                           | f        | t          | f             | f           | t           | {pg_use_reserved_connections} |
 | ibm_rest                                  | f        | f          | t             | t           | t           | {pg_use_reserved_connections,ibm_admin,ibm_writer,ibmcloud_b153b496ae5a41a08a27db730e43b835} |
@@ -122,8 +119,7 @@ The user (`ibmcloud_b153...`) with `writer` role inherits the `ibm_writer` permi
 | ibm_superuser                             | t        | t          | t             | t           | t           | {} |
 | ibm_writer                                | f        | t          | f             | f           | f           | {pg_read_all_data,pg_write_all_data} |
 | ibmcloud_b153b496ae5a41a08a27db730e43b835 | f        | t          | f             | f           | t           | {ibm_writer} |
-```
-{: pre}
+{: caption="`ibm_writer`permissions" caption-side="top"}
 
 ### Deleting the user in the CLI
 {: #user-management-delete-manager-user-cli}
