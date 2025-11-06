@@ -47,14 +47,14 @@ You can also use the `manager` user to grant the following two roles to other 
 
 To expose the ability to cancel queries to other database users, grant the pg_signal_backend role from the `manager` user. Use a command like:
 
-```sql
+```sh
 GRANT pg_signal_backend TO joe;
 ```
 {: .pre}
 
 To set up a specific monitoring user, `mary`, use a command like:
 
-```sql
+```sh
 GRANT pg_monitor TO mary;
 ```
 {: .pre}
