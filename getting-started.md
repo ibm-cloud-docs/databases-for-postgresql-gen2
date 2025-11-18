@@ -2,11 +2,11 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-09-25"
+lastupdated: "2025-11-18"
 
 keywords: pgAdmin, postgresql gui, PostgreSQL, PostgreSQL cloud database, PostgreSQL getting started, Gen 2
 
-subcollection: databases-for-postgresql
+subcollection: databases-for-postgresql-gen2
 
 content-type: tutorial
 services:
@@ -29,8 +29,8 @@ Follow these steps to complete the tutorial: {: ui}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the console](#provision_instance_ui)
-* [Step 2: Place holder for Manager service credential-Replace-Set your admin password through the console](#admin_pw)
-* [Step 3: Place holder for psql-Replace pgAdmin- Set up pgAdmin](#pgadmin)
+* [Step 2: Creating the Manager user through the console](#manager_user)
+* [Step 3: Users created with psql](#psql)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
 * [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
 * [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
@@ -42,8 +42,8 @@ Follow these steps to complete the tutorial: {: cli}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the CLI](#provision_instance_cli)
-* [Step 2: Place holder for Manager service credential-Replace-Set your admin password through the console](#admin_pw)
-* [Step 3: Place holder for psql-Replace pgAdmin- Set up pgAdmin](#pgadmin)
+* [Step 2: Creating the Manager user through the console](#manager_user)
+* [Step 3: Users created with psql](#psql)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
 * [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
 * [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
@@ -55,8 +55,8 @@ Follow these steps to complete the tutorial: {: api}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the API](#provision_instance_api)
-* [Step 2: Place holder for Manager service credential-Replace-Set your admin password through the console](#admin_pw)
-* [Step 3: Place holder for psql-Replace pgAdmin- Set up pgAdmin](#pgadmin)
+* [Step 2: Creating the Manager user through the console](#manager_user)
+* [Step 3: Users created with psql](#psql)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
 * [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
 * [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
@@ -68,8 +68,8 @@ Follow these steps to complete the tutorial: {: terraform}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through Terraform](#provision_instance_tf)
-* [Step 2: Place holder for Manager service credential-Replace-Set your admin password through the console](#admin_pw)
-* [Step 3: Place holder for psql-Replace pgAdmin- Set up pgAdmin](#pgadmin)
+* [Step 2: Creating the Manager user through the console] (#manager_user)
+* [Step 3: Users created with psql](#psql)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
 * [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
 * [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
@@ -103,6 +103,11 @@ Follow these steps to complete the tutorial: {: terraform}
 1. Click **Create**. The {{site.data.keyword.databases-for}} **Resource list** page opens.
 
 1. When your instance has been provisioned, click the instance name to view more information.
+
+As part of provisioning a new deployment in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer). 
+{: note}
+
+{{site.data.keyword.databases-for-postgresql}} deployments no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the deployment.
 
 ## Step 1: Provision through the CLI
 {: #provision_instance_cli}
@@ -138,11 +143,11 @@ You can provision a {{site.data.keyword.databases-for-postgresql}} instance thro
    |-------|------------|------------|
    | `NAME` [Required]{: tag-red} | The instance name can be any string and is the name that is used on the web and in the CLI to identify the new deployment. |  |
    | `SERVICE_NAME` [Required]{: tag-red} | Name or ID of the service. For {{site.data.keyword.databases-for-postgresql}}, use `databases-for-postgresql`. |  |
-   | `SERVICE_PLAN_NAME` [Required]{: tag-red} | Standard plan (`standard`) |  |
+   | `SERVICE_PLAN_NAME` [Required]{: tag-red} | Standard plan (`standard`). |  |
    | `LOCATION` [Required]{: tag-red} | The location where you want to deploy. To retrieve a list of regions, use the `ibmcloud regions` command. |  |
-   | `SERVICE_ENDPOINTS_TYPE` | Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) of your deployment, either `public` or `private`. |  |
+   | `SERVICE_ENDPOINTS_TYPE` | Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) of your deployment, `private`. |  |
    | `RESOURCE_GROUP` | The Resource group name. The default value is `default`. | -g |
-   | `--parameters` | JSON file or JSON string of parameters to create service instance | -p |
+   | `--parameters` | JSON file or JSON string of parameters to create service instance. | -p |
    {: caption="Basic command format fields" caption-side="top"}
 
    You see a response like:
@@ -224,7 +229,7 @@ ibmcloud cdb deployment-connections example-postgres --start
 ```
 {: pre}
 
-The command prompts for the admin password and then runs the `psql` CLI to connect to the database. To install the Cloud Databases plug-in, see [Connecting with psql documentation here](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql).
+The command prompts for the `manager` user password and then runs the `psql` CLI to connect to the database. To install the Cloud Databases plug-in, see [Connecting with psql documentation here](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql).
 
 ### The `--parameters` parameter
 {: #flags-params-service-endpoints}
@@ -289,7 +294,7 @@ Follow these steps to provision by using the [resource controller API](https://c
    The parameters `name`, `target`, `resource_group`, and `resource_plan_id` are all required.
    {: required}
 
-## List of Additional Parameters
+## List of additional parameters
 {: #provisioning-parameters-api}
 {: api}
 
@@ -304,7 +309,7 @@ Follow these steps to provision by using the [resource controller API](https://c
 * `members_memory_allocation_mb` -  Total amount of memory to be shared between the database members within the database. For example, if the value is "6144", and there are three database members, then the deployment gets 6 GB of RAM total, giving 2 GB of RAM per member. If omitted, the default value is used for the database type is used.
 * `members_disk_allocation_mb` - Total amount of disk to be shared between the database members within the database. For example, if the value is "30720", and there are three members, then the deployment gets 30 GB of disk total, giving 10 GB of disk per member. If omitted, the default value for the database type is used.
 * `members_cpu_allocation_count` - Enables and allocates the number of specified dedicated cores to your deployment. For example, to use two dedicated cores per member, use `"members_cpu_allocation_count":"2"`. If omitted, the default value "Shared CPU" uses compute resources on shared hosts.
-* `service_endpoints` - The [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) supported on your deployment, `public` or `private`. This is a required parameter.
+* `service_endpoints` - The [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) supported on your deployment,`private`. This is a required parameter.
 
 ## Step 1: Provision through Terraform
 {: #provision_instance_tf}
@@ -319,161 +324,182 @@ Use Terraform to manage your infrastructure through the [`ibm_database` Resource
 Use the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction){: external} to work with your {{site.data.keyword.databases-for-postgresql}} instance. The resource controller API is used to [provision an instance](#provision_instance_api).
 
 
-## Step 2: Set the admin password
-{: #admin_pw}
+## Step 2: Create the manager (admin-like) user
+{: #admin_like}
 
-### The admin user
-{: #admin_pw_admin_user}
+### The manager user
+{: #admin_like_manager_user}
 
-When you provision a {{site.data.keyword.databases-for-postgresql}} deployment, an admin user is automatically created.
+As part of provisioning a new deployment in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer). 
 
-Set the admin password before using it to connect.
-{: important}
+{{site.data.keyword.databases-for-postgresql}} deployments no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the deployment.
 
-When you provision a new deployment in {{site.data.keyword.cloud_notm}}, you are automatically given an `admin` user to access and manage PostgreSQL. Once you [set the admin password](/docs/databases-for-postgresql?topic=databases-for-postgresql-user-management&interface=ui#user-management-set-admin-password-ui), use it to connect to your deployment.
+The `manager` user functions as an admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the deployment.
 
-When `admin` creates a resource in a database, like a table, `admin` owns that object. Resources that are created by `admin` are not accessible by other users, unless you expressly grant permissions to them.
+The `manager`user (admin-like) comes with the following roles:
 
-The biggest difference between the `admin` user and any other users you add to your deployment is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the admin user appropriate for monitoring the database server. The `pg_signal_backend` role provides the admin user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
+```sh
+pg_read_all_data
+pg_write_all_data
+pg_monitor
+pg_read_all_settings
+pg_read_all_stats
+pg_stat_scan_tables
+pg_signal_backend
+pg_checkpoint
+pg_create_subscription
+```
+{: pre}
 
-You can also use the `admin` user to grant these two roles to other users on your deployment.
+When the `manager` user (admin-like) creates a resource in a database, like a table, the user owns that object. Resources that are created by the `manager` user are not accessible by other users, unless you explicitly grant permissions to them.
 
-To expose the ability to cancel queries to other database users, grant the `pg_signal_backend` role from the `admin` user. Use a command like:
+The biggest difference between the `manager` user and any other users you add to your deployment is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
 
-```sql
+You can also use the `manager` user to grant the following two roles to other users on your deployment.
+
+To expose the ability to cancel queries to other database users, grant the pg_signal_backend role from the `manager` user. Use a command like:
+
+```sh
 GRANT pg_signal_backend TO joe;
 ```
 {: .pre}
 
-To allow the user `joe` to cancel backends, grant `pg_signal_backend` to all the users with the `ibm-cloud-base-user` role with a command like:
-
-```sql
-GRANT pg_signal_backend TO "ibm-cloud-base-user";
-```
-{: .pre}
-
-This privilege allows the user or users to terminate any connections to the database.
-{: important}
-
 To set up a specific monitoring user, `mary`, use a command like:
 
-```sql
+```sh
 GRANT pg_monitor TO mary;
 ```
 {: .pre}
 
-Grant `pg_signal_backend` to all the users with the `ibm-cloud-base-user` role with a command like:
 
-```sql
-GRANT pg_monitor TO "ibm-cloud-base-user";
-```
-{: .pre}
-
-### Setting the admin password in the UI
-{: #user-management-set-admin-password-ui}
+### Change the user password in the UI
+{: #user-management-set-manager-password-ui}
 {: ui}
 
-Set your Admin Password through the UI by selecting your instance from the Resource List in the [{{site.data.keyword.cloud_notm}} Dashboard](https://cloud.ibm.com/){: external}. Then, select **Settings**. Next, select *Change Database Admin Password*.
+Changing a user password is not supported via the {{site.data.keyword.cloud_notm}} console on Gen 2. However, you can update a password using tools, such as `psql` by executing the following command:
 
-### Set the admin password through the CLI
-{: #admin_pw_set_cli}
+```sh
+ALTER ROLE username WITH PASSWORD 'new_password';
+```
+{: pre}
+
+### Create the manager user in the CLI
+{: #manager_user_set_cli}
 {: cli}
 
-Use the `cdb user-password` command from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to set the admin password.
-
-For example, to set the admin password for a deployment named `example-deployment`, use the following command:
+Use one of the following commands from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to create the `manager` user.
 
 ```sh
-ibmcloud cdb user-password example-deployment admin <newpassword>
+ibmcloud resource service-key-create <service_key_name> Manager --instance-name <instance_name>
 ```
 {: pre}
 
-### Set the admin password through the API
-{: #admin_pw_set_api}
+```sh
+ibmcloud resource service-key-create <service_key_name> Manager --instance-id <guid>
+```
+{: pre}
+
+These commands can be used when creating a user with either the Writer or Manager role. In this example, the command creates a PostgreSQL user (ibmcloud_d0388…) with CREATEROLE and CREATEDB privileges. This user inherits permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the deployment.
+
+| rolname | rolsuper | rolinherit | rolcreaterole | rolcreatedb | rolcanlogin | memberof |
+|---|---|---|---|---|---|----|
+| ibm_admin  | f  | t  | f  | f | f | {pg_read_all_data,pg_write_all_data,pg_monitor,pg_read_all_settings,pg_read_all_stats,pg_stat_scan_tables,pg_signal_backend,pg_checkpoint,pg_create_subscription} |
+| ibm_monitoring |f| t  | f  | f | t  | {pg_use_reserved_connections} |
+| ibm_rest | f  | f  | t | t | t | {pg_use_reserved_connections,ibm_admin,ibm_writer,ibmcloud_d0388c96d13841b1b45f1039c73ea6c7} |
+| ibm_rewind | f  | t  | f | f | t | {} |
+| ibm_superuser | t | t | t | t | t | {} |
+| ibm_writer | f | t | f | f | f | {pg_read_all_data,pg_write_all_data} |
+| ibmcloud_d0388c96d13841b1b45f1039c73ea6c7 | f | t | t | t | t | {ibm_admin,ibm_writer} |
+{: caption="`ibm_admin` and `ibm_writer` permissions" caption-side="top"}
+
+Similarly, for creating a user with the `Writer` role, use the following command:
+
+```sh
+ibmcloud resource service-key-create <service_key_name> Writer --instance-name <instance_name>
+```
+{: pre}
+
+The user (`ibmcloud_b153...`) with `writer` role inherits the `ibm_writer` permissions:
+
+|rolname | rolsuper | rolinherit | rolcreaterole | rolcreatedb | rolcanlogin | memberof |
+|---|---|---|---|---|---|---|
+| ibm_admin | f | t | f | f | f | {pg_read_all_data,pg_write_all_data,pg_monitor,pg_read_all_settings,pg_read_all_stats,pg_stat_scan_tables,pg_signal_backend,pg_checkpoint,pg_create_subscription}|
+| ibm_monitoring | f | f | f | f | t | {pg_monitor,pg_use_reserved_connections} |
+| ibm_replication | f | t | f | f | t | {pg_use_reserved_connections} |
+| ibm_rest | f | f | t | t | t | {pg_use_reserved_connections,ibm_admin,ibm_writer,ibmcloud_b153b496ae5a41a08a27db730e43b835} |
+| ibm_rewind | f | t | f | f | t | {} |
+| ibm_superuser | t | t | t | t | t | {} |
+| ibm_writer | f | t | f | f | f | {pg_read_all_data,pg_write_all_data} |
+| ibmcloud_b153b496ae5a41a08a27db730e43b835 | f | t | f | f | t | {ibm_writer} |
+{: caption="`ibm_writer`permissions" caption-side="top"}
+
+### Delete the user in the CLI
+{: #manager_user_del_cli}
+{: cli}
+
+Use the following command from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to delete the created user.
+
+```sh
+ibmcloud resource service-key-delete <service_key_name> 
+```
+{: pre}
+
+### Change the manager password in the CLI
+{: #manager_pw_set_cli}
+{: cli}
+
+Changing a user password is not supported via the CLI on Gen 2. However, you can update a password using tools, such as `psql` by executing the following command:
+
+```sh
+ALTER ROLE username WITH PASSWORD 'new_password';
+```
+{: pre}
+
+
+### Change the manager password through the API
+{: #manager_pw_set_api}
 {: api}
 
-The Foundation Endpoint, as shown in the Overview Deployment Details section of your service, provides the base URL for accessing this deployment through the API. Use it with the [Set specified user's password](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#changeuserpassword){: external} endpoint to set the admin password.
+Changing a user password is not supported via API on Gen 2. However, you can update a password using tools, such as `psql` by executing the following command:
 
 ```sh
-curl -X PATCH `https://api.{region}.databases.cloud.ibm.com/v5/ibm/deployments/{id}/users/admin` \
--H `Authorization: Bearer <>` \
--H `Content-Type: application/json` \
--d `{"password":"newrootpasswordsupersecure21"}` \
+ALTER ROLE username WITH PASSWORD 'new_password';
 ```
 {: pre}
 
-### Set the admin password through Terraform
-{: #admin_pw_set_tf}
+### Change the Manager password through Terraform
+{: #manager_pw_set_tf}
 {: terraform}
 
-To set the Admin password, use the API:
-
-The Foundation Endpoint, as shown in the Overview Deployment Details section of your service, provides the base URL for accessing this deployment through the API. Use it with the [Set specified user's password](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#changeuserpassword){: external} endpoint to set the admin password.
+Changing a user password is not supported via Terraform on Gen 2. However, you can update a password using tools, such as `psql` by executing the following command:
 
 ```sh
-curl -X PATCH `https://api.{region}.databases.cloud.ibm.com/v5/ibm/deployments/{id}/users/admin` \
--H `Authorization: Bearer <>` \
--H `Content-Type: application/json` \
--d `{"password":"newrootpasswordsupersecure21"}` \
+ALTER ROLE username WITH PASSWORD 'new_password';
 ```
 {: pre}
 
-You can also use the CLI:
-
-Use the `cdb user-password` command from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to set the admin password.
-
-For example, to set the admin password for a deployment named `example-deployment`, use the following command:
-
-```sh
-ibmcloud cdb user-password example-deployment admin <newpassword>
-```
-{: pre}
-
-To set the admin password through the UI, follow these steps:
-
-Set your admin password through the UI by selecting your instance from the Resource List in the [{{site.data.keyword.cloud_notm}} Dashboard](https://cloud.ibm.com/){: external}. Then, select **Settings**. Next, select *Change Database admin password*.
-
-## Step 3: Set up pSQL ( Replace pgAdmin instructions)
-{: #psql}
-
-pgAdmin runs as a server and you connect to it through a browser. When the server is started, it runs on localhost, at default `http://127.0.0.1:53113/browser/`.
-
-When you first open pgAdmin, you are prompted to set a primary password. This password differs from your instance's password, as it is explicitly used by pgAdmin to store passwords for your PostgreSQL servers or PostgreSQL instance.
-
-The *Dashboard* panel has a *Welcome* screen. From the *Quick links*, click *Add new server*.
-
-On your instance's *Overview* page, there is an *Endpoints* panel with all the relevant connection information.
-
-Back in pgAdmin, provide the necessary information to connect to your instance.
-
-First, complete the *Connection* information,
-- For *Host name/address*, use the *Hostname* of your instance.
-- For the *Port*, use the *Port* of your instance.
-- The *Maintenance database* remains `postgres`.
-- For *Username* and *Password*, use the `admin` credentials that you set after provisioning your instance. You can choose for pgAdmin to save the password.
-- The *Role* and *Service* fields can be left empty.
-
-Then, configure the *SSL* settings.
-- Copy the certificate information from the [*Endpoints* panel](/docs/databases-for-postgresql?topic=databases-for-postgresql-connection-strings) in your instance's `Dashboard overview` page.
-- Save the certificate to a file. (You can use the name that is provided in the download, or your own file name.)
-- Set the *SSL mode* field to *Verify-Full*.
-- In the *Root certificate* field, select the file where you saved your instance's certificate.
-
-Back on the *General* tab, give your instance a name and add any comments that you want to describe or identify your instance in pgAdmin.
-
-If the *Connect now?* field is checked, pgAdmin attempts to connect to your instance when you click the **Save** button.
-
-### Use pSQL ( Replace pgAdmin usage instructions)
+### Use `psql`
 {: #using-pgadmin}
 
-Once pgAdmin connects, your instance appears in the *Servers* list, and you get a *Dashboard* with information and statistics.
+## Users created with `psql`
+{: #user-management-psql}
 
-In the list of databases in the *Browser*, there is both the `postgres` database, which you are connected to, and the `ibmclouddb` database, which is the default database for all {{site.data.keyword.databases-for-postgresql}} deployments. Click `ibmclouddb` to connect to it and expand the information about it.
+You can bypass creating users through the {{site.data.keyword.cloud_notm}} entirely, and create users directly in PostgreSQL with `psql`. This allows you to use PostgreSQL's native [role and user management](https://www.postgresql.org/docs/current/database-roles.html){: .external}. Users and roles created in `psql` must have all of their privileges set manually, as well as privileges to the objects that they create.
 
-Use pgAdmin to view, administer, and manage your data and databases in your {{site.data.keyword.databases-for-postgresql}} instance. For more information, see [pgAdmin documentation](https://www.pgadmin.org/docs/pgadmin4/latest/index.html).
+Users that are created directly in PostgreSQL do not appear in _Service credentials_, but you can [add them](/docs/databases-for-postgresql?topic=databases-for-postgresql-connection-strings#adding-users-to-_service-credentials_) if you choose. 
 
-Administrative features that require a superuser are not available through pgAdmin because there is no superuser access available to users of a {{site.data.keyword.databases-for-postgresql}} deployment.
+Note that these users are not integrated with IAM controls, even if added to _Service credentials_.
 {: .tip}
+
+## Additional users and connection strings
+{: #creating_users}
+
+Access to your {{site.data.keyword.databases-for-postgresql}} deployment is not limited to the `manager` user. Additional users can be created using the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin), or the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction).
+
+All users on your deployment can use the connection strings, including connection strings for private endpoints.
+
+When you create a user, it is assigned certain database roles and privileges. These privileges include the ability to log in, create databases, and create other users.
+
 
 ## Step 4: Set up context-based restrictions
 {: #postgresql_cbr}
@@ -483,6 +509,8 @@ Context-based restrictions give account owners and administrators the ability to
 To set up context-based restrictions for your {{site.data.keyword.databases-for-postgresql}} instance, follow the steps at [Protecting {{site.data.keyword.databases-for}} resources with context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr){: external}.
 
 ## Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+
+INFO MISSING 
 
 ## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the console
 {: #connect_monitoring_ui}
