@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-11-06"
+lastupdated: "2025-11-20"
 
 keywords: manager, superuser, roles, service credentials, postgresql users, postgresql service credentials, connection strings, manager password, new user, Gen 2
 
@@ -92,7 +92,7 @@ These commands can be used when creating a user with either the Writer or Manage
 | rolname | rolsuper | rolinherit | rolcreaterole | rolcreatedb | rolcanlogin | memberof |
 |---|---|---|---|---|---|----|
 | ibm_admin  | f  | t  | f  | f | f | {pg_read_all_data,pg_write_all_data,pg_monitor,pg_read_all_settings,pg_read_all_stats,pg_stat_scan_tables,pg_signal_backend,pg_checkpoint,pg_create_subscription} |
-| ibm_monitoring || f  | t  | f | f | t | {pg_use_reserved_connections} |
+| ibm_monitoring | f | t  | f | f | t | {pg_use_reserved_connections} |
 | ibm_rest | f  | f  | t | t | t | {pg_use_reserved_connections,ibm_admin,ibm_writer,ibmcloud_d0388c96d13841b1b45f1039c73ea6c7} |
 | ibm_rewind | f  | t  | f | f | t | {} |
 | ibm_superuser | t | t | t | t | t | {} |

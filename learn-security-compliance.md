@@ -1,19 +1,15 @@
 ---
+
 copyright:
-  years: 2018, 2024
-lastupdated: "2024-06-11"
+  years: 2025
+lastupdated: "2025-11-20"
 
-keywords: postgresql, databases, soc, hipaa, gdpr, terms, postgresql security
+keywords: postgresql, databases, soc, hipaa, gdpr, terms, postgresql security, Gen 2
 
-subcollection: databases-for-postgresql
+subcollection: databases-for-postgresql-gen2
 
 ---
 
-{:external: .external target="_blank"}
-{:shortdesc: .shortdesc}
-{:screen: .screen}
-{:codeblock: .codeblock}
-{:pre: .pre}
 {{site.data.keyword.attribute-definition-list}}
 
 # Security and compliance
@@ -27,9 +23,8 @@ subcollection: databases-for-postgresql
 - Access to the Account, Management Console UI, and API is secured via [Identity and Access Management (IAM)](/docs/databases-for-postgresql?topic=databases-for-postgresql-iam).
 - Access to the database is secured through the standard access controls provided by the database. These access controls are configured to require valid database-level credentials that are obtainable only through prior access to the database or through our Management Console UI or API.
 - All {{site.data.keyword.databases-for-postgresql}} storage is provided on storage encrypted with LUKS using AES-256. The default keys are managed by [{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about). Bring-your-own-key (BYOK) for encryption is also available through [Key Protect Integration](/docs/cloud-databases?topic=cloud-databases-key-protect&interface=ui).
-- CBR (Context-based restriction) - Protect your Cloud Databases resource with [conext-based restriction (CBR)](/docs/cloud-databases?topic=cloud-databases-cbr&interface=ui)
-- IP allowlisting (deprected) - All deployments support [allowlisting IP addresses](/docs/cloud-databases?topic=cloud-databases-allowlisting&interface=ui) to restrict access to the service.
-- Public and Private Networking - {{site.data.keyword.databases-for-postgresql}} is integrated with [Service Endpoints](/docs/databases-for-postgresql?topic=databases-for-postgresql-service-endpoints&interface=ui). You can select whether to use connections over the public network, the {{site.data.keyword.cloud_notm}} internal network, or both.
+- CBR (Context-based restriction) - Protect your {{site.data.keyword.databases-for}} resource with [Context-based restriction (CBR)](/docs/cloud-databases?topic=cloud-databases-cbr&interface=ui).
+- Private networking - {{site.data.keyword.databases-for-postgresql}} is integrated with [Service endpoints](/docs/databases-for-postgresql?topic=databases-for-postgresql-service-endpoints&interface=ui). 
 
 
 ## Data resilience
@@ -83,5 +78,3 @@ A full list of PCI DSS-ready {{site.data.keyword.cloud_notm}} Platform services,
 
 - [The IBM Privacy Policy](https://www.ibm.com/privacy/us/en/)
 - [The IBM Cloud Notices and Terms of Use](/docs/overview/terms-of-use?topic=overview-terms)
-
-
