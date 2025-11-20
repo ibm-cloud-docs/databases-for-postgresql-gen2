@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-11-03"
+lastupdated: "2025-11-20"
 
 keywords: postgresql, databases, postgres connections string, postgresql connection string, Gen 2
 
@@ -25,15 +25,20 @@ Follow these steps to retrieve your {{site.data.keyword.databases-for-postgresql
 1. In your deployment's **Overview page**, scroll down to the **Service endpoints** section. 
 1.  The **Service endpoints** section displays tabs for available connection methods:  
    - **PostgreSQL** – Shows the connection string, hostnames, ports, database name, authentication source, and replica set for your deployment.  
-   - **CLI** – Provides details for connecting by using the [{{site.data.keyword.IBM_notm}} CLI](https://www.ibm.com/cloud/cli){: external}.  
+   - **CLI** – Provides details for connecting by using the [{{site.data.keyword.IBM_notm}} CLI](https://www.ibm.com/cloud/cli){: external}.
+
+![Architecture](images/Connection_strings_UI.svg){: caption="Getting connections strings - Service endpoints PostgreSQL tab" caption-side="bottom"}
 
 {{site.data.keyword.databases-for-postgresql}} deployments no longer include a default `admin user`. Instead, you create a user with the 'Manager', 'Writer', or 'Reader' role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. This provides a username(ibm_...), password, and connection string that can be used to connect to your deployment.
 {: .tip}
 
-
 ## Getting connection strings in the CLI
 {: #connection-strings-cli}
 {: cli}
+
+You can also find the endpoint under the CLI tab of the service endpoints.
+
+![Architecture](images/Connection_strings_CLI.svg){: caption="Getting connections strings - Service endpoints CLI tab" caption-side="bottom"}
 
 You can also retrieve connection strings using the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-connections) Connection command.
 
