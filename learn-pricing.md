@@ -1,7 +1,7 @@
 ---
 copyright:
-  years: 2025, 2025
-lastupdated: "2025-09-25"
+  years: 2025
+lastupdated: "2025-11-20"
 
 keywords: postgresql, gen 2, pricing
 
@@ -14,7 +14,7 @@ subcollection: databases-for-postgresql-gen2
 # Pricing
 {: #pricing}
 
-A {{site.data.keyword.databases-for-postgresql}} Standard plan deploys as one highly available PostgreSQL cluster with two data members, with your data replicated on both members. It's priced based on the total amount of disk storage, RAM, virtual CPU cores, and backup storage that is allocated to deployments, prorated hourly. Gen 2 {{site.data.keyword.databases-for-postgresql}} deployments have a minimum of 5 GB of disk and the smallest profile provides 4 vCPU cores.
+A {{site.data.keyword.databases-for-postgresql}} deployment consists of a highly available PostgreSQL cluster with two data members, ensuring your data is replicated across both. Pricing is based on the total resources allocated to the deployment-disk storage, RAM, virtual CPU cores, and backup storage—calculated on an hourly prorated basis. Gen 2 deployments require at least 5 GB of disk space, and the smallest configuration profile offers 4 vCPU cores.
 
 ## Using the pricing calculator
 {: #pricing-calc}
@@ -26,24 +26,18 @@ For pricing estimation, use the **Add to estimate** button on the [{{site.data.k
 
 {{site.data.keyword.databases}} uses a snapshot based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies, therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database. 
 
-
 By default, {{site.data.keyword.databases-for-postgresql}} provides a daily backup that is stored for 30 days. These backups, and any on-demand backups you make, all count toward the above allocation.
-
 
 Backup storage included:
 
 * You receive free backup storage equal to the total provisioned disk size of your deployment. 
-
 * This includes both automated daily backups and manual (on-demand) snapshots.
-
 * Example: If your 2 member {{site.data.keyword.databases-for-postgresql}} deployment is provisioned with 100 GB of disk per member, you get 200 GB of backup storage included at no cost.
 
 Overage charges:
 
 * The overage is billed monthly.
-
 * Total snapshot storage = Day 1 full + (Daily change × 29 days x number of members)
-
 * Overage is charged at $0.095 per GB per month.
 
 Worked example, for a 2-member PostgreSQL deployment with 100 GB of data per member:
@@ -62,7 +56,6 @@ This worked example models the worst case scenario. The full snapshot is equal t
 * With large deployments and frequent writes, you’re more likely to exceed the free tier after the first snapshot, and your snapshot storage costs will grow quickly.
 
 * Cross-region copies: If you choose to copy snapshots to another region, {{site.data.keyword.cloud}} charges for the full size of the snapshot in the destination region (not incremental) and continued incremental growth in the original region as new snapshots are taken.
-
 
 ## Scaling per member
 {: #scaling-member}
