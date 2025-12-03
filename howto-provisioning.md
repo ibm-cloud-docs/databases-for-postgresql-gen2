@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-10-27"
+lastupdated: "2025-12-03"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision PostgreSQL, Gen 2
 
@@ -14,6 +14,11 @@ subcollection: databases-for-postgresql-gen2
 
 # Provisioning
 {: #provisioning}
+
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 Provision an {{site.data.keyword.databases-for-postgresql_full}} deployment through the [catalog](https://cloud.ibm.com/databases/databases-for-postgresql/create){: external}, the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}, the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5){: external}, or through [Terraform](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
 
