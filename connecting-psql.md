@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-10-16"
+lastupdated: "2025-12-03"
 
 keywords: postgresql, databases, psql, postgresql command line, Gen 2
 
@@ -11,9 +11,13 @@ subcollection: databases-for-postgresql-gen2
 
 {{site.data.keyword.attribute-definition-list}}
 
-
 # Connecting with `psql`
 {: #connecting-psql}
+
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 Use `psql` for direct interaction and monitoring of the data structures that are created within the database. `psql` is also useful for testing and monitoring queries and performance, installing and modifying scripts, and other management activities.
 

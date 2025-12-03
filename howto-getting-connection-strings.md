@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-11-20"
+lastupdated: "2025-12-03"
 
 keywords: postgresql, databases, postgres connections string, postgresql connection string, Gen 2
 
@@ -15,6 +15,10 @@ subcollection: databases-for-postgresql-gen2
 # Getting connection strings
 {: #connection-strings}
 
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 ## Getting connection strings in the UI
 {: #connection-strings-ui}

@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-11-03"
+lastupdated: "2025-12-03"
 
 keywords: postgresql drivers, python, java, javascript, certificate, postgresql connection string, postgresql connecting external application, postgresql python, Gen 2
 
@@ -14,8 +14,12 @@ subcollection: databases-for-postgresql-gen2
 # Connecting an external application to your PostgreSQL deployment
 {: #external-app}
 
-Your applications and drivers use connection strings to make a connection to {{site.data.keyword.databases-for-postgresql_full}}. The service provides connection strings specifically for drivers and applications. Connection strings are displayed in the *Endpoints* panel of your deployment's *Overview*, and can also be retrieved from the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-connections), and the [{{site.data.keyword.databases-for}} API](/apidocs/cloud-databases-api/cloud-databases-api-v5#getconnection).
+[Gen 2]{: tag-purple}
 
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
+
+Your applications and drivers use connection strings to make a connection to {{site.data.keyword.databases-for-postgresql_full}}. The service provides connection strings specifically for drivers and applications. Connection strings are displayed in the *Endpoints* panel of your deployment's *Overview*, and can also be retrieved from the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-connections), and the [{{site.data.keyword.databases-for}} API](/apidocs/cloud-databases-api/cloud-databases-api-v5#getconnection).
 
 {{site.data.keyword.databases-for-postgresql}} deployments no longer include a default admin user. Instead, customers create users with 'Manager', 'Writer', or 'Reader' roles through the {{site.data.keyword.cloud}} service credential interface — available via the UI or CLI. This process generates credentials for connecting to the deployment. While these credentials can be used across multiple connections and applications, it is strongly recommended to create dedicated users for each application, tailored to their specific access requirements. For more information, see [Getting connection strings](/docs/databases-for-postgresql?topic=databases-for-postgresql-connection-strings).
 
