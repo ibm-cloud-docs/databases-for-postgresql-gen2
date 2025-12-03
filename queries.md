@@ -1,12 +1,12 @@
 ---
 
 copyright:
-  years: 2019, 2023
-lastupdated: "2023-10-18"
+  years: 2025
+lastupdated: "2025-12-03"
 
 keywords: troubleshooting for PostgreSQL, query history, slow queries
 
-subcollection: databases-for-postgresql
+subcollection: databases-for-postgresql-gen2
 
 content-type: troubleshoot
 
@@ -14,10 +14,15 @@ content-type: troubleshoot
 
 {{site.data.keyword.attribute-definition-list}}
 
-# PostgreSQL Queries
+# PostgreSQL queries
 {: #pg-queries}
 {: troubleshoot}
 {: support}
+
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the  [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 PostgreSQL queries are commands used to retrieve data from a table in a relational database management system. PostgreSQL uses the standard SQL query language.
 
@@ -61,5 +66,3 @@ If you worry about exposing sensitive information in your PosgreSQL logs, do the
     Updating your queries with hashed passwords requires changes to your application.
     {: note}
 {: tsResolve}
-
-
