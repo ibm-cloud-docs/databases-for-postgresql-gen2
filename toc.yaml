@@ -82,13 +82,6 @@ toc:
           - include: ../cloud-databases-gen2/cbr-tutorial.md
           - include: ../cloud-databases-gen2/howto-deprovisioning.md
   - navgroup:
-      id: tutorial
-      topics:
-      - topicgroup:
-          label: Cloud Databases tutorials
-          topics:
-          - include: ../cloud-databases-gen2/hello-world-tutorial.md
-  - navgroup:
       id: reference
       topics:
       - include: ../cloud-databases-gen2/cloud-databases-cli.md

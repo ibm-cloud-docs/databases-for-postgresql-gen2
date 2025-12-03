@@ -1,12 +1,12 @@
 ---
 
 copyright:
-  years: 2020, 2023
-lastupdated: "2023-02-08"
+  years: 2025
+lastupdated: "2025-12-03"
 
 keywords: troubleshooting for PostgreSQL, postgresql max_connections, postgres max connections, postgresql connection pooling, postgres connection pooling, disk space, scaling considerations
 
-subcollection: databases-for-postgresql
+subcollection: databases-for-postgresql-gen2
 
 content-type: troubleshoot
 
@@ -18,6 +18,11 @@ content-type: troubleshoot
 {: #troubleshoot-no-space-left}
 {: troubleshoot}
 {: support}
+
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the  [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 If you encounter a `No space left on device` error for your {{site.data.keyword.databases-for-postgresql_full}} deployment, review these solutions.
 {: shortdesc}
