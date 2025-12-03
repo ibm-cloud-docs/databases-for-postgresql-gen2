@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-10-31"
+lastupdated: "2025-12-03"
 
 keywords: postgresql, databases, postgresql extensions, postgres extensions, ibm_extension
 
@@ -13,6 +13,11 @@ subcollection: databases-for-postgresql-gen2
 
 # Managing PostgreSQL extensions
 {: #extensions}
+
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 In PostgreSQL, extensions are modules that supply extra functions, operators, or types. Many extensions are available in {{site.data.keyword.databases-for-postgresql_full}}. For the following examples, use your service credentials and [connect to `psql`](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql) before proceeding.
 

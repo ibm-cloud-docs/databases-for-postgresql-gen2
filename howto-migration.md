@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2017, 2025
-lastupdated: "2025-09-15"
+lastupdated: "2025-12-03"
 
 keywords: postgresql, databases, postgres admin user, postgresql admin user, pg_dump, postgres migration, postgresql migration
 
@@ -13,6 +13,11 @@ subcollection: databases-for-postgresql
 
 # Migrating to {{site.data.keyword.databases-for-postgresql}}
 {: #migrating}
+
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 Various options exist to migrate data from existing PostgreSQL databases to {{site.data.keyword.databases-for-postgresql_full}}. We focus on the simplest and most effective. To get started, you need PostgreSQL installed locally so you have the `psql` and `pg_dump` tools. And while not strictly required, the {{site.data.keyword.databases-for}} CLI makes it easier to connect and restore to a new {{site.data.keyword.databases-for-postgresql}} deployment. 
 
@@ -65,4 +70,3 @@ For users with a TAR file containing sql and data separately, the command `pg_re
  PGPASSWORD=yourpasswordhere PGSSLROOTCERT=cert.crt pg_restore -h c7798cf6-e5d2-4513-b17f-3d3fa67d8291.8f7bfd8f3faa4218aec56e069eb46187.databases.appdomain.cloud -p 32484 -U admin -F t -d ibmclouddb tarfile.tar
  ```
  {: .pre}
-

@@ -14,6 +14,11 @@ subcollection: databases-for-postgresql
 # Changing your {{site.data.keyword.databases-for-postgresql}} configuration
 {: #changing-configuration}
 
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
+
 {{site.data.keyword.databases-for-postgresql_full}} allows you to change some of the PostgreSQL configuration settings so you can tune your PostgreSQL databases to your use case. To make permanent changes to the database configuration, use the {{site.data.keyword.databases-for}} [CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-configuration) or [API](/apidocs/cloud-databases-api/cloud-databases-api-v5#updatedatabaseconfiguration){: external} to write the changes to the configuration file for your deployment.
 
 The configuration is defined in a schema. To make a change, you send a JSON object with the settings and their new values to the API or the CLI. For example, to set the `max_connections` setting to 150, you would supply:
