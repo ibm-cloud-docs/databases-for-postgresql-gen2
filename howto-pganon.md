@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-09-25"
+lastupdated: "2025-12-03"
 
 keywords: postgresql, databases, PostgreSQL Anonymizer, Postgresql data masking, GDPR compliance PostgreSQL, Static Masking, Dynamic Masking, Anonymous Dumps, Generalization
 
@@ -14,6 +14,11 @@ subcollection: databases-for-postgresql
 
 # Data masking for {{site.data.keyword.databases-for-postgresql}}
 {: #data-masking}
+
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 {{site.data.keyword.databases-for-postgresql}} Anonymizer is a PostgreSQL extension designed to anonymize data by masking or replacing personally identifiable and sensitive business information in a {{site.data.keyword.databases-for-postgresql}} database.
 

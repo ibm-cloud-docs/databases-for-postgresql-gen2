@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-09-15"
+lastupdated: "2025-12-03"
 
 keywords:  postgresql, databases, postgresql extensions, postgres extensions, ibm_extension , pg_vector
 
@@ -14,6 +14,11 @@ subcollection: databases-for-postgresql
 
 # Exploring vector-based search in {{site.data.keyword.databases-for-postgresql}} using pgvector
 {: #pgvector}
+
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 [pgVector](https://github.com/pgvector/pgvector?tab=readme-ov-file#pgvector){: external} is an extension for your {{site.data.keyword.databases-for-postgresql_full}} that adds support for vector similarity search. It allows you to store and query vectors (arrays of numbers) and to calculate their similarity to each other. This is particularly useful in machine learning applications where you might want to find vectors (for instance, image features or word embeddings) that are similar to a given vector.
 

@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-11-20"
+lastupdated: "2025-12-03"
 
 keywords: postgresql, databases, soc, hipaa, gdpr, terms, postgresql security, Gen 2
 
@@ -14,6 +14,11 @@ subcollection: databases-for-postgresql-gen2
 
 # Security and compliance
 {: #security-compliance}
+
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 ## Protection against unauthorized access
 {: #protect-unauth}

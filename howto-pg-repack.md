@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-09-15"
+lastupdated: "2025-12-03"
 
 keywords:  postgresql, databases, postgresql extensions, postgres extensions, ibm_extension , pg_repack
 
@@ -14,6 +14,11 @@ subcollection: databases-for-postgresql
 
 # Implementing and utilizing pg_repack
 {: #pgrepack}
+
+[Gen 2]{: tag-purple}
+
+{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
+{: beta}
 
 pg_repack is an extension for your {{site.data.keyword.databases-for-postgresql_full}} that provides functions to reorganize tables and indexes online without requiring table-locking. Its primary function is to reduce table size and improve performance by eliminating bloat.
 
