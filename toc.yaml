@@ -49,18 +49,6 @@ toc:
       - include: ../cloud-databases-gen2/howto-manage-backups.md
       - howto-migration.md
       - topicgroup:
-          label: Configuring PostgreSQL
-          topics:
-          - topic: howto-changing-config.md
-            navtitle: Changing your configuration
-          - topic: howto-extensions.md
-            navtitle: Managing extensions
-          - howto-pg-repack.md
-          - topic: howto-pg-vector.md
-            navtitle: Exploring vector-based search using pg_vector
-          - topic: howto-pganon.md
-            navtitle: Data masking
-      - topicgroup:
           label: Observability
           topics:
           - include: ../cloud-databases-gen2/cdb-logging-monitoring.md
