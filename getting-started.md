@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-08"
 
 keywords: pgAdmin, postgresql gui, PostgreSQL, PostgreSQL cloud database, PostgreSQL getting started, Gen 2
 
@@ -93,23 +93,23 @@ Follow these steps to complete the tutorial: {: terraform}
 {: ui}
 
 1. Log in to the {{site.data.keyword.cloud_notm}} console.
-1. Click the [**{{site.data.keyword.databases-for-postgresql}} service**](https://cloud.ibm.com/databases/databases-for-postgresql/create){: external} in the **catalog**.
+1. Click the [**{{site.data.keyword.databases-for-postgresql}} service**](https://cloud.ibm.com/catalog){: external} in the **catalog**.
 
 1. In **Service details**, configure the following:
     - **Location** - Select a location that supports Gen 2
     - **Service name** - The name can be any string and is the name that is used on the web and in the CLI to identify the new deployment.
     - **Resource group** - If you are organizing your services into [resource groups](/docs/account?topic=account-account_setup), specify the resource group in this field. Otherwise, you can leave it at the default. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
-  
+
 1. **Resource allocation** - Specify the initial RAM, disk, and cores for your databases. The minimum sizes of memory and disk are selected by default. With dedicated cores, your resource group is given a single-tenant host with a minimum reserve of CPU shares. Your deployments are then allocated the number of cores that you specify. *Once provisioned, disk cannot be scaled down.*
 1. In **Service configuration**, configure the following:
-    - **Database version** [Set only at deployment]{: tag-red} - The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database versioning policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy){: external}.
-    - **Encryption** - If you use [Key Protect](/docs/cloud-databases?topic=cloud-databases-key-protect&interface=ui), an instance and key can be selected to encrypt the deployment's disk. If you do not use your own key, the deployment automatically creates and manages its own disk encryption key.
+    - **Database version** [Set only at deployment]{: tag-red} - The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database versioning policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy&interface=ui){: external}.
+    - **Encryption** - If you use [Key Protect](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui), an instance and key can be selected to encrypt the deployment's disk. If you do not use your own key, the deployment automatically creates and manages its own disk encryption key.
 
 1. Click **Create**. The {{site.data.keyword.databases-for}} **Resource list** page opens.
 
 1. When your instance has been provisioned, click the instance name to view more information.
 
-As part of provisioning a new deployment in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer). 
+As part of provisioning a new deployment in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 {: note}
 
 {{site.data.keyword.databases-for-postgresql}} deployments no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the deployment.
@@ -143,7 +143,7 @@ You can provision a {{site.data.keyword.databases-for-postgresql}} instance thro
         {: codeblock}
 
    The fields in the command are described in the table that follows.
-   
+
    | Field | Description | Flag |
    |-------|------------|------------|
    | `NAME` [Required]{: tag-red} | The instance name can be any string and is the name that is used on the web and in the CLI to identify the new deployment. |  |
@@ -225,7 +225,7 @@ You can provision a {{site.data.keyword.databases-for-postgresql}} instance thro
 ### Connect to your database with the CLI
 {: #connecting-cli}
 
-Find the appropriate commands to connect to your database from the CLI in [Cloud Databases CLI Reference](https://cloud.ibm.com/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference) and [Connecting with psql](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql).
+Find the appropriate commands to connect to your database from the CLI in [Cloud Databases CLI Reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference) and [Connecting with psql](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 
 The `ibmcloud cdb deployment-connections` command handles everything that is involved in creating a CLI connection. For example, to connect to a deployment named "example-postgres", use a command like:
 
@@ -234,7 +234,7 @@ ibmcloud cdb deployment-connections example-postgres --start
 ```
 {: pre}
 
-The command prompts for the `manager` user password and then runs the `psql` CLI to connect to the database. To install the Cloud Databases plug-in, see [Connecting with psql documentation here](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql).
+The command prompts for the `manager` user password and then runs the `psql` CLI to connect to the database. To install the Cloud Databases plug-in, see [Connecting with psql documentation here](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 
 ### The `--parameters` parameter
 {: #flags-params-service-endpoints}
@@ -308,7 +308,7 @@ Follow these steps to provision by using the [resource controller API](https://c
 * `disk_encryption_key_crn` - The CRN of a KMS key (for example, [{{site.data.keyword.hscrypto}}](/docs/hs-crypto?topic=hs-crypto-get-started) or [{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about)), which is then used for disk encryption. A KMS key CRN is in the format `crn:v1:<...>:key:<id>`.
 * `backup_encryption_key_crn` - The CRN of a KMS key (for example, [{{site.data.keyword.hscrypto}}](/docs/hs-crypto?topic=hs-crypto-get-started) or [{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about)), which is then used for backup encryption. A KMS key CRN is in the format `crn:v1:<...>:key:<id>`.
 
-   To use a key for your backups, you must first [enable the service-to-service delegation](/docs/cloud-databases?topic=cloud-databases-key-protect#byok-for-backups).
+   To use a key for your backups, you must first [enable the service-to-service delegation](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui#key-byok).
    {: note}
 
 * `members_memory_allocation_mb` -  Total amount of memory to be shared between the database members within the database. For example, if the value is "6144", and there are three database members, then the deployment gets 6 GB of RAM total, giving 2 GB of RAM per member. If omitted, the default value is used for the database type is used.
@@ -326,7 +326,7 @@ Use Terraform to manage your infrastructure through the [`ibm_database` Resource
 {: #using_apis}
 {: api}
 
-Use the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction){: external} to work with your {{site.data.keyword.databases-for-postgresql}} instance. The resource controller API is used to [provision an instance](#provision_instance_api).
+Use the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external} to work with your {{site.data.keyword.databases-for-postgresql}} instance. The resource controller API is used to [provision an instance](#provision_instance_api).
 
 
 ## Step 2: Create the manager (admin-like) user
@@ -335,7 +335,7 @@ Use the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/
 ### The manager user
 {: #admin_like_manager_user}
 
-As part of provisioning a new deployment in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer). 
+As part of provisioning a new deployment in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
 {{site.data.keyword.databases-for-postgresql}} deployments no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the deployment.
 
@@ -445,7 +445,7 @@ The user (`ibmcloud_b153...`) with `writer` role inherits the `ibm_writer` permi
 Use the following command from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to delete the created user.
 
 ```sh
-ibmcloud resource service-key-delete <service_key_name> 
+ibmcloud resource service-key-delete <service_key_name>
 ```
 {: pre}
 
@@ -491,7 +491,7 @@ ALTER ROLE username WITH PASSWORD 'new_password';
 
 You can bypass creating users through the {{site.data.keyword.cloud_notm}} entirely, and create users directly in PostgreSQL with `psql`. This allows you to use PostgreSQL's native [role and user management](https://www.postgresql.org/docs/current/database-roles.html){: .external}. Users and roles created in `psql` must have all of their privileges set manually, as well as privileges to the objects that they create.
 
-Users that are created directly in PostgreSQL do not appear in _Service credentials_, but you can [add them](/docs/databases-for-postgresql?topic=databases-for-postgresql-connection-strings#adding-users-to-_service-credentials_) if you choose. 
+Users that are created directly in PostgreSQL do not appear in _Service credentials_, but you can [add them](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connection-strings&interface=ui) if you choose.
 
 Note that these users are not integrated with IAM controls, even if added to _Service credentials_.
 {: .tip}
@@ -499,7 +499,7 @@ Note that these users are not integrated with IAM controls, even if added to _Se
 ## Additional users and connection strings
 {: #creating_users}
 
-Access to your {{site.data.keyword.databases-for-postgresql}} deployment is not limited to the `manager` user. Additional users can be created using the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin), or the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction).
+Access to your {{site.data.keyword.databases-for-postgresql}} deployment is not limited to the `manager` user. Additional users can be created using the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api).
 
 All users on your deployment can use the connection strings, including connection strings for private endpoints.
 
@@ -515,7 +515,7 @@ To set up context-based restrictions for your {{site.data.keyword.databases-for-
 
 ## Step 5: Create a connection (VSI or quick connect)](#connect_setup)
 
-INFO MISSING 
+INFO MISSING
 
 ## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the console
 {: #connect_monitoring_ui}
@@ -523,7 +523,7 @@ INFO MISSING
 
 You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
 
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
+For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 
 
 ## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the CLI
@@ -532,9 +532,9 @@ For more information about how to use {{site.data.keyword.monitoringshort}} with
 
 You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
 
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
+For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 
-You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
+You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 {: note}
 
 ## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the API
@@ -543,9 +543,9 @@ You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the
 
 You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
 
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
+For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 
-You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
+You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 {: note}
 
 ## Step 6: Connect {{site.data.keyword.mon_full_notm}} through Terraform
@@ -554,9 +554,9 @@ You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the
 
 You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
 
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
+For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 
-You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql?topic=databases-for-postgresql-monitoring).
+You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 {: note}
 
 
@@ -575,11 +575,11 @@ To get up and running with {{site.data.keyword.atracker_short}}, see [Getting St
 
 {{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/activity-tracker?topic=activity-tracker-getting-started#gs_step4){: external}.
 
-For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql?topic=databases-for-postgresql-at_events&interface=api).
+For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 
 Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
 
-You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql?topic=databases-for-postgresql-at_events&interface=api).
+You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 {: note}
 
 ## Step 7: Connect {{site.data.keyword.atracker_full}} through the API
@@ -592,11 +592,11 @@ To get up and running with {{site.data.keyword.atracker_short}}, see [Getting St
 
 {{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/activity-tracker?topic=activity-tracker-getting-started#gs_step4){: external}.
 
-For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql?topic=databases-for-postgresql-at_events&interface=api).
+For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 
 Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
 
-You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql?topic=databases-for-postgresql-at_events&interface=api).
+You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 {: note}
 
 ## Step 7: Connect {{site.data.keyword.atracker_full_notm}} through Terraform
@@ -609,11 +609,11 @@ To get up and running with {{site.data.keyword.atracker_short}}, see [Getting St
 
 {{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/activity-tracker?topic=activity-tracker-getting-started#gs_step4){: external}.
 
-For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql?topic=databases-for-postgresql-at_events&interface=api).
+For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 
 Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
 
-You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql?topic=databases-for-postgresql-at_events&interface=api).
+You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 {: note}
 
 ## Next steps
@@ -621,19 +621,20 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use th
 
 - If you are using {{site.data.keyword.databases-for-postgresql}} for the first time, see the [official {{site.data.keyword.databases-for-postgresql}} documentation](https://www.postgresql.org/docs/){: external}.
 - Secure your deployment by adding [context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr&interface=ui).
-- Connect your deployment to [IBM Cloud Log Analysis](/docs/cloud-databases?topic=cloud-databases-logging&interface=ui) and [IBM Cloud Monitoring](/docs/cloud-databases?topic=cloud-databases-monitoring&interface=ui) for observability and alerting.
+- Connect your deployment to [IBM Cloud Log Analysis](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-logging&interface=ui) and [IBM Cloud Monitoring](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring&interface=ui) for observability and alerting.
 
-- Connect to and manage your databases and data with {{site.data.keyword.databases-for-postgresql}}'s CLI tool [`psql`](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql).
+
+- Connect to and manage your databases and data with {{site.data.keyword.databases-for-postgresql}}'s CLI tool [`psql`](docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 
 - Looking for more tools on managing your databases? Connect to your instance with the following tools:
     - [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-install-ibmcloud-cli){: external}
     - [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}
-    - [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api){: external}
+    - [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external}
 
 - If you plan to use {{site.data.keyword.databases-for-postgresql}} for your applications, see:
-    - [Connecting an external application](/docs/databases-for-postgresql?topic=databases-for-postgresql-external-app)
-    - [Connecting an {{site.data.keyword.cloud_notm}} application](/docs/databases-for-postgresql?topic=databases-for-postgresql-ibmcloud-app)
+    - [Connecting an external application](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-external-app)
+    - [Connecting an {{site.data.keyword.cloud_notm}} application](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-ibmcloud-app)
 
 - To ensure the stability of your applications and your databases, see:
-    - [High availability](/docs/databases-for-postgresql?topic=databases-for-postgresql-postgresql-ha-dr)
-    - [Performance](/docs/databases-for-postgresql?topic=databases-for-postgresql-performance)
+    - [High availability](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-ha-dr)
+    - [Performance](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-performance&interface=ui)

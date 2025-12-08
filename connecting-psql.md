@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-08"
 
 keywords: postgresql, databases, psql, postgresql command line, Gen 2
 
@@ -35,7 +35,7 @@ For more information about `psql`, see the [PostgreSQL documentation](https://ww
 
 Most instructions for installing the PostgreSQL tools assume you want the database installed too. It's a reasonable assumption if you're dealing with users who don't have access to PostgreSQL in the cloud or on a remote server.
 
-Here are steps for installing `psql` as a stand-alone tool on macOS, Linux, and Windows. 
+Here are steps for installing `psql` as a stand-alone tool on macOS, Linux, and Windows.
 
 ### Installing `psql` on macOS with Homebrew
 {: #installing-psql-macos}
@@ -71,7 +71,7 @@ This will install the PostgreSQL client.
 ### Installing `postgresql-client` on Red Hat Enterprise Linux
 {: #installing-psql-rh-linux}
 
-For Red Hat Enterprise Linux (or RHEL as it's usually written), there's a little more setup than with Ubuntu. For RHEL, the package manager is [`Yum`](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/ch-yum#doc-wrapper){: external}. 
+For Red Hat Enterprise Linux (or RHEL as it's usually written), there's a little more setup than with Ubuntu. For RHEL, the package manager is [`Yum`](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/ch-yum#doc-wrapper){: external}.
 
 First, you need to point `Yum` to the PostgreSQL repository, like this on RHEL/CentOS 8:
 
@@ -104,7 +104,7 @@ sudo dnf install postgresql.x86_64
 ### Installing `psql` on Windows
 {: #installing-psql-windows}
 
-For Windows, use the [PostgreSQL installer from Enterprise DB](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads){: external}. It's a full installation package for PostgreSQL on Windows but you can set it to only install the command line tools like `psql`. Select your PostgreSQL and Windows versions. Once the executable file is downloaded, run it. Select only the *Command Line Tools*, if you don't need the server installed. 
+For Windows, use the [PostgreSQL installer from Enterprise DB](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads){: external}. It's a full installation package for PostgreSQL on Windows but you can set it to only install the command line tools like `psql`. Select your PostgreSQL and Windows versions. Once the executable file is downloaded, run it. Select only the *Command Line Tools*, if you don't need the server installed.
 
 After it installs, you set up your Windows environment variables so that you can use the `psql` client in the command prompt. Go to the **Control panel** > **System and security** > **System** and select* Advanced system settings*. From there you see a box called **System properties**. Select **Environment variables**. A window appears with the two sets of environment variables. In the top set, marked "User variables for...", select the `PATH` entry and then click the **Edit** button. An edit window will appear. Click *New* and add the path to the `psql` client. Your path will depend on where PostgreSQL installed, but typically that would be:
 
@@ -118,7 +118,7 @@ After that, click **OK** a couple of times to go back to the desktop. Start a ne
 ## `psql` Connection Strings
 {: #psql-connection-strings}
 
-Connection strings are displayed in the _Endpoints_ panel of your deployment's _Overview_, and can also be retrieved from the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-connections), and the [API](/apidocs/cloud-databases-api/cloud-databases-api-v5#getconnection).
+Connection strings are displayed in the _Endpoints_ panel of your deployment's _Overview_, and can also be retrieved from the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), and the [API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api).
 
 The information that you need to make a connection with `psql` is in the "cli" section of your connection strings. The table contains a breakdown for reference.
 
@@ -138,7 +138,7 @@ The information that you need to make a connection with `psql` is in the "cli" s
 ## Creating a command-line client connection
 {: #create-cli-connection}
 
-Before creating a command-line client connection, ensure that you have the username and password for your instance. You will need the the username and password returned to you when you created either a Manager or Writer user using the service credential route. 
+Before creating a command-line client connection, ensure that you have the username and password for your instance. You will need the the username and password returned to you when you created either a Manager or Writer user using the service credential route.
 
 Run the following command:
 

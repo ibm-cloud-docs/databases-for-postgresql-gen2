@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-08"
 
 keywords: postgresql, databases, postgresql connection strings, postgresql connection ibm application, Gen 2
 
@@ -20,7 +20,7 @@ subcollection: databases-for-postgresql-gen2
 {{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
 {: beta}
 
-Applications running in {{site.data.keyword.cloud_notm}} can be bound to your {{site.data.keyword.databases-for-postgresql_full}} deployment. 
+Applications running in {{site.data.keyword.cloud_notm}} can be bound to your {{site.data.keyword.databases-for-postgresql_full}} deployment.
 
 ## Connecting a Kubernetes Service application
 {: #connect-kubernetes}
@@ -38,7 +38,7 @@ Before connecting your Kubernetes Service application to a deployment, make sure
 **Private endpoints** - To use a private endpoint, create a service key that Kubernetes can use when binding to the database.
 
 ```sh
-ibmcloud resource service-key-create <PRIVATE_KEY> --instance-name <DEPLOYMENT_NAME_OR_CRN> --service-endpoint private  
+ibmcloud resource service-key-create <PRIVATE_KEY> --instance-name <DEPLOYMENT_NAME_OR_CRN> --service-endpoint private
 ```
 {: pre}
 
@@ -61,8 +61,8 @@ For more information, see the [Kubernetes service documentation](/docs/container
 ### Configuring in your Kubernetes app
 {: #configure-kubernetes}
 
-When you bind your application to Kubernetes Service, it creates an environment variable from the cluster's secrets. Your deployment's connection information lives in `BINDING` as a JSON object. Load and parse the JSON object into your application to retrieve the information your application's driver needs to make a connection to the database. 
+When you bind your application to Kubernetes Service, it creates an environment variable from the cluster's secrets. Your deployment's connection information lives in `BINDING` as a JSON object. Load and parse the JSON object into your application to retrieve the information your application's driver needs to make a connection to the database.
 
-The [Connection strings](/docs/databases-for-postgresql?topic=databases-for-postgresql-connection-strings#connection-string-breakdown) page contains a reference of the JSON fields.
+The [Connection strings](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connection-strings&interface=ui#connection-string-breakdown) page contains a reference of the JSON fields.
 
 For more information, see the [Kubernetes service documentation](https://cloud.ibm.com/docs/containers?topic=containers-service-binding#reference_secret).

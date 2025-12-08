@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-08"
 
 keywords: postgresql drivers, python, java, javascript, certificate, postgresql connection string, postgresql connecting external application, postgresql python, Gen 2
 
@@ -19,9 +19,9 @@ subcollection: databases-for-postgresql-gen2
 {{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
 {: beta}
 
-Your applications and drivers use connection strings to make a connection to {{site.data.keyword.databases-for-postgresql_full}}. The service provides connection strings specifically for drivers and applications. Connection strings are displayed in the *Endpoints* panel of your deployment's *Overview*, and can also be retrieved from the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-connections), and the [{{site.data.keyword.databases-for}} API](/apidocs/cloud-databases-api/cloud-databases-api-v5#getconnection).
+Your applications and drivers use connection strings to make a connection to {{site.data.keyword.databases-for-postgresql_full}}. The service provides connection strings specifically for drivers and applications. Connection strings are displayed in the *Endpoints* panel of your deployment's *Overview*, and can also be retrieved from the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference ), and the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api).
 
-{{site.data.keyword.databases-for-postgresql}} deployments no longer include a default admin user. Instead, customers create users with 'Manager', 'Writer', or 'Reader' roles through the {{site.data.keyword.cloud}} service credential interface — available via the UI or CLI. This process generates credentials for connecting to the deployment. While these credentials can be used across multiple connections and applications, it is strongly recommended to create dedicated users for each application, tailored to their specific access requirements. For more information, see [Getting connection strings](/docs/databases-for-postgresql?topic=databases-for-postgresql-connection-strings).
+{{site.data.keyword.databases-for-postgresql}} deployments no longer include a default admin user. Instead, customers create users with 'Manager', 'Writer', or 'Reader' roles through the {{site.data.keyword.cloud}} service credential interface — available via the UI or CLI. This process generates credentials for connecting to the deployment. While these credentials can be used across multiple connections and applications, it is strongly recommended to create dedicated users for each application, tailored to their specific access requirements. For more information, see [Getting connection strings](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connection-strings).
 
 ## Connecting to your PostgreSQL deployment with a language's driver
 {: #connect-language-driver}
@@ -107,7 +107,7 @@ public class PGConnect {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }   
+        }
     }
 }
 ```
@@ -127,7 +127,7 @@ try:
       sslmode="verify-full",
       sslrootcert="/path/to/cert/ca-certificate.crt",
       database="ibmclouddb")
-except: 
+except:
     print("Unable to connect to database")
 
 cur = conn.cursor()
@@ -150,7 +150,7 @@ let connectionString = "postgres://<username>:<password>@<host>:<port>/<database
 let caCert = fs.readFileSync('/path/to/cert');
 
 // set up a client with your PostgreSQL connection string and TLS options
-let client = new pg.Client({ 
+let client = new pg.Client({
     connectionString: connectionString,
     ssl: {
     ca: caCert,
@@ -189,7 +189,7 @@ To use the `node-postgres driver`, remove the `sslmode` parameter from the deplo
 
 All connections to {{site.data.keyword.databases-for-postgresql}} are TLS 1.2 enabled, so the driver you use to connect needs to be able to support encryption. Your deployment also comes with a service proprietary certificate so the driver can verify the server upon connection.
 
-For more information, see [{{site.data.keyword.databases-for}} Certificates FAQ](/docs/cloud-databases?topic=cloud-databases-faq-cert){: external}.
+For more information, see [{{site.data.keyword.databases-for}} Certificates FAQ](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-faq-cert){: external}.
 
 ### Using the service proprietary certificate
 {: #selfsigned-cert}
