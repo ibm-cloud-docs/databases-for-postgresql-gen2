@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-10"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision PostgreSQL, Gen 2
 
@@ -20,7 +20,7 @@ subcollection: databases-for-postgresql-gen2
 {{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
 {: beta}
 
-Provision an {{site.data.keyword.databases-for-postgresql_full}} deployment through the [catalog](https://cloud.ibm.com/databases/databases-for-postgresql/create){: external}, the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}, the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5){: external}, or through [Terraform](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
+Provision an {{site.data.keyword.databases-for-postgresql_full}} deployment through the [catalog](https://cloud.ibm.com/catalog){: external}, the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference){: external}, the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external}, or through [Terraform](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
 
 ## Provisioning through the {{site.data.keyword.cloud_notm}} console (UI)
 {: #catalog}
@@ -68,7 +68,7 @@ Fine tune your resource allocation.
    | 32 vCPU x 128 RAM          |
    | 30 vCPU x 240 RAM          |
    {: caption="Isolated Compute sizing parameter" caption-side="bottom"}
-  
+
 Choose the disk size based on your requirements. You can increase it later if necessary, but reducing the size after provisioning is not allowed to avoid potential data loss.
 {: note}
 
@@ -76,8 +76,8 @@ Choose the disk size based on your requirements. You can increase it later if ne
 {: #service_configuration}
 {: ui}
 
-- **Database version** [Set only at deployment] {: tag-red} - The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Versioning policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy){: external}.
-- **Encryption** - If you use [Key Protect](/docs/cloud-databases?topic=cloud-databases-key-protect&interface=ui), an instance and key can be selected to encrypt the deployment's disk. If you do not use your own key, the deployment automatically creates and manages its own disk encryption key.
+- **Database version** [Set only at deployment] {: tag-red} - The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Versioning policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy){: external}.
+- **Encryption** - If you use [Key Protect](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui), an instance and key can be selected to encrypt the deployment's disk. If you do not use your own key, the deployment automatically creates and manages its own disk encryption key.
 - **Endpoints** [Set only at deployment] {: tag-red} - Configure the [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) on your deployment. For Gen 2, only private endpoints are supported.
 
 After you select the appropriate settings, click **Create** to start the provisioning process.
@@ -124,7 +124,7 @@ THIS WILL NEED TO BE UPDATED TO ISOLATED EXAMPLE  - WAITING ON OMAR'S FEEDBACK
     {: pre}
 
     The fields in the command are described in the table that follows.
-   
+
     | Field | Description | Flag |
     |-------|------------|------------|
     | `INSTANCE_NAME` [Required]{: tag-red} | The instance name can be any string and is the name that is used on the web and in the CLI to identify the new deployment. |  |
@@ -223,7 +223,7 @@ To provision an Isolated Compute instance, specify the CPU and RAM values that m
    | 30 CPU x 240 RAM          | `m3c.30x240.encrypted`  |
    {: caption="Host flavor sizing parameter" caption-side="bottom"}
 
-CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute, however, disk autoscaling is supported. Monitor your resources with the [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases?topic=cloud-databases-monitoring), which tracks memory, disk space, and disk I/O usage. To increase resources, scale your deployment manually.
+CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute, however, disk autoscaling is supported. Monitor your resources with the [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring), which tracks memory, disk space, and disk I/O usage. To increase resources, scale your deployment manually.
 {: note}
 
 ### The `--parameters` parameter
@@ -266,7 +266,7 @@ Follow these steps to provision by using the [Resource Controller API](https://c
 
 4. Select the [hosting model](/docs/cloud-databases?topic=cloud-databases-hosting-models&interface=api) you want your database to be provisioned on. You can change this later.
 
-    A host flavor represents fixed sizes of guaranteed resource allocations. To see which host flavors are available in your region, call the [host flavors capability endpoint](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#capability) like this:
+    A host flavor represents fixed sizes of guaranteed resource allocations. To see which host flavors are available in your region, call the [host flavors capability endpoint](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api) like this:
 
     ```sh
     curl -X POST  https://api.{region}.databases.cloud.ibm.com/v5/ibm/capability/flavors  \
@@ -449,7 +449,7 @@ Follow these steps to provision by using the [Resource Controller API](https://c
 
     The parameters `name`, `target`, `resource_group`, `resource_plan_id`, and `service_endpoints` are all required.
     {: required}
-   
+
     The fields in the command are described in the table that follows.
 
     | Field | Description | Flag |
@@ -482,7 +482,7 @@ To provision an Isolated Compute instance, specify the CPU and RAM values that m
 | 30 CPU x 240 RAM          | `m3c.30x240.encrypted`  |
 {: caption="Host flavor sizing parameter" caption-side="bottom"}
 
-CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute, however, disk autoscaling is supported. Monitor your resources with the [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases?topic=cloud-databases-monitoring), which tracks memory, disk space, and disk I/O usage. To increase resources, scale your deployment manually.
+CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute, however, disk autoscaling is supported. Monitor your resources with the [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring), which tracks memory, disk space, and disk I/O usage. To increase resources, scale your deployment manually.
 {: note}
 
 ## List of additional parameters
@@ -493,7 +493,7 @@ CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} 
 - `disk_encryption_key_crn` - The CRN of a KMS key (for example, [{{site.data.keyword.hscrypto}}](/docs/hs-crypto?topic=hs-crypto-get-started) or [{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about)), which is then used for disk encryption. A KMS key CRN is in the format `crn:v1:<...>:key:<id>`.
 - `backup_encryption_key_crn` - The CRN of a KMS key (for example, [{{site.data.keyword.hscrypto}}](/docs/hs-crypto?topic=hs-crypto-get-started) or [{{site.data.keyword.keymanagementserviceshort}}](/docs/key-protect?topic=key-protect-about)), which is then used for backup encryption. A KMS key CRN is in the format `crn:v1:<...>:key:<id>`.
 
-   To use a key for your backups, you must first [enable the service-to-service delegation](/docs/cloud-databases?topic=cloud-databases-key-protect#key-byok).
+   To use a key for your backups, you must first [enable the service-to-service delegation](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui#key-byok).
    {: note}
 
 - `members_memory_allocation_mb` -  RAM allocation is total per deployment. Total amount of memory to be shared between the database members within the database. For example, if the value is "8192", and there are two database members, then the deployment gets 8 GB of RAM total, giving 4 GB of RAM per member. If omitted, the default value is used for the database type is used. This parameter only applies to `multitenant`.
@@ -570,5 +570,5 @@ The `host_flavor` parameter defines your Compute sizing.
 | 30 CPU x 240 RAM          | `m3c.30x240.encrypted`  |
 {: caption="Host flavor sizing parameter" caption-side="bottom"}
 
-CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute, however, Disk autoscaling is supported. Monitor your resources with the [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases?topic=cloud-databases-monitoring), which tracks memory, disk space, and disk I/O usage. To increase resources, scale your deployment manually.
+CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute, however, Disk autoscaling is supported. Monitor your resources with the [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring), which tracks memory, disk space, and disk I/O usage. To increase resources, scale your deployment manually.
 {: note}

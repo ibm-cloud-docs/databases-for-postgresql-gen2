@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-10"
 
 keywords: postgresql, databases, monitoring, scaling, autoscaling, resources, PostgreSQL connection limits, Gen 2
 
@@ -34,15 +34,6 @@ The number of input/output operations per second (IOPS) is limited by the type o
 
 To ensure reliable performance in production environments, we recommend provisioning a disk with a minimum size of 100 GB. Actual performance needs may vary by workload, so it's important to test and size your disk to meet the required IOPS.
 {: .tip}
-
-## Memory Usage
-{: #mem-usage}
-
-{{site.data.keyword.databases-for-postgresql}} deployment's memory settings are auto-tuned based on the deployment's total memory. Specifically, [`work_mem`](https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-WORK-MEM), [`maintenance_work_mem`](https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM), and [`effective_cache_size`](https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-EFFECTIVE-CACHE-SIZE){: .external} are set on provision, restore, or scale. 
-
-You can set the amount of memory that is dedicated to the database's shared buffer pool by adjusting the [`shared_buffers`](https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-SHARED-BUFFERS){: .external} in your [PostgreSQL configuration](/docs/databases-for-postgresql?topic=databases-for-postgresql-changing-configuration){: .external}. The recommended value is 25% of the deployment's total memory. Allocating too much memory to the shared buffer pool can starve the system of memory for other purposes and hinder performance, or possibly even disable the database.
-
-Allocating larger amounts of memory (outside of the shared buffer pool) to your deployment still benefits performance. For example, PostgreSQL fills memory with cached disk pages for performance. It is not necessary to allocate memory to PostgreSQL directly for PostgreSQL to use it.
 
 ## Connection limits 
 {: #connection-limits-performance}

@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2017, 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-10"
 
 keywords: postgresql, databases, postgres admin user, postgresql admin user, pg_dump, postgres migration, postgresql migration
 
@@ -19,12 +19,12 @@ subcollection: databases-for-postgresql
 {{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
 {: beta}
 
-Various options exist to migrate data from existing PostgreSQL databases to {{site.data.keyword.databases-for-postgresql_full}}. We focus on the simplest and most effective. To get started, you need PostgreSQL installed locally so you have the `psql` and `pg_dump` tools. And while not strictly required, the {{site.data.keyword.databases-for}} CLI makes it easier to connect and restore to a new {{site.data.keyword.databases-for-postgresql}} deployment. 
+Various options exist to migrate data from existing PostgreSQL databases to {{site.data.keyword.databases-for-postgresql_full}}. We focus on the simplest and most effective. To get started, you need PostgreSQL installed locally so you have the `psql` and `pg_dump` tools. And while not strictly required, the {{site.data.keyword.databases-for}} CLI makes it easier to connect and restore to a new {{site.data.keyword.databases-for-postgresql}} deployment.
 
 ## pg_dump
 {: #pg_dump}
 
-On your source database run `pg_dump` to create an SQL file, which can be used to re-create the database. At a minimum, `pg_dump` takes a hostname (`-h` flag), port number (`-p` flag), database name (`-d` flag), username (`-U` flag), and a file (or directory name) to write the dump to (`-f` flag). 
+On your source database run `pg_dump` to create an SQL file, which can be used to re-create the database. At a minimum, `pg_dump` takes a hostname (`-h` flag), port number (`-p` flag), database name (`-d` flag), username (`-U` flag), and a file (or directory name) to write the dump to (`-f` flag).
 
 For example, the following command dumps the PostgreSQL "compose" database that is hosted on sl-eu-lon-2-portal.4.dblayer.com, port 17980, using the admin user and save the results in `dump.sql`.
 
@@ -41,16 +41,16 @@ Using pg_dumpall will causes permission issues, as it tries to include system ta
 ## Restoring pg_dump's output
 {: #restore-pg_dump-output}
 
-The resulting output of `pg_dump` can then be uploaded into a new {{site.data.keyword.databases-for-postgresql}} deployment. As the output is SQL, it can simply be sent to the database through the `psql` command. We recommend that imports be performed with the admin user. 
+The resulting output of `pg_dump` can then be uploaded into a new {{site.data.keyword.databases-for-postgresql}} deployment. As the output is SQL, it can simply be sent to the database through the `psql` command. We recommend that imports be performed with the admin user.
 
-See the [Connecting with `psql`](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql) for details on how to connect as admin by using `psql`. To connect with the `psql` command, you need the admin user's connection string and the TLS certificate. The certificate needs to be decoded from the base64 and stored as an arbitrary local file. To import the previously created `dump.sql` into a database deployment named `example-psql`, the `psql` command can be called with `-f dump.sql` as a parameter. The parameter tells `psql` to read and execute the SQL statements in the file. The command looks something like:
+See the [Connecting with `psql`](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql) for details on how to connect as admin by using `psql`. To connect with the `psql` command, you need the admin user's connection string and the TLS certificate. The certificate needs to be decoded from the base64 and stored as an arbitrary local file. To import the previously created `dump.sql` into a database deployment named `example-psql`, the `psql` command can be called with `-f dump.sql` as a parameter. The parameter tells `psql` to read and execute the SQL statements in the file. The command looks something like:
 
 ```sh
 PGPASSWORD=yourpasswordhere PGSSLROOTCERT=cert.crt psql 'host=c7798cf6-e5d2-4513-b17f-3d3fa67d8291.8f7bfd8f3faa4218aec56e069eb46187.databases.appdomain.cloud port=32484 dbname=ibmclouddb user=admin sslmode=verify-full' -f dump.sql
 ```
 {: pre}
 
-As noted in that [Connecting with `psql`](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql) documentation, the {{site.data.keyword.databases-for}} CLI plug-in simplifies connecting. The previous `psql` import can be performed as:
+As noted in that [Connecting with `psql`](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql) documentation, the {{site.data.keyword.databases-for}} CLI plug-in simplifies connecting. The previous `psql` import can be performed as:
 
 ```sh
 ibmcloud cdb deployment-connections example-psql -s -- -f dump.sql

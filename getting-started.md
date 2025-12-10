@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-08"
+lastupdated: "2025-12-10"
 
 keywords: pgAdmin, postgresql gui, PostgreSQL, PostgreSQL cloud database, PostgreSQL getting started, Gen 2
 
@@ -30,7 +30,8 @@ completion-time: 30m
 
 This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} on the Gen 2 platform by provisioning an instance, setting up a secure connection through a VSI and VPE, and enabling logging and monitoring.
 
-Follow these steps to complete the tutorial: {: ui}
+Follow these steps to complete the tutorial:
+{: ui}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the console](#provision_instance_ui)
@@ -43,7 +44,8 @@ Follow these steps to complete the tutorial: {: ui}
 * [Next Steps](#next_steps)
 {: ui}
 
-Follow these steps to complete the tutorial: {: cli}
+Follow these steps to complete the tutorial:
+{: cli}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the CLI](#provision_instance_cli)
@@ -56,7 +58,8 @@ Follow these steps to complete the tutorial: {: cli}
 * [Next Steps](#next_steps)
 {: cli}
 
-Follow these steps to complete the tutorial: {: api}
+Follow these steps to complete the tutorial:
+{: api}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the API](#provision_instance_api)
@@ -69,7 +72,8 @@ Follow these steps to complete the tutorial: {: api}
 * [Next Steps](#next_steps)
 {: api}
 
-Follow these steps to complete the tutorial: {: terraform}
+Follow these steps to complete the tutorial:
+{: terraform}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through Terraform](#provision_instance_tf)
@@ -81,7 +85,6 @@ Follow these steps to complete the tutorial: {: terraform}
 * [Step 7: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
 * [Next Steps](#next_steps)
 {: terraform}
-
 
 ## Before you begin
 {: #prereqs}
@@ -98,7 +101,7 @@ Follow these steps to complete the tutorial: {: terraform}
 1. In **Service details**, configure the following:
     - **Location** - Select a location that supports Gen 2
     - **Service name** - The name can be any string and is the name that is used on the web and in the CLI to identify the new deployment.
-    - **Resource group** - If you are organizing your services into [resource groups](/docs/account?topic=account-account_setup), specify the resource group in this field. Otherwise, you can leave it at the default. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
+    - **Resource group** - If you are organizing your services into [resource groups](/docs/accomemoault. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
 
 1. **Resource allocation** - Specify the initial RAM, disk, and cores for your databases. The minimum sizes of memory and disk are selected by default. With dedicated cores, your resource group is given a single-tenant host with a minimum reserve of CPU shares. Your deployments are then allocated the number of cores that you specify. *Once provisioned, disk cannot be scaled down.*
 1. In **Service configuration**, configure the following:
@@ -263,6 +266,7 @@ Follow these steps to provision by using the [resource controller API](https://c
 1. You need to know the ID of the resource group to which you would like to deploy. This information is available through the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-ibmcloud_commands_resource#ibmcloud_resource_groups).
 
    Use a command like:
+   
    ```sh
    ibmcloud resource groups
    ```
@@ -311,7 +315,7 @@ Follow these steps to provision by using the [resource controller API](https://c
    To use a key for your backups, you must first [enable the service-to-service delegation](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui#key-byok).
    {: note}
 
-* `members_memory_allocation_mb` -  Total amount of memory to be shared between the database members within the database. For example, if the value is "6144", and there are three database members, then the deployment gets 6 GB of RAM total, giving 2 GB of RAM per member. If omitted, the default value is used for the database type is used.
+* `members_memory_allocation_mb` - Total amount of memory to be shared between the database members within the database. For example, if the value is "6144", and there are three database members, then the deployment gets 6 GB of RAM total, giving 2 GB of RAM per member. If omitted, the default value is used for the database type is used.
 * `members_disk_allocation_mb` - Total amount of disk to be shared between the database members within the database. For example, if the value is "30720", and there are three members, then the deployment gets 30 GB of disk total, giving 10 GB of disk per member. If omitted, the default value for the database type is used.
 * `members_cpu_allocation_count` - Enables and allocates the number of specified dedicated cores to your deployment. For example, to use two dedicated cores per member, use `"members_cpu_allocation_count":"2"`. If omitted, the default value "Shared CPU" uses compute resources on shared hosts.
 * `service_endpoints` - The [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) supported on your deployment,`private`. This is a required parameter.
@@ -327,7 +331,6 @@ Use Terraform to manage your infrastructure through the [`ibm_database` Resource
 {: api}
 
 Use the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external} to work with your {{site.data.keyword.databases-for-postgresql}} instance. The resource controller API is used to [provision an instance](#provision_instance_api).
-
 
 ## Step 2: Create the manager (admin-like) user
 {: #admin_like}
@@ -460,7 +463,6 @@ ALTER ROLE username WITH PASSWORD 'new_password';
 ```
 {: pre}
 
-
 ### Change the manager password through the API
 {: #manager_pw_set_api}
 {: api}
@@ -525,7 +527,6 @@ You can use {{site.data.keyword.mon_full_notm}} to get operational visibility in
 
 For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 
-
 ## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the CLI
 {: #connect_monitoring_cli}
 {: cli}
@@ -559,7 +560,6 @@ For more information about how to use {{site.data.keyword.monitoringshort}} with
 You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 {: note}
 
-
 ## Step 7: Connect IBM Cloud Logs (#postgresql_logs)
 {: #acloudlogs_ui}
 {: ui}
@@ -571,7 +571,7 @@ You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the
 
 {{site.data.keyword.atracker_full}} allows you to view, manage, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-postgresql}} service.
 
-To get up and running with {{site.data.keyword.atracker_short}}, see [Getting Started with {{site.data.keyword.atracker_short}}](/docs/atracker?topic=atracker-getting-started){: external}.
+To get up and running with {{site.data.keyword.atracker_short}}, see [Getting started with {{site.data.keyword.atracker_short}}](/docs/atracker?topic=atracker-getting-started){: external}.
 
 {{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/activity-tracker?topic=activity-tracker-getting-started#gs_step4){: external}.
 
@@ -622,15 +622,11 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use th
 - If you are using {{site.data.keyword.databases-for-postgresql}} for the first time, see the [official {{site.data.keyword.databases-for-postgresql}} documentation](https://www.postgresql.org/docs/){: external}.
 - Secure your deployment by adding [context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr&interface=ui).
 - Connect your deployment to [IBM Cloud Log Analysis](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-logging&interface=ui) and [IBM Cloud Monitoring](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring&interface=ui) for observability and alerting.
-
-
 - Connect to and manage your databases and data with {{site.data.keyword.databases-for-postgresql}}'s CLI tool [`psql`](docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
-
 - Looking for more tools on managing your databases? Connect to your instance with the following tools:
     - [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-install-ibmcloud-cli){: external}
     - [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}
     - [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external}
-
 - If you plan to use {{site.data.keyword.databases-for-postgresql}} for your applications, see:
     - [Connecting an external application](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-external-app)
     - [Connecting an {{site.data.keyword.cloud_notm}} application](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-ibmcloud-app)

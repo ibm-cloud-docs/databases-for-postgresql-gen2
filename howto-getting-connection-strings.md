@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-10"
 
 keywords: postgresql, databases, postgres connections string, postgresql connection string, Gen 2
 
@@ -26,9 +26,9 @@ subcollection: databases-for-postgresql-gen2
 
 Follow these steps to retrieve your {{site.data.keyword.databases-for-postgresql_full}} instance connection strings:
 
-1. In your deployment's **Overview page**, scroll down to the **Service endpoints** section. 
-1.  The **Service endpoints** section displays tabs for available connection methods:  
-   - **PostgreSQL** – Shows the connection string, hostnames, ports, database name, authentication source, and replica set for your deployment.  
+1. In your deployment's **Overview page**, scroll down to the **Service endpoints** section.
+1.  The **Service endpoints** section displays tabs for available connection methods:
+   - **PostgreSQL** – Shows the connection string, hostnames, ports, database name, authentication source, and replica set for your deployment.
    - **CLI** – Provides details for connecting by using the [{{site.data.keyword.IBM_notm}} CLI](https://www.ibm.com/cloud/cli){: external}.
 
 ![Architecture](images/Connection_strings_UI.svg){: caption="Getting connections strings - Service endpoints PostgreSQL tab" caption-side="bottom"}
@@ -44,29 +44,29 @@ You can also find the endpoint under the CLI tab of the service endpoints.
 
 ![Architecture](images/Connection_strings_CLI.svg){: caption="Getting connections strings - Service endpoints CLI tab" caption-side="bottom"}
 
-You can also retrieve connection strings using the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#deployment-connections) Connection command.
+You can also retrieve connection strings using the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference) Connection command.
 
-The command looks like this: 
+The command looks like this:
 
 ```sh
-ibmcloud resource service-instance <INSTANCE_NAME_OR_CRN> 
+ibmcloud resource service-instance <INSTANCE_NAME_OR_CRN>
 ```
 {: pre}
 
-For more information, see [Connections command options](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference#connections-command-options).
+For more information, see [Connections command options](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference).
 
 {{site.data.keyword.databases-for-postgresql}} deployment no longer include a default admin user. Instead, customers create a user with the 'Manager', 'Writer', or 'Reader' role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. This provides a username(ibm_...), password, and connection string that can be used to connect to your deployment. If your deployment has only a private endpoint, you must specify `--endpoint-type private` or the commands return an error. The user and endpoint type is not enforced. You can use any user on your deployment with the private endpoint, which is the designated connection option.
 
-To use the `ibmcloud cdb` CLI commands, you must [install the {{site.data.keyword.databases-for}} plug-in](/docs/cloud-databases?topic=cloud-databases-icd-cli).
+To use the `ibmcloud cdb` CLI commands, you must [install the {{site.data.keyword.databases-for}} plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference).
 {: .tip}
 
 ## Getting connection strings in the API
 {: #connection-strings-api}
 {: api}
 
-To retrieve users' connection strings from the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction){: external}, use the [Connections endpoint](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#getconnection){: external}. To create the connection strings, ensure that the path includes the specific user and endpoint type that should be used. The `user` is not restricted or enforced. You have the flexibility to utilize any user available in your deployment. 
+To retrieve users' connection strings from the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external}, use the [Connections endpoint](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external}. To create the connection strings, ensure that the path includes the specific user and endpoint type that should be used. The `user` is not restricted or enforced. You have the flexibility to utilize any user available in your deployment.
 
-The API command looks like: 
+The API command looks like:
 
 ```sh
 curl -X GET 'https://resource-controller.cloud.ibm.com/v2/resource_instances/{id}' -H "Authorization: Bearer <IAM token>""
@@ -80,7 +80,7 @@ Remember to replace {region}, {id}, {userid}, and {endpoint_type} with the appro
 {: #connection-strings-api}
 {: api}
 
-To retrieve user's connection strings from the API, use the [`/users/{userid}/connections`](/apidocs/cloud-databases-api/cloud-databases-api-v5#getconnection) endpoint. You must specify in the path which user and which type of endpoint (public or private) is to be used in the returned connection strings. The user and endpoint type is not enforced. You can use any user on your deployment with either endpoint (if both exist on your deployment).
+To retrieve user's connection strings from the API, use the [`/users/{userid}/connections`](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api) endpoint. You must specify in the path which user and which type of endpoint (public or private) is to be used in the returned connection strings. The user and endpoint type is not enforced. You can use any user on your deployment with either endpoint (if both exist on your deployment).
 
 ```sh
 curl -X GET -H "Authorization: Bearer $APIKEY" 'https://api.{region}.databases.cloud.ibm.com/v4/ibm/deployments/{id}/users/{userid}/connections/{endpoint_type}'

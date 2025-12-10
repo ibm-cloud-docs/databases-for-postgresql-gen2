@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-10"
 
 keywords: postgresql, databases, connection limits, terminating connections, postgresql connection pooling, postgres connection pooling, managing connections, gen 2
 
@@ -22,7 +22,7 @@ subcollection: databases-for-postgresql-gen2
 
 Connections to your {{site.data.keyword.databases-for-postgresql}} deployment use resources, so it is important to consider how many connections you need to tune your deployment's performance. PostgreSQL uses a `max_connections` setting to limit the number of connections (and resources that are consumed by connections) to prevent run-away connection behavior from overwhelming your deployment's resources.
 
-You can check the value of `max_connections` with your [Manager user](/docs/databases-for-postgresql?topic=databases-for-postgresql-user-management#the-manager-user) and [`psql`](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql).
+You can check the value of `max_connections` with your [Manager user](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-user-management) and [`psql`](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 
 ```sh
 ibmclouddb=> SHOW max_connections;
