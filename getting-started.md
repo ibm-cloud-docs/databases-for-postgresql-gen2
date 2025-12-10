@@ -141,9 +141,36 @@ You can provision a {{site.data.keyword.databases-for-postgresql}} instance thro
     * To create an instance from the CLI on the Enterprise plan, run the following command:
 
         ```sh
-        ibmcloud resource service-instance-create <INSTANCE_NAME> <SERVICE_NAME> <SERVICE_PLAN_NAME> <LOCATION> <SERVICE_ENDPOINTS_TYPE> <RESOURCE_GROUP>
+        ibmcloud resource service-instance-create <INSTANCE_NAME> databases-for-postgresql standard-gen2 <LOCATION -g <RESOURCE_GROUP>
         ```
         {: codeblock}
+
+      This provisions a PG instance with the default of 2 members and 10 GB disk, as well as the smallest host flavor available in the location you selected.
+
+      Alternatively, you can specify custom values for these parameters by passing in the parameters flag:
+
+      ```sh
+      ibmcloud resource service-instance-create <INSTANCE_NAME> databases-for-postgresql standard-gen2 <LOCATION> -g <RESOURCE_GROUP> -p '{"dataservices": {"postgresql": {"storage_gb": 40, "members": 3, "host_flavor": "bx3d.8x40"}}}'
+      ```
+      {: codeblock}
+
+      This will provision a PG instance with 3 members, 40GB of storage per member running on hosts of flavor bx3d.8x40.
+
+      If you pass in unsupported values, the `create` command will fail with a message indicating which values are invalid, for example, when passing in an unsupported number of members:
+
+      ```Message: The broker for 'Databases for PostgreSQL' service returned error, [400, Bad Request] invalid members '5', allowed values: 2, 3. If this is unexpected, open a support ticket with the service to help troubleshoot the issue.```
+
+      Or, an unsupported disk size:
+
+      ```Message: The broker for 'Databases for PostgreSQL' service returned error, [400, Bad Request] invalid storage size '10000', only integer values between 10 and 9600 are allowed. If this is unexpected, open a support ticket with the service to help troubleshoot the issue.```
+
+      Passing in any other key-value pairs that are not supported by the service will result in a corresponding error message as well.
+
+      Supported parameters:
+
+      - storage_gb (valid integer values between 10 and 9600, representing disk storage per member in GB)
+      - members(valid integer values '2' and '3', indicating whether to run PG with 2 zone HA or 3 zone HA).
+      - host_flavor(values depend on location)
 
    The fields in the command are described in the table that follows.
 
@@ -161,23 +188,21 @@ You can provision a {{site.data.keyword.databases-for-postgresql}} instance thro
    You see a response like:
 
    ```text
-   Creating service instance INSTANCE_NAME in resource group default of account    USER...
-   OK
-   Service instance INSTANCE_NAME was created.
+   Service instance <INSTANCE_NAME> was created.
 
-   Name:                INSTANCE_NAME
-   ID:                  crn:v1:bluemix:public:databases-for-postgresql:us-east:a/   40ddc34a846383BGB5b60e:dd13152c-fe15-4bb6-af94-fde0af5303f4::
-   GUID:                dd13152c-fe15-4bb6-af94-fde0af56897
-   Location:            LOCATION
-   State:               provisioning
-   Type:                service_instance
-   Sub Type:            Public
-   Service Endpoints:   private
-   Allow Cleanup:       false
-   Locked:              false
-   Created at:          2023-06-26T19:42:07Z
-   Updated at:          2023-06-26T19:42:07Z
-   Last Operation:
+Name:                   <INSTANCE_NAME>
+ID:                     crn:v1:bluemix:public:databases-for-postgresql:<LOCATION>:a/<ACCOUNT>:<INSTANCE_GUID>::
+GUID:                   <INSTANCE_GUID>
+Location:               <LOCATION>
+State:                  provisioning
+Type:                   service_instance
+Sub Type:               Public
+Allow Cleanup:          false
+Locked:                 false
+One-time credentials:   false
+Created at:             <CREATED_AT_TIMESTAMP>
+Updated at:             <UPDATED_AT_TIMESTAMP>
+Last Operation:
                         Status    create in progress
                         Message   Started create instance operation
    ```
@@ -192,28 +217,26 @@ You can provision a {{site.data.keyword.databases-for-postgresql}} instance thro
 
    When complete, you see a response like:
 
-   ```text
-   Retrieving service instance INSTANCE_NAME in resource group default under account USER's Account as USER...
-   OK
-
-   Name:                  INSTANCE_NAME
-   ID:                    crn:v1:bluemix:public:databases-for-postgresql:us-east:a/40ddc34a953a8c02f109835656860e:dd13152c-fe15-4bb6-af94-fde0af5303f4::
-   GUID:                  dd13152c-fe15-4bb6-af94-fde5654765
-   Location:              <LOCATION>
-   Service Name:          databases-for-postgresql
-   Service Plan Name:     standard
-   Resource Group Name:   default
-   State:                 active
-   Type:                  service_instance
-   Sub Type:              Public
-   Locked:                false
-   Service Endpoints:     private
-   Created at:            2023-06-26T19:42:07Z
-   Created by:            USER
-   Updated at:            2023-06-26T19:53:25Z
-   Last Operation:
-                          Status    create succeeded
-                          Message   Provisioning PostgreSQL with version 12 (100%)
+   ```Retrieving service instance <INSTANCE_NAME> in resource group default under account <ACCOUNT> as <USER_ID>...
+OK
+Name:                   <INSTANCE_NAME>
+ID:                     crn:v1:bluemix:public:databases-for-postgresql:<LOCATION>:a/<ACCOUNT>:<INSTANCE_GUID>::
+GUID:                   <INSTANCE_GUID>
+Location:               LOCATION
+Service Name:           databases-for-postgresql
+Service Plan Name:      standard-gen2
+Resource Group Name:    Default
+State:                  active
+Type:                   service_instance
+Sub Type:               Public
+Locked:                 false
+One-time credentials:   false
+Created at:             <CREATED_AT_TIMESTAMP>
+Created by:             <USER_ID>
+Updated at:             <UPDATED_AT_TIMESTAMP>
+Last Operation:
+                        Status    create succeeded
+                        Message   Provision completed successfully
    ```
    {: codeblock}
 
