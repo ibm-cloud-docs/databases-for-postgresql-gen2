@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-10"
 
 keywords: manager, superuser, roles, service credentials, postgresql users, postgresql service credentials, connection strings, manager password, new user, Gen 2
 
@@ -12,7 +12,7 @@ subcollection: databases-for-postgresql-gen2
 
 {{site.data.keyword.attribute-definition-list}}
 
-# Managing users, roles, and privileges 
+# Managing users, roles, and privileges
 {: #user-management}
 
 [Gen 2]{: tag-purple}
@@ -20,7 +20,7 @@ subcollection: databases-for-postgresql-gen2
 {{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
 {: beta}
 
-As part of provisioning a new deployment in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer). 
+As part of provisioning a new deployment in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
 {{site.data.keyword.databases-for-postgresql}} deployments no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the deployment.
 
@@ -133,7 +133,7 @@ The user (`ibmcloud_b153...`) with `writer` role inherits the `ibm_writer` permi
 Use the following command from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to delete the created user.
 
 ```sh
-ibmcloud resource service-key-delete <service_key_name> 
+ibmcloud resource service-key-delete <service_key_name>
 ```
 {: pre}
 
@@ -164,7 +164,7 @@ ALTER ROLE username WITH PASSWORD 'new_password';
 
 You can bypass creating users through IBM Cloud entirely, and create users directly in PostgreSQL with `psql`. This allows you to use PostgreSQL's native [role and user management](https://www.postgresql.org/docs/current/database-roles.html){: .external}. Users/roles created in `psql` must have all of their privileges set manually, as well as privileges to the objects that they create.
 
-Users that are created directly in PostgreSQL do not appear in _Service credentials_, but you can [add them](/docs/databases-for-postgresql?topic=databases-for-postgresql-connection-strings#adding-users-to-_service-credentials_) if you choose. 
+Users that are created directly in PostgreSQL do not appear in _Service credentials_, but you can [add them](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connection-strings&interface=ui) if you choose.
 
 Note that these users are not integrated with IAM controls, even if added to _Service credentials_.
 {: .tip}
@@ -172,7 +172,7 @@ Note that these users are not integrated with IAM controls, even if added to _Se
 ## Additional users and connection strings
 {: #creating_users}
 
-Access to your {{site.data.keyword.databases-for-postgresql}} deployment is not limited to the `manager` user. Additional users can be created using the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin), or the [{{site.data.keyword.databases-for}} API](https://cloud.ibm.com/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction).
+Access to your {{site.data.keyword.databases-for-postgresql}} deployment is not limited to the `manager` user. Additional users can be created using the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api).
 
 All users on your deployment can use the connection strings, including connection strings for private endpoints.
 
