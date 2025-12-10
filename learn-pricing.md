@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-12-03"
+lastupdated: "2025-12-10"
 
 keywords: postgresql, gen 2, pricing
 
@@ -24,18 +24,18 @@ A {{site.data.keyword.databases-for-postgresql}} deployment consists of a highly
 ## Using the pricing calculator
 {: #pricing-calc}
 
-For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-postgresql}} catalog page](https://cloud.ibm.com/databases/databases-for-postgresql/create). Input your total consumption across two data members into the calculator. This is roughly double the size of your data because your data is replicated to both members. For example, 5 GB of disk with a 4 by 20 profile across two data members would be priced at 10 GB of disk and 8vCPU, 40 GB of RAM respectively. 
+For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-postgresql}} catalog page](https://cloud.ibm.com/catalog). Input your total consumption across two data members into the calculator. This is roughly double the size of your data because your data is replicated to both members. For example, 5 GB of disk with a 4 by 20 profile across two data members would be priced at 10 GB of disk and 8vCPU, 40 GB of RAM respectively. 
 
 ## Gen 2 backups pricing
 {: #pricing-backup}
 
-{{site.data.keyword.databases}} uses a snapshot based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies, therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database. 
+{{site.data.keyword.databases}} uses a snapshot based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies, therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database.
 
 By default, {{site.data.keyword.databases-for-postgresql}} provides a daily backup that is stored for 30 days. These backups, and any on-demand backups you make, all count toward the above allocation.
 
 Backup storage included:
 
-* You receive free backup storage equal to the total provisioned disk size of your deployment. 
+* You receive free backup storage equal to the total provisioned disk size of your deployment.
 * This includes both automated daily backups and manual (on-demand) snapshots.
 * Example: If your 2 member {{site.data.keyword.databases-for-postgresql}} deployment is provisioned with 100 GB of disk per member, you get 200 GB of backup storage included at no cost.
 
@@ -49,8 +49,8 @@ Worked example, for a 2-member PostgreSQL deployment with 100 GB of data per mem
 
 * Day 1: A full snapshot is taken. Each snapshot captures the full volume, so you consume 200 GB of snapshot storage (100 GB × 2).
 
-This worked example models the worst case scenario. The full snapshot is equal to the file system and in most cases, this will be smaller than the entire disk volume. New databases will be small and grow over time, therefore the first snapshot will be considerably smaller for new instances, reducing your overall bill for backups. 
-{: note} 
+This worked example models the worst case scenario. The full snapshot is equal to the file system and in most cases, this will be smaller than the entire disk volume. New databases will be small and grow over time, therefore the first snapshot will be considerably smaller for new instances, reducing your overall bill for backups.
+{: note}
 
 * Day 2: You write 10 GB of new data to each member. The next snapshot is incremental — it only stores the changes since the last snapshot. So you consume an additional 20 GB (10 GB × 2 members), bringing your total snapshot usage to 220 GB.
 
@@ -65,7 +65,7 @@ This worked example models the worst case scenario. The full snapshot is equal t
 ## Scaling per member
 {: #scaling-member}
 
-{{site.data.keyword.databases-for-postgresql}} deployments have minimum and maximum allocation for disk and RAM as shown. Scaling deployments through the API and CLI provides more granularity and also allows you to scale a database instance up to 4 TB of disk per member. Minimum and maximum CPU and RAM combinations vary per region, see [Isolated Compute](add link). 
+{{site.data.keyword.databases-for-postgresql}} deployments have minimum and maximum allocation for disk and RAM as shown. Scaling deployments through the API and CLI provides more granularity and also allows you to scale a database instance up to 4 TB of disk per member. Minimum and maximum CPU and RAM combinations vary per region, see [Isolated Compute](add link).
 
 | Resource | Minimum | Maximum | Scaling granularity (API/CLI) |
 | ---------- | ----- | ----- | ------- |
