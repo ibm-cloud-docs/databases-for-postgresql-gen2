@@ -72,11 +72,8 @@ toc:
   - navgroup:
       id: reference
       topics:
-      - include: ../cloud-databases-gen2/cloud-databases-cli.md
-      - link:
-          label: Cloud Databases API
-          href: https://cloud.ibm.com/apidocs/cloud-databases-api
-      - include: ../cloud-databases-gen2/db-version-policy.md
+      - include: ../cloud-databases-gen2/cli.md
+      - include: ../cloud-databases-gen2/api.md
       - include: ../cloud-databases-gen2/reference-responsibilities.md
       - topic: ha-dr.md
         navtitle: Understanding high availability and disaster recovery
