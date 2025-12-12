@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-10"
+lastupdated: "2025-12-12"
 
 keywords: postgresql, databases, connection limits, terminating connections, postgresql connection pooling, postgres connection pooling, managing connections, gen 2
 
@@ -45,7 +45,7 @@ non-replication superuser connections
 
 Exceeding the connection limit for your deployment can cause your database to be unreachable by your applications.
 
-You can check the number of connections to your deployment with the `Manager` user, `psql`, and `pg_stat_database`.
+You can check the number of connections to your deployment with the user that has the `Manager` role, `psql`, and `pg_stat_database`.
 
 ```sql
 SELECT count(distinct(numbackends)) FROM pg_stat_database;
@@ -62,7 +62,7 @@ SELECT datname, numbackends FROM pg_stat_database;
 To further investigate connections to a specific database, query `pg_stat_activity`.
 
 ```sql
-SELECT * FROM pg_stat_activity WHERE datname='ibmclouddb';
+SELECT * FROM pg_stat_activity WHERE datname='<DBname>';
 ```
 {: .codeblock}
 
@@ -85,12 +85,12 @@ Your `Manager` user has the `pg_signal_backend` role. If you find connections th
    ```
    {: .codeblock}
 
-The Manager user does have the power to reset or close the connections for any user on the deployment except superusers. Be careful not to terminate replication connections from the `ibm-replication` user, as it interferes with the high-availability of your deployment.
+Users with the `Manager` role, or those with admin privileges, can reset or close connections for any user in the deployment, except superusers. Ensure that replication connections from the `ibm_replication` user are not terminated, as doing so disrupts the high-availability of your deployment.
 
 ### End connections
 {: #end-connections}
 
-Currently, ending (killing) connections is not supported via UI, CLI, or API on Gen 2. However, you can execute a `kill_all_connections()` functions from `psql` as `Manager` user.
+Currently, ending (killing) connections is not supported via UI, CLI, or API on Gen 2. However, you can execute a `kill_all_connections()` function from `psql` as a user with the `Manager` role.
 
 ## Connection pooling
 {: #connection-pooling}
