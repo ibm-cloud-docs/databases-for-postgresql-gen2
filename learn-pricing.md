@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2025
-lastupdated: "2025-12-10"
+lastupdated: "2025-12-12"
 
 keywords: postgresql, gen 2, pricing
 
@@ -19,7 +19,7 @@ subcollection: databases-for-postgresql-gen2
 {{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
 {: beta}
 
-A {{site.data.keyword.databases-for-postgresql}} deployment consists of a highly available PostgreSQL cluster with two data members, ensuring your data is replicated across both. Pricing is based on the total resources allocated to the deployment-disk storage, RAM, virtual CPU cores, and backup storage—calculated on an hourly prorated basis. Gen 2 deployments require at least 5 GB of disk space, and the smallest configuration profile offers 4 vCPU cores.
+A {{site.data.keyword.databases-for-postgresql}} deployment consists of a highly available PostgreSQL cluster with two data members, ensuring your data is replicated across both. Pricing is based on the total resources allocated to the deployment-disk storage, RAM, virtual CPU cores, and backup storage—calculated on an hourly prorated basis. Gen 2 instances require at least 5 GB of disk space, and the smallest configuration profile offers 4 vCPU cores.
 
 ## Using the pricing calculator
 {: #pricing-calc}
@@ -58,18 +58,18 @@ This worked example models the worst case scenario. The full snapshot is equal t
 
 * In a given month, if you have a {{site.data.keyword.databases-for-postgresql}} deployment that has 100 GB of disk per member, and have two data members, you receive 200 GB of snapshot storage free for that month. Your backup storage utilization is greater than 200 GB for the month (in this scenario), you are charged an overage of $0.095/month per gigabyte, therefore your total bill = (276 GB - 200 GB) X 0.095 = $7.22.
 
-* With large deployments and frequent writes, you’re more likely to exceed the free tier after the first snapshot, and your snapshot storage costs will grow quickly.
+* With large instances and frequent writes, you’re more likely to exceed the free tier after the first snapshot, and your snapshot storage costs will grow quickly.
 
 * Cross-region copies: If you choose to copy snapshots to another region, {{site.data.keyword.cloud}} charges for the full size of the snapshot in the destination region (not incremental) and continued incremental growth in the original region as new snapshots are taken.
 
 ## Scaling per member
 {: #scaling-member}
 
-{{site.data.keyword.databases-for-postgresql}} deployments have minimum and maximum allocation for disk and RAM as shown. Scaling deployments through the API and CLI provides more granularity and also allows you to scale a database instance up to 4 TB of disk per member. Minimum and maximum CPU and RAM combinations vary per region, see [Isolated Compute](add link).
+{{site.data.keyword.databases-for-postgresql}} instances have minimum and maximum allocation for disk and RAM as shown. Scaling instances through the API and CLI provides more granularity and also allows you to scale a database instance up to 9600 GB of disk per member. Minimum and maximum CPU and RAM combinations vary per region and as per the host flavor, see [Isolated Compute](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-isolated-compute&interface=cli).
 
 | Resource | Minimum | Maximum | Scaling granularity (API/CLI) |
 | ---------- | ----- | ----- | ------- |
-| Disk | 5 GB per member | 4 TB per member | 1024 MB per member |
+| Disk | 10 GB per member | 9600 GB per member | 1024 MB per member |
 | RAM | 16 GB | 240 GB | Isolated Compute – Resource scaling via T-shirt sizes |
 | CPU | 4 vCPU | 48 vCPU| Isolated Compute – Resource scaling via T-shirt sizes |
 {: caption="Scaling limits" caption-side="top"}

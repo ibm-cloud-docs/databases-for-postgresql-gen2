@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-10"
+lastupdated: "2025-12-12"
 
 keywords: postgresql, databases, soc, hipaa, gdpr, terms, postgresql security, Gen 2
 
@@ -37,7 +37,6 @@ subcollection: databases-for-postgresql-gen2
 
 - [Backups](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-dashboard-backups&interface=ui) are included in the service. {{site.data.keyword.databases-for-postgresql}} backups reside in [{{site.data.keyword.cos_full_notm}}](/docs/cloud-object-storage?topic=cloud-object-storage-about-cloud-object-storage&cloud-object-storage-about-cloud-object-storage) and are also [encrypted](/docs/cloud-object-storage?topic=cloud-object-storage-security).
 - {{site.data.keyword.databases-for-postgresql}} deployments are configured with replication. Deployments contain a cluster with two data members. Both members contain a copy of your data by using asynchronous replication, with a distributed consensus mechanism to maintain cluster state and handle failovers.
-- If you deploy to an {{site.data.keyword.cloud_notm}} Single-Zone Region (SZR), each database member resides on a different host in the data center.
 - If you deploy to an {{site.data.keyword.cloud_notm}} Multi-Zone Region (MZR), the members are spread over the region's availability zone locations.
 
 ## SOC 2 Type 2 certification
