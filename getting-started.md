@@ -141,7 +141,7 @@ You can provision a {{site.data.keyword.databases-for-postgresql}} instance thro
     * To create an instance from the CLI on the Enterprise plan, run the following command:
 
         ```sh
-        ibmcloud resource service-instance-create <INSTANCE_NAME> databases-for-postgresql standard-gen2 <LOCATION -g <RESOURCE_GROUP>
+        ibmcloud resource service-instance-create <INSTANCE_NAME> databases-for-postgresql standard-gen2 <LOCATION> -g <RESOURCE_GROUP>
         ```
         {: codeblock}
 
@@ -372,7 +372,7 @@ The `manager` user functions as an admin-like user and is automatically granted 
 
 The `manager`user (admin-like) comes with the following roles:
 
-```sh
+```
 pg_read_all_data
 pg_write_all_data
 pg_monitor
@@ -385,22 +385,22 @@ pg_create_subscription
 ```
 {: pre}
 
-When the `manager` user (admin-like) creates a resource in a database, like a table, the user owns that object. Resources that are created by the `manager` user are not accessible by other users, unless you explicitly grant permissions to them.
+When the `Manager` user (admin-like) creates a resource in a database, like a table, the user owns that object. Resources that are created by the `Manager` user are not accessible by other users, unless you explicitly grant permissions to them.
 
-The biggest difference between the `manager` user and any other users you add to your instance is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
+The biggest difference between the `Manager` user and any other users you add to your instance is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
 
-You can also use the `manager` user to grant the following two roles to other users on your instance.
+You can also use the `Manager` user to grant roles to other users on your instance.
 
-To expose the ability to cancel queries to other database users, grant the pg_signal_backend role from the `manager` user. Use a command like:
+To expose the ability to cancel queries to other database users, grant the pg_signal_backend role from the `Manager` user. Use a command like:
 
-```sh
+```
 GRANT pg_signal_backend TO joe;
 ```
 {: .pre}
 
 To set up a specific monitoring user, `mary`, use a command like:
 
-```sh
+```
 GRANT pg_monitor TO mary;
 ```
 {: .pre}
@@ -412,7 +412,7 @@ GRANT pg_monitor TO mary;
 
 Changing a user password is not supported via the {{site.data.keyword.cloud_notm}} console on Gen 2. However, you can update a password using tools, such as `psql` by executing the following command:
 
-```sh
+```
 ALTER ROLE username WITH PASSWORD 'new_password';
 ```
 {: pre}
@@ -421,15 +421,15 @@ ALTER ROLE username WITH PASSWORD 'new_password';
 {: #manager_user_set_cli}
 {: cli}
 
-Use one of the following commands from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to create the `manager` user.
+Use one of the following commands from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to create the `Manager` user.
 
-```sh
-ibmcloud resource service-key-create <service_key_name> Manager --instance-name <instance_name>
+```
+ibmcloud resource service-key-create <service_key_name> --instance-name <INSTANCE_NAME> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"}'
 ```
 {: pre}
 
-```sh
-ibmcloud resource service-key-create <service_key_name> Manager --instance-id <guid>
+```
+ibmcloud resource service-key-create <service_key_name> --instance-id <INSTANCE_GUID> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"}'
 ```
 {: pre}
 
@@ -446,10 +446,10 @@ These commands can be used when creating a user with either the Writer or Manage
 | ibmcloud_d0388c96d13841b1b45f1039c73ea6c7 | f | t | t | t | t | {ibm_admin,ibm_writer} |
 {: caption="`ibm_admin` and `ibm_writer` permissions" caption-side="top"}
 
-Similarly, for creating a user with the `Writer` role, use the following command:
+Similarly, for creating a user with the `Writer` role, use the following command, updating the 'role_crn' to 'Writer' instead of 'Manager:
 
-```sh
-ibmcloud resource service-key-create <service_key_name> Writer --instance-name <instance_name>
+```
+ibmcloud resource service-key-create <service_key_name> --instance-name <INSTANCE_NAME> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer"}'
 ```
 {: pre}
 
@@ -525,7 +525,7 @@ Note that these users are not integrated with IAM controls, even if added to _Se
 ## Additional users and connection strings
 {: #creating_users}
 
-Access to your {{site.data.keyword.databases-for-postgresql}} instance is not restricted to users with `manager` privileges only. Any user having appropriate permissions, whether created through the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or via `psql`, can also access the database instance.
+Access to your {{site.data.keyword.databases-for-postgresql}} instance is not restricted to users with `Manager` privileges only. Any user having appropriate permissions, whether created through the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or via `psql`, can also access the database instance.
 
 All users on your instance can use the connection strings, including connection strings for private endpoints.
 
