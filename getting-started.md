@@ -75,15 +75,14 @@ Follow these steps to complete the tutorial:
 Follow these steps to complete the tutorial:
 {: terraform}
 
-* [Before you begin](#prereqs)
-* [Step 1: Provision through Terraform](#provision_instance_tf)
-* [Step 2: Creating the Manager user through the console] (#manager_user)
-* [Step 3: Users created with psql](#psql)
-* [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Create a connection](#connect_setup)
-* [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
-* [Step 7: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
-* [Next Steps](#next_steps)
+* [Before you begin](#tf_prereqs)
+* [Step 1: Setup](#tf_setup)
+* [Step 2: Configure IBM Cloud Provider](#tf_configure_provider)
+* [Step 3: Project Structure](#tf_project_structure)
+* [Step 4: Configuration Files](#tf_configuration_files)
+* [Step 5: Deployment](#tf_deployment)
+* [Step 6: Post-Deployment](#tf_post_deployment)
+* [Step 7: Connect To Your Database](#tf_connect_database)
 {: terraform}
 
 ## Before you begin
@@ -346,12 +345,6 @@ Supported parameters:
   
 * `service_endpoints` - The [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) supported on your instance,`private`. This is a required parameter.
 
-## Step 1: Provision through Terraform
-{: #provision_instance_tf}
-{: terraform}
-
-Use Terraform to manage your infrastructure through the [`ibm_database` Resource for Terraform](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
-
 ### Using APIs
 {: #using_apis}
 {: api}
@@ -500,17 +493,8 @@ ALTER ROLE username WITH PASSWORD 'new_password';
 ```
 {: pre}
 
-### Change the Manager password through Terraform
-{: #manager_pw_set_tf}
-{: terraform}
-
-Changing a user password is not supported via Terraform on Gen 2. However, you can update a password using tools, such as `psql` by executing the following command:
-
-```sh
-ALTER ROLE username WITH PASSWORD 'new_password';
-```
-{: pre}
-
+### Use `psql`
+{: #using-pgadmin}
 
 ## Users created with `psql`
 {: #user-management-psql}
@@ -581,17 +565,6 @@ For more information about how to use {{site.data.keyword.monitoringshort}} with
 You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 {: note}
 
-## Step 6: Connect {{site.data.keyword.mon_full_notm}} through Terraform
-{: #connect_monitoring_tf}
-{: terraform}
-
-You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
-
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-
-You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-{: note}
-
 ## Step 7: Connect IBM Cloud Logs (#postgresql_logs)
 {: #acloudlogs_ui}
 {: ui}
@@ -631,23 +604,6 @@ Events are formatted according to the Cloud Auditing Data Federation (CADF) stan
 You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 {: note}
 
-## Step 7: Connect {{site.data.keyword.atracker_full_notm}} through Terraform
-{: #activity_tracker_tf}
-{: terraform}
-
-{{site.data.keyword.atracker_full}} allows you to view, manage, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-postgresql}} service.
-
-To get up and running with {{site.data.keyword.atracker_short}}, see [Getting Started with {{site.data.keyword.atracker_short}}](/docs/atracker?topic=atracker-getting-started){: external}.
-
-{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/activity-tracker?topic=activity-tracker-getting-started#gs_step4){: external}.
-
-For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
-
-Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
-
-You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
-{: note}
-
 ## Next steps
 {: #next-steps}
 
@@ -666,3 +622,32 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use th
 - To ensure the stability of your applications and your databases, see:
     - [High availability](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-ha-dr)
     - [Performance](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-performance&interface=ui)
+
+## Before you begin
+{: #tf_prereqs}
+{: terraform}
+
+Terraform is an open-source infrastructure as code (IaC) tool that allows you to define and provision cloud infrastructure using declarative configuration files.
+For {{site.data.keyword.databases-for-postgresql}}, Terraform provides a powerful way to manage your database instances programmatically rather than through manual console operations. Using Terraform to provision and manage your PostgreSQL instances offers several key benefits. Your database configurations become documented as
+code, making it easy to replicate instances across development, staging, and production environments. You can also version control your database infrastructure alongside your application code and resource keys and user credentials can be managed securely and consistently. In addition, you can automate the entire database
+lifecycle including provisioning, scaling, backup configurations, and user management. This approach is particularly valuable when managing multiple PostgreSQL instances or when you need to maintain consistent configurations across your organization.
+
+Before you begin, ensure you have the following:
+
+- An [{{site.data.keyword.cloud_notm}} account](https://cloud.ibm.com/registration){: external} with appropriate permissions to create database instances.
+- Access to a resource group in your {{site.data.keyword.cloud}} account.
+- Terraform installed on your local machine (version 1.0 or later recommended).
+
+### Install Terraform
+{: #tf_install}
+{: terraform}
+
+If you don't already have Terraform installed, download and install it from
+
+* [Step 1: Before you begin](#tf_prereqs)
+* [Step 2: Configure {{site.data.keyword.cloud_notm}} provider](#tf_configure_provider)
+* [Step 3: Project structure](#tf_project_structure)
+* [Step 4: Configuration files](#tf_configuration_files)
+* [Step 5: Deployment](#tf_deployment)
+* [Step 6: Post-deployment](#tf_post_deployment)
+* [Step 7: Connect to your database](#tf_connect_database)
