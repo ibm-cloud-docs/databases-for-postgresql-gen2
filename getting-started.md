@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-10"
+lastupdated: "2025-12-15"
 
 keywords: pgAdmin, postgresql gui, PostgreSQL, PostgreSQL cloud database, PostgreSQL getting started, Gen 2
 
@@ -38,7 +38,7 @@ Follow these steps to complete the tutorial:
 * [Step 2: Creating the Manager user through the console](#manager_user)
 * [Step 3: Users created with psql](#psql)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+* [Step 5: Create a connection](#connect_setup)
 * [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
 * [Step 7: Connect IBM Cloud Logs](#postgresql_logs)
 * [Next Steps](#next_steps)
@@ -52,7 +52,7 @@ Follow these steps to complete the tutorial:
 * [Step 2: Creating the Manager user through the console](#manager_user)
 * [Step 3: Users created with psql](#psql)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+* [Step 5: Create a connection](#connect_setup)
 * [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
 * [Step 7: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
 * [Next Steps](#next_steps)
@@ -66,7 +66,7 @@ Follow these steps to complete the tutorial:
 * [Step 2: Creating the Manager user through the console](#manager_user)
 * [Step 3: Users created with psql](#psql)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+* [Step 5: Create a connection](#connect_setup)
 * [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
 * [Step 7: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
 * [Next Steps](#next_steps)
@@ -80,7 +80,7 @@ Follow these steps to complete the tutorial:
 * [Step 2: Creating the Manager user through the console] (#manager_user)
 * [Step 3: Users created with psql](#psql)
 * [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+* [Step 5: Create a connection](#connect_setup)
 * [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
 * [Step 7: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
 * [Next Steps](#next_steps)
@@ -326,6 +326,12 @@ Follow these steps to provision by using the [resource controller API](https://c
    The parameters `name`, `target`, `resource_group`, and `resource_plan_id` are all required.
    {: required}
 
+Supported parameters:
+
+      - `storage_gb` (valid integer values are between 10 and 9600, representing disk storage per member in GB)
+      - `members`(valid integer values are '2' and '3', indicating whether to run PG with two-zone HA or three-zone HA)
+      - `host_flavor`(values depend on location).
+
 ## List of additional parameters
 {: #provisioning-parameters-api}
 {: api}
@@ -337,10 +343,7 @@ Follow these steps to provision by using the [resource controller API](https://c
 
    To use a key for your backups, you must first [enable the service-to-service delegation](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui#key-byok).
    {: note}
-
-* `members_memory_allocation_mb` - Total amount of memory to be shared between the database members within the database. For example, if the value is "6144", and there are three database members, then the instance gets 6 GB of RAM total, giving 2 GB of RAM per member. If omitted, the default value is used for the database type is used.
-* `members_disk_allocation_mb` - Total amount of disk to be shared between the database members within the database. For example, if the value is "30720", and there are three members, then the instance gets 30 GB of disk total, giving 10 GB of disk per member. If omitted, the default value for the database type is used.
-* `members_cpu_allocation_count` - Enables and allocates the number of specified dedicated cores to your instance. For example, to use two dedicated cores per member, use `"members_cpu_allocation_count":"2"`. If omitted, the default value "Shared CPU" uses compute resources on shared hosts.
+  
 * `service_endpoints` - The [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) supported on your instance,`private`. This is a required parameter.
 
 ## Step 1: Provision through Terraform
@@ -508,8 +511,6 @@ ALTER ROLE username WITH PASSWORD 'new_password';
 ```
 {: pre}
 
-### Use `psql`
-{: #using-pgadmin}
 
 ## Users created with `psql`
 {: #user-management-psql}
@@ -524,7 +525,7 @@ Note that these users are not integrated with IAM controls, even if added to _Se
 ## Additional users and connection strings
 {: #creating_users}
 
-Access to your {{site.data.keyword.databases-for-postgresql}} instance is not limited to the `manager` user. Additional users can be created using the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api).
+Access to your {{site.data.keyword.databases-for-postgresql}} instance is not restricted to users with `manager` privileges only. Any user having appropriate permissions, whether created through the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or via `psql`, can also access the database instance.
 
 All users on your instance can use the connection strings, including connection strings for private endpoints.
 
@@ -538,9 +539,17 @@ Context-based restrictions give account owners and administrators the ability to
 
 To set up context-based restrictions for your {{site.data.keyword.databases-for-postgresql}} instance, follow the steps at [Protecting {{site.data.keyword.databases-for}} resources with context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr){: external}.
 
-## Step 5: Create a connection (VSI or quick connect)](#connect_setup)
+## Step 5: Create a connection 
+{: #create_connection}
 
-INFO MISSING
+Follow these subtopics to set up your environment and connect to the provisioned database:
+
+* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.  
+* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers. 
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run. 
+* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet. 
+* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
+
 
 ## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the console
 {: #connect_monitoring_ui}
