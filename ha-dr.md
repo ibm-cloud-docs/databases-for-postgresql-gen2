@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-10"
+lastupdated: "2025-12-15"
 
 keywords: HA, DR, high availability, disaster recovery, disaster recovery plan, disaster event, postgresql
 
@@ -32,7 +32,7 @@ subcollection: databases-for-postgresql-gen2
 
 {{site.data.keyword.databases-for-postgresql}} provides replication, failover, and high-availability features to protect your databases and data from infrastructure maintenance, upgrades, and some failures. Deployments contain a cluster with two data members - leader and replica. The replica is kept up to date using asynchronous replication. A distributed consensus mechanism is used to maintain cluster state and handle failovers. If the leader becomes unreachable, the cluster initiates a failover, and the replica is promoted to leader, and a new replica rejoins the cluster as a replica. The leader and replica will always be in different zones of an MZR. If the replica fails, a new replica is created. If a zone failure results in a member failing, the new replica will be created in a surviving zone.
 
-You can extend high-availability further by adding [PostgreSQL members](/docs/databases-for-postgresql?topic=databases-for-postgresql-horizontal-scaling) to the cluster for greater in-region redundancy, or by provisioning [read-only replicas](/docs/databases-for-postgresql?topic=databases-for-postgresql-read-only-replicas) for cross-regional failover or read offloading.
+You can extend high-availability further by adding [PostgreSQL members](/docs/databases-for-postgresql?topic=databases-for-postgresql-horizontal-scaling) to the cluster for greater in-region redundancy.
 
 Review the PostgreSQL documentation on [replication techniques](https://www.postgresql.org/docs/current/wal-async-commit.html){: .external} to understand the constraints and tradeoffs that are associated with the asynchronous replication strategy that is deployed by default.
 
@@ -51,8 +51,6 @@ The service will, at times, do controlled failovers under normal operation. Thes
 | -------------- | -------------- | -------------- |
 | Automatic failover | Standard on all clusters and resilient against a zone or single member failure |
 | Member count | Minimum - 2 members. Default is a Standard two member deployment. A two-member cluster will automatically recover from a single instance or zone failure (with data loss up to the lag threshold). During data synchronization for a new replica, the cluster has exposure to second failure causing data loss. A three-member, see [adding PostgreSQL members](/docs/databases-for-postgresql?topic=databases-for-postgresql-horizontal-scaling), is resilient to the failure of two members during the same failure period | Three members required for synchronous replication |
-| Synchronous replication | Improves RPO by adding remote member sync to the data write path. Refer to [Synchronous replication](#postgresql-sync-repl}) below. | Performance impact and cost. |
-| Read-only replica | Read-only replicas can provide local access in remote regions, improving availability to potential network latency or connectivity issues. | All Write requests must be directed exclusively to the read-write cluster associated with the read-replica |
 {: caption="High availability features" caption-side="top"}
 
 #### Synchronous replication {{site.data.keyword.databases-for-postgresql}}
@@ -82,8 +80,6 @@ The general strategy for disaster recovery is to create a new database, like the
 | Feature | Description | Consideration |
 | -------------- | -------------- | -------------- |
 | Backup restore | Create database from previously created backup; see [Managing Cloud Databases backups](/docs/cloud-databases?topic=cloud-databases-dashboard-backups). | New connection strings for the restored database must be referenced throughout the workload. |
-| Point-in-time restore | Create database from the live production using [point-in-time recovery](/docs/databases-for-postgresql?topic=databases-for-postgresql-pitr) | This is only possible if the active database is available and the RPO (disaster) falls within the supported window. It is not useful if the production cluster is unavailable. New connection strings for the restored database must be referenced throughout the workload.  |
-| Promote read replica | Create a [read-only replicas](/docs/databases-for-postgresql?topic=databases-for-postgresql-read-only-replicas) when planning for a disaster in the same or remote region. [Promote the read-only replica](/docs/databases-for-postgresql?topic=databases-for-postgresql-read-only-replicas&interface=ui#promoting-read-only-replica) to recover from a disaster. | Previously created read replica must be available. New connection strings for the restored database must be referenced throughout the workload.  |
 {: caption="Disaster recovery features" caption-side="top"}
 
 ### Planning for disaster recovery
@@ -122,7 +118,7 @@ The following information can help you create and continuously practice your pla
 
 
 
-When restoring a database from backups or using point-in-time restore, a new database is created with new connection strings. Existing workloads and processes must be adjusted to consume the new connection strings. Promoting a read replica to a cluster will have a similar impact, although existing read-only portions of the workload will not be impacted.
+When restoring a database from backups or using point-in-time restore, a new database is created with new connection strings. Existing workloads and processes must be adjusted to consume the new connection strings. 
 
 A recovered database may also need the same customer-created dependencies of the disaster database - make sure these and other services exist in the recovered region:
 - {{site.data.keyword.keymanagementservicefull}}
@@ -140,12 +136,6 @@ The following checklist associated with each feature can help you create and pra
    - Verify the retention period of the backups meet your requirements.
    - Schedule test restores regularly to verify that the actual restored times meet the defined RTO. Remember that database size significantly impacts restore time. Please consider strategies to minimize restore times, such as breaking down large databases into smaller, more manageable units and purging unused data.
    - Verify the Key Protect service.
-- Point-in-time restore
-   - Verify the procedures covered earlier.
-   - Verify desired backup is in the window.
-- Promote read replica
-   - Verify that a read replica exists in the recovery region.
-   - Practice the promotion process - create a temporary read replica in the desired region. The temporary replica can be promoted to read/write and some testing performed with little impact to production.
 
 To find out more about responsibility ownership between the customer and {{site.data.keyword.cloud_notm}} for using {{site.data.keyword.databases-for-postgresql}}, see [Shared responsibilities for {{site.data.keyword.databases-for}}](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-responsibilities-cloud-databases).
 
@@ -159,5 +149,4 @@ Updates affecting customer workloads are communicated through {{site.data.keywor
 
 - [Understanding high availability for Cloud Databases](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-ha-dr)
 - [Understanding business continuity and disaster recovery for Cloud Databases](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-bc-dr)
-- [The high-availability read-only replica - Databases for PostgreSQL](/docs/databases-for-postgresql?topic=databases-for-postgresql-the-ha-read-only-replica)
 - [Managing connections - Databases for PostgreSQL](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-managing-connections)
