@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-10"
+lastupdated: "2025-12-16"
 
 keywords: troubleshooting for PostgreSQL, query history, slow queries
 
@@ -61,7 +61,7 @@ PostgreSQL queries can contain sensitive data such as personal information, pass
 {: tsCauses}
 
 If you worry about exposing sensitive information in your PosgreSQL logs, do the following:
-- Use the [{{site.data.keyword.databases-for}} API](docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external} to adjust the “100 milliseconds” default threshold to a much larger value. Doing so will disable the entry from being written to the logs.
+- Use the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external} to adjust the “100 milliseconds” default threshold to a much larger value. Doing so will disable the entry from being written to the logs.
 - Adjust your queries to contain hashed passwords instead of cleartext passwords.
     Updating your queries with hashed passwords requires changes to your application.
     {: note}

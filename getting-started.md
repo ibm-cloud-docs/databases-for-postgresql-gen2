@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-15"
+lastupdated: "2025-12-16"
 
 keywords: pgAdmin, postgresql gui, PostgreSQL, PostgreSQL cloud database, PostgreSQL getting started, Gen 2
 
@@ -100,7 +100,7 @@ Follow these steps to complete the tutorial:
 1. In **Service details**, configure the following:
     - **Location** - Select a location that supports Gen 2
     - **Service name** - The name can be any string and is the name that is used on the web and in the CLI to identify the new instance.
-    - **Resource group** - If you are organizing your services into [resource groups](/docs/accomemoault. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
+    - **Resource group** - If you are organizing your services into resource groups. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
 
 1. **Resource allocation** - Select an isolated compute instance with a certain amount of RAM and CPU cores. Changing resource allocation requires selecting a different host size. *Once provisioned, disk cannot be scaled down.*
 1. In **Service configuration**, configure the following:
@@ -288,7 +288,7 @@ Follow these steps to provision by using the [resource controller API](https://c
 1. You need to know the ID of the resource group to which you would like to deploy. This information is available through the [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-ibmcloud_commands_resource#ibmcloud_resource_groups).
 
    Use a command like:
-   
+
    ```sh
    ibmcloud resource groups
    ```
@@ -342,7 +342,7 @@ Supported parameters:
 
    To use a key for your backups, you must first [enable the service-to-service delegation](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui#key-byok).
    {: note}
-  
+
 * `service_endpoints` - The [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) supported on your instance,`private`. This is a required parameter.
 
 ### Using APIs
@@ -523,15 +523,15 @@ Context-based restrictions give account owners and administrators the ability to
 
 To set up context-based restrictions for your {{site.data.keyword.databases-for-postgresql}} instance, follow the steps at [Protecting {{site.data.keyword.databases-for}} resources with context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr){: external}.
 
-## Step 5: Create a connection 
+## Step 5: Create a connection
 {: #create_connection}
 
 Follow these subtopics to set up your environment and connect to the provisioned database:
 
-* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.  
-* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers. 
-* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run. 
-* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet. 
+* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
+* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
 * [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
 
 
@@ -578,7 +578,7 @@ You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the
 
 To get up and running with {{site.data.keyword.atracker_short}}, see [Getting started with {{site.data.keyword.atracker_short}}](/docs/atracker?topic=atracker-getting-started){: external}.
 
-{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/activity-tracker?topic=activity-tracker-getting-started#gs_step4){: external}.
+{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/cloud-logs?topic=cloud-logs-getting-started#gs-access-ui){: external}.
 
 For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 
@@ -610,7 +610,7 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use th
 - If you are using {{site.data.keyword.databases-for-postgresql}} for the first time, see the [official {{site.data.keyword.databases-for-postgresql}} documentation](https://www.postgresql.org/docs/){: external}.
 - Secure your instance by adding [context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr&interface=ui).
 - Connect your instance to [IBM Cloud Log Analysis](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-logging&interface=ui) and [IBM Cloud Monitoring](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring&interface=ui) for observability and alerting.
-- Connect to and manage your databases and data with {{site.data.keyword.databases-for-postgresql}}'s CLI tool [`psql`](docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
+- Connect to and manage your databases and data with {{site.data.keyword.databases-for-postgresql}}'s CLI tool [`psql`](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 - Looking for more tools on managing your databases? Connect to your instance with the following tools:
     - [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-install-ibmcloud-cli){: external}
     - [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}
