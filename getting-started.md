@@ -29,6 +29,13 @@ completion-time: 30m
 {: beta}
 
 This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} on the Gen 2 platform by provisioning an instance, setting up a secure connection through a VSI and VPE, and enabling logging and monitoring.
+{: ui}
+
+This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} on the Gen 2 platform by provisioning an instance, setting up a secure connection through a VSI and VPE, and enabling logging and monitoring.
+{: cli}
+
+This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} on the Gen 2 platform by provisioning an instance, setting up a secure connection through a VSI and VPE, and enabling logging and monitoring.
+{: api}
 
 Follow these steps to complete the tutorial:
 {: ui}
@@ -72,21 +79,21 @@ Follow these steps to complete the tutorial:
 * [Next Steps](#next_steps)
 {: api}
 
-Follow these steps to complete the tutorial:
-{: terraform}
+## Before you begin
+{: #prereqs}
+{: ui}
 
-* [Before you begin](#tf_prereqs)
-* [Step 1: Setup](#tf_setup)
-* [Step 2: Configure IBM Cloud Provider](#tf_configure_provider)
-* [Step 3: Project Structure](#tf_project_structure)
-* [Step 4: Configuration Files](#tf_configuration_files)
-* [Step 5: Deployment](#tf_deployment)
-* [Step 6: Post-Deployment](#tf_post_deployment)
-* [Step 7: Connect To Your Database](#tf_connect_database)
-{: terraform}
+* You need an [{{site.data.keyword.cloud}} account](https://cloud.ibm.com/registration){: external}.
 
 ## Before you begin
 {: #prereqs}
+{: cli}
+
+* You need an [{{site.data.keyword.cloud_notm}} account](https://cloud.ibm.com/registration){: external}.
+
+## Before you begin
+{: #prereqs}
+{: api}
 
 * You need an [{{site.data.keyword.cloud_notm}} account](https://cloud.ibm.com/registration){: external}.
 
@@ -250,7 +257,7 @@ Last Operation:
 ### Connect to your database with the CLI
 {: #connecting-cli}
 
-Find the appropriate commands to connect to your database from the CLI in [Cloud Databases CLI Reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference) and [Connecting with psql](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
+Find the appropriate commands to connect to your database from the CLI in [{{site.data.keyword.databases-for}} CLI Reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference) and [Connecting with psql](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 
 The `ibmcloud cdb deployment-connections` command handles everything that is involved in creating a CLI connection. For example, to connect to an instance named "example-postgres", use a command like:
 
@@ -259,7 +266,7 @@ ibmcloud cdb deployment-connections example-postgres --start
 ```
 {: pre}
 
-The command prompts for the `manager` user password and then runs the `psql` CLI to connect to the database. To install the Cloud Databases plug-in, see [Connecting with psql documentation here](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
+The command prompts for the `manager` user password and then runs the `psql` CLI to connect to the database. To install the {{site.data.keyword.databases-for}} plug-in, see [Connecting with psql documentation here](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 
 ### The `--parameters` parameter
 {: #flags-params-service-endpoints}
@@ -304,7 +311,6 @@ Follow these steps to provision by using the [resource controller API](https://c
    ibmcloud cdb regions --json
    ```
    {: pre}
-
 
    Once you have all the information, [provision a new resource instance](https://cloud.ibm.com/apidocs/resource-controller/resource-controller#create-resource-instance){: external} with the {{site.data.keyword.cloud_notm}} resource controller.
 
@@ -353,13 +359,23 @@ Use the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?top
 
 ## Step 2: Create the manager (admin-like) user
 {: #admin_like}
+{: ui}
+
+## Step 2: Create the manager (admin-like) user
+{: #admin_like}
+{: cli}
+
+## Step 2: Create the manager (admin-like) user
+{: #admin_like}
+{: api}
 
 ### The manager user
 {: #admin_like_manager_user}
+{: ui}
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
-{{site.data.keyword.databases-for-postgresql}} instances no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+{{site.data.keyword.databases-for-postgresql}} instances no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud_notm}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
 
 The `manager` user functions as an admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the instance.
 
@@ -398,6 +414,95 @@ GRANT pg_monitor TO mary;
 ```
 {: .pre}
 
+### The manager user
+{: #admin_like_manager_user}
+{: cli}
+
+As part of provisioning a new instance in {{site.data.keyword.cloud_notm}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
+
+{{site.data.keyword.databases-for-postgresql}} instances no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud_notm}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+
+The `manager` user functions as an admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the instance.
+
+The `manager`user (admin-like) comes with the following roles:
+
+```
+pg_read_all_data
+pg_write_all_data
+pg_monitor
+pg_read_all_settings
+pg_read_all_stats
+pg_stat_scan_tables
+pg_signal_backend
+pg_checkpoint
+pg_create_subscription
+```
+{: pre}
+
+When the `Manager` user (admin-like) creates a resource in a database, like a table, the user owns that object. Resources that are created by the `Manager` user are not accessible by other users, unless you explicitly grant permissions to them.
+
+The biggest difference between the `Manager` user and any other users you add to your instance is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
+
+You can also use the `Manager` user to grant roles to other users on your instance.
+
+To expose the ability to cancel queries to other database users, grant the pg_signal_backend role from the `Manager` user. Use a command like:
+
+```
+GRANT pg_signal_backend TO joe;
+```
+{: .pre}
+
+To set up a specific monitoring user, `mary`, use a command like:
+
+```
+GRANT pg_monitor TO mary;
+```
+{: .pre}
+
+### The manager user
+{: #admin_like_manager_user}
+{: api}
+
+As part of provisioning a new instance in {{site.data.keyword.cloud_notm}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
+
+{{site.data.keyword.databases-for-postgresql}} instances no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud_notm}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+
+The `manager` user functions as an admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the instance.
+
+The `manager`user (admin-like) comes with the following roles:
+
+```
+pg_read_all_data
+pg_write_all_data
+pg_monitor
+pg_read_all_settings
+pg_read_all_stats
+pg_stat_scan_tables
+pg_signal_backend
+pg_checkpoint
+pg_create_subscription
+```
+{: pre}
+
+When the `Manager` user (admin-like) creates a resource in a database, like a table, the user owns that object. Resources that are created by the `Manager` user are not accessible by other users, unless you explicitly grant permissions to them.
+
+The biggest difference between the `Manager` user and any other users you add to your instance is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
+
+You can also use the `Manager` user to grant roles to other users on your instance.
+
+To expose the ability to cancel queries to other database users, grant the pg_signal_backend role from the `Manager` user. Use a command like:
+
+```
+GRANT pg_signal_backend TO joe;
+```
+{: .pre}
+
+To set up a specific monitoring user, `mary`, use a command like:
+
+```
+GRANT pg_monitor TO mary;
+```
+{: .pre}
 
 ### Change the user password in the UI
 {: #user-management-set-manager-password-ui}
@@ -495,9 +600,11 @@ ALTER ROLE username WITH PASSWORD 'new_password';
 
 ### Use `psql`
 {: #using-pgadmin}
+{: ui}
 
 ## Users created with `psql`
 {: #user-management-psql}
+{: cli}
 
 You can bypass creating users through the {{site.data.keyword.cloud_notm}} entirely, and create users directly in PostgreSQL with `psql`. This allows you to use PostgreSQL's native [role and user management](https://www.postgresql.org/docs/current/database-roles.html){: .external}. Users and roles created in `psql` must have all of their privileges set manually, as well as privileges to the objects that they create.
 
@@ -508,6 +615,52 @@ Note that these users are not integrated with IAM controls, even if added to _Se
 
 ## Additional users and connection strings
 {: #creating_users}
+{: cli}
+
+Access to your {{site.data.keyword.databases-for-postgresql}} instance is not restricted to users with `Manager` privileges only. Any user having appropriate permissions, whether created through the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or via `psql`, can also access the database instance.
+
+All users on your instance can use the connection strings, including connection strings for private endpoints.
+
+When you create a user, it is assigned certain database roles and privileges. These privileges include the ability to log in, create databases, and create other users.
+
+## Step 4: Set up context-based restrictions
+{: #postgresql_cbr}
+{: cli}
+
+Context-based restrictions give account owners and administrators the ability to define and enforce access restrictions for {{site.data.keyword.cloud}} resources based on the context of access requests. Access to {{site.data.keyword.databases-for}} resources can be controlled with context-based restrictions and Identity and Access Management (IAM) policies.
+
+To set up context-based restrictions for your {{site.data.keyword.databases-for-postgresql}} instance, follow the steps at [Protecting {{site.data.keyword.databases-for}} resources with context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr){: external}.
+
+## Step 5: Create a connection
+{: #create_connection}
+{: cli}
+
+Follow these subtopics to set up your environment and connect to the provisioned database:
+
+* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
+* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
+* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
+
+### Use `psql`
+{: #using-pgadmin}
+{: cli}
+
+## Users created with `psql`
+{: #user-management-psql}
+{: cli}
+
+You can bypass creating users through the {{site.data.keyword.cloud_notm}} entirely, and create users directly in PostgreSQL with `psql`. This allows you to use PostgreSQL's native [role and user management](https://www.postgresql.org/docs/current/database-roles.html){: .external}. Users and roles created in `psql` must have all of their privileges set manually, as well as privileges to the objects that they create.
+
+Users that are created directly in PostgreSQL do not appear in _Service credentials_, but you can [add them](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connection-strings&interface=ui) if you choose.
+
+Note that these users are not integrated with IAM controls, even if added to _Service credentials_.
+{: .tip}
+
+## Additional users and connection strings
+{: #creating_users}
+{: cli}
 
 Access to your {{site.data.keyword.databases-for-postgresql}} instance is not restricted to users with `Manager` privileges only. Any user having appropriate permissions, whether created through the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or via `psql`, can also access the database instance.
 
@@ -518,6 +671,7 @@ When you create a user, it is assigned certain database roles and privileges. Th
 
 ## Step 4: Set up context-based restrictions
 {: #postgresql_cbr}
+{: api}
 
 Context-based restrictions give account owners and administrators the ability to define and enforce access restrictions for {{site.data.keyword.cloud}} resources based on the context of access requests. Access to {{site.data.keyword.databases-for}} resources can be controlled with context-based restrictions and Identity and Access Management (IAM) policies.
 
@@ -525,6 +679,7 @@ To set up context-based restrictions for your {{site.data.keyword.databases-for-
 
 ## Step 5: Create a connection
 {: #create_connection}
+{: api}
 
 Follow these subtopics to set up your environment and connect to the provisioned database:
 
@@ -534,6 +689,51 @@ Follow these subtopics to set up your environment and connect to the provisioned
 * [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
 * [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
 
+### Use `psql`
+{: #using-pgadmin}
+{: api}
+
+## Users created with `psql`
+{: #user-management-psql}
+{: api}
+
+You can bypass creating users through the {{site.data.keyword.cloud_notm}} entirely, and create users directly in PostgreSQL with `psql`. This allows you to use PostgreSQL's native [role and user management](https://www.postgresql.org/docs/current/database-roles.html){: .external}. Users and roles created in `psql` must have all of their privileges set manually, as well as privileges to the objects that they create.
+
+Users that are created directly in PostgreSQL do not appear in _Service credentials_, but you can [add them](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connection-strings&interface=ui) if you choose.
+
+Note that these users are not integrated with IAM controls, even if added to _Service credentials_.
+{: .tip}
+
+## Additional users and connection strings
+{: #creating_users}
+{: api}
+
+Access to your {{site.data.keyword.databases-for-postgresql}} instance is not restricted to users with `Manager` privileges only. Any user having appropriate permissions, whether created through the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or via `psql`, can also access the database instance.
+
+All users on your instance can use the connection strings, including connection strings for private endpoints.
+
+When you create a user, it is assigned certain database roles and privileges. These privileges include the ability to log in, create databases, and create other users.
+
+
+## Step 4: Set up context-based restrictions
+{: #postgresql_cbr}
+{: api}
+
+Context-based restrictions give account owners and administrators the ability to define and enforce access restrictions for {{site.data.keyword.cloud}} resources based on the context of access requests. Access to {{site.data.keyword.databases-for}} resources can be controlled with context-based restrictions and Identity and Access Management (IAM) policies.
+
+To set up context-based restrictions for your {{site.data.keyword.databases-for-postgresql}} instance, follow the steps at [Protecting {{site.data.keyword.databases-for}} resources with context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr){: external}.
+
+## Step 5: Create a connection
+{: #create_connection}
+{: api}
+
+Follow these subtopics to set up your environment and connect to the provisioned database:
+
+* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
+* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
+* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
 
 ## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the console
 {: #connect_monitoring_ui}
@@ -604,6 +804,437 @@ Events are formatted according to the Cloud Auditing Data Federation (CADF) stan
 You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 {: note}
 
+
+
+
+Follow these steps to complete the tutorial:
+{: terraform}
+
+* [Step 1: Before you begin](#tf_prereqs)
+* [Step 2: Setup](#tf_setup)
+* [Step 3: Configure IBM Cloud provider](#tf_configure_provider)
+* [Step 4: Project structure](#tf_project_structure)
+* [Step 5: Configuration files](#tf_configuration_files)
+* [Step 6: Deployment](#tf_deployment)
+* [Step 7: Post-deployment](#tf_post_deployment)
+* [Step 8: Connect To your database](#tf_connect_database)
+{: terraform}
+
+
+This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} on the Gen 2 platform through infrastructure as code. You'll learn how to define and provision your database instance using Terraform, including resource allocation, security configurations, and integration with monitoring services. This declarative approach allows you to version control your infrastructure, replicate environments consistently, and automate your database lifecycle management.
+{: terraform}
+
+## Step 1: Before you begin
+{: #tf_prereqs}
+{: terraform}
+
+Terraform is an open-source infrastructure as code (IaC) tool that allows you to define and provision {{site.data.keyword.cloud_notm}} infrastructure using declarative configuration files. For {{site.data.keyword.databases-for-postgresql}}, Terraform provides a powerful way to manage your database instances programmatically rather than through manual console operations. Using Terraform to provision and manage your PostgreSQL instances offers several key benefits. Your database configurations become documented as code, making it easy to replicate instances across development, staging, and production environments. You can also version control your database infrastructure alongside your application code and resource keys and user credentials can be managed securely and consistently. In addition, you can automate the entire database lifecycle including provisioning, scaling, backup configurations, and user management. This approach is particularly valuable when managing multiple PostgreSQL instances or when you need to maintain consistent configurations across your organization.
+
+Before you begin, ensure you have the following:
+
+- An [{{site.data.keyword.cloud}} account](https://cloud.ibm.com/registration){: external} with appropriate permissions to create database instances.
+- Access to a resource group in your {{site.data.keyword.cloud}} account.
+- Terraform installed on your local machine (version 1.0 or later recommended).
+
+If you don't already have Terraform installed, download and install it from [official Terraform website](https://www.terraform.io/downloads){: external}.
+
+After installation, verify that Terraform is installed correctly by running:
+
+```sh
+terraform version
+```
+{: pre}
+
+You should see output showing the installed Terraform version, for example:
+
+```text
+Terraform v1.6.0
+```
+{: codeblock}
+
+## Step 2: Setup
+{: #tf_setup}
+{: terraform}
+
+Create a new directory for your Terraform project and navigate to it:
+
+```
+mkdir postgresql-terraform
+cd postgresql-terraform
+```
+{:pre}
+
+Create three Terraform configuration files in this directory:
+
+- `provider.tf` - Defines the {{site.data.keyword.cloud_notm}} provider configuration.
+- `main.tf` - Contains the resource definitions for your PostgreSQL instance.
+- `outputs.tf` - Defines output values to display after deployment.
+
+## Step 3: Configure {{site.data.keyword.cloud_notm}} provider
+{: #tf_configure_provider}
+{: terraform}
+
+Create a `provider.tf` file to configure the {{site.data.keyword.cloud_notm}} Terraform provider:
+
+```hcl
+terraform {
+  required_providers {
+    ibm = {
+      source  = "IBM-Cloud/ibm"
+      version = "~> 1.86.1"
+    }
+  }
+}
+```
+{: codeblock}
+
+Before running Terraform, you need to authenticate with {{site.data.keyword.cloud_notm}}. Set your {{site.data.keyword.cloud_notm}} API key as an environment variable:
+
+```sh
+export IC_API_KEY="your-ibm-cloud-api-key"
+```
+{: pre}
+
+Or, alternatively, use a short-lived oauth-token:
+
+```sh
+export IC_IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq -r .iam_token | cut -d ' ' -f2)
+```
+{: pre}
+
+## Step 4: Project structure
+{: #tf_project_structure}
+{: terraform}
+
+Your Terraform project should have the following structure:
+
+```text
+postgresql-terraform/
+├── provider.tf     # Provider configuration
+├── main.tf         # Resource definitions
+└── outputs.tf      # Output definitions
+```
+{: screen}
+
+This modular approach separates concerns and makes you configuration easier to maintain.
+
+## Step 5: Configuration files
+{: #tf_configuration_files}
+{: terraform}
+
+### Main configuration (main.tf)
+{: #tf_main_cofig}
+{: terraform}
+
+Create a `main.tf` file with the following content to provision your PostgreSQL instance:
+
+```hcl
+data "ibm_resource_group" "default" {
+  name = "Default"
+}
+
+resource "ibm_resource_instance" "pg_demo" {
+  name              = "pg-demo"
+  service           = "databases-for-postgresql"
+  plan              = "standard-gen2"
+  location          = "ca-mon"
+  resource_group_id = data.ibm_resource_group.default.id
+
+  parameters_json = jsonencode(
+    {
+      "dataservices": {
+        "postgresql": {
+          "storage_gb": 9600,
+          "members": 3,
+          "host_flavor":  "bx3d.8x40"
+        }
+      }
+    }
+  )
+
+  tags = ["terraform", "postgresql", "gen2"]
+
+  timeouts {
+    create = "20m"
+    update = "20m"
+    delete = "20m"
+  }
+}
+
+resource "ibm_resource_key" "pg_manager_key" {
+  name                 = "managerkey1"
+  resource_instance_id = ibm_resource_instance.pg_demo.id
+
+  parameters = {
+    "role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+  }
+}
+
+output "pg_manager_username" {
+  value = nonsensitive(ibm_resource_key.pg_manager_key.credentials.username)
+}
+
+output "pg_manager_password" {
+  value = nonsensitive(ibm_resource_key.pg_manager_key.credentials.password)
+}
+
+output "pg_manager_psql" {
+  value = nonsensitive(ibm_resource_key.pg_manager_key.credentials["connection.postgres.composed.0"])
+}
+```
+{: codeblock}
+
+This configuration:
+
+- References your Default resource group.
+- Creates a PostgreSQL Gen 2 instance with 9600GB storage and 3 members running on bx3d.8x40 hosts in the Montreal location.
+- Creates a Manager user credential.
+- Outputs the connection details.
+
+You can customize the following parameters:
+
+- `name` - Your instance name
+- `location` - Instance location
+- `storage_gb` - Storage per member (10-9600GB)
+- `host_flavor` - Host type per member
+- `members` - Number of members (2 or 3)
+- `tags` - Labels for organizing and tracking resources
+
+### Outputs configuration (outputs.tf)
+{: #tf_outputs_cofig}
+{: terraform}
+
+Create an `outputs.tf` file to display important information after deployment:
+
+```hcl
+output "instance_crn" {
+  description = "Instance CRN"
+  value       = ibm_resource_instance.pg_demo.crn
+}
+
+output "instance_id" {
+  description = "Instance GUID"
+  value       = ibm_resource_instance.pg_demo.guid
+}
+
+output "instance_status" {
+  description = "Instance Status"
+  value       = ibm_resource_instance.pg_demo.status
+}
+
+output "postgresql_version" {
+  description = "PostgreSQL Version"
+  value       = ibm_resource_instance.pg_demo.extensions["dataservices.postgresql.version"]
+}
+
+output "hostname" {
+  description = "PostgreSQL hostname"
+  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.hosts.0.hostname"], null)
+}
+
+output "port" {
+  description = "PostgreSQL port"
+  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.port"], null)
+}
+
+output "database" {
+  description = "Database name"
+  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.database"], null)
+}
+```
+{: codeblock}
+
+
+## Step 6: Deployment
+{: #tf_deployment}
+{: terraform}
+
+Initialize your Terraform project:
+
+```sh
+terraform init
+```
+{: pre}
+
+This downloads the {{site.data.keyword.cloud_notm}} provider plug-in and initializes your workspace.
+
+Review the planned changes:
+
+```sh
+terraform plan
+```
+{: pre}
+
+If the plan looks correct, apply the configuration:
+
+```sh
+terraform apply
+```
+{: pre}
+
+Type `yes` when prompted to confirm. The provisioning process takes approximately 15-20 minutes. 
+
+If you are using short-lived OAuth tokens, the token might expire during the provisioning process, causing `terraform apply` to fail with an authentication error. If this occurs:
+
+1. Mark the resource as successfully created:
+
+    ```
+    terraform untaint ibm_resource_instance.pg_demo
+    ```
+    {: pre}
+
+2. Refresh your authentication by exporting a new `IC_API_KEY`.
+
+3. Rerun the apply:
+
+    ```sh
+    terraform apply
+    ```
+    {: pre}
+
+    You'll see output similar to:
+    
+    ```text
+    database = "postgres"
+    host_flavor = "bx3d.8x40"
+    hostname = "0b917284-1ab8-4b44-8aa5-dceab4812863.private.uhp.ca-mon.postgresql.dataservices.appdomain.cloud"
+    instance_crn = "crn:v1:bluemix:public:databases-for-postgresql:ca-mon:a/23b09aee04da4545b6e32805fa93249d:0b917284-1ab8-4b44-8aa5-dceab4812863::"
+    instance_id = "0b917284-1ab8-4b44-8aa5-dceab4812863"
+    instance_status = "active"
+    members = "3"
+    memory_gb = "40"
+    pg_manager_password = "lXcjb8q-2)ItFOq7l5)KtLgj%PmhFN,)"
+    pg_manager_psql = "postgres://ibmcloud_692fd265b48b4904a5dfdbe1dd218cb3:lXcjb8q-2%29ItFOq7l5%29KtLgj%25PmhFN,%29@0b917284-1ab8-4b44-8aa5-dceab4812863.private.uhp.ca-mon.postgresql.dataservices.appdomain.cloud:5432/postgres?sslmode=verify-full"
+    pg_manager_role = "Manager"
+    pg_manager_username = "ibmcloud_692fd265b48b4904a5dfdbe1dd218cb3"
+    port = "5432"
+    postgresql_cpu_count = "8"
+    postgresql_version = "18"
+    psql_connection_string = "PGUSER=$PGUSER PGPASSWORD=$PGPASSWORD PGSSLMODE=verify-full PGSSLROOTCERT=system psql 'host=0b917284-1ab8-4b44-8aa5-dceab4812863.private.uhp.ca-mon.postgresql.dataservices.appdomain.cloud port=5432 dbname=postgres'"
+    storage_gb = "9600"
+    ```
+    {: screen}
+
+## Step 7: Post-Deployment
+{: #tf_post_deployment}
+{: terraform}
+
+After successful deployment, verify your instance in the {{site.data.keyword.cloud_notm}} console:
+
+1. Log in to the {{site.data.keyword.cloud_notm}} console{: external}.
+2. Navigate to **Resource list > Databases**.
+3. Locate your instance (for example, pg-demo).
+4. Verify the status shows as *Active*.
+
+You can also view the instance details using Terraform:
+
+```sh
+terraform show
+```
+{: pre}
+
+To see only the output values:
+
+```sh
+terraform output
+```
+{: pre}
+
+To retrieve a specific output value:
+
+```sh
+terraform output instance_id
+terraform output pg_manager_username
+```
+{: pre}
+
+## Step 8: Connect to your database
+{: #tf_connect_database}
+{: terraform}
+
+### Network setup
+{: #tf_network_setup}
+{: terraform}
+
+You need to set up secure network connectivity to your PostgreSQL instance. See the following links for detailed steps on setting up a VPC, VSI, and VPE for secure private connectivity:
+
+* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud_notm}} where you can securely run resources.
+* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
+* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
+
+### Connect with psql
+{: #tf_connect_psql}
+{: terraform}
+
+Ensure you have PostgreSQL client tools installed. Check your `psql` version:
+
+```sh
+psql --version
+```
+{: pre}
+
+You should see version 17 or higher:
+
+```text
+psql (PostgreSQL) 17.x
+```
+{: screen}
+
+Retrieve the connection string from your Terraform outputs:
+
+```sh
+terraform output -raw pg_manager_psql
+```
+{: pre}
+
+Connect to your database using the output connection string.
+
+Use single quotes around the connection string to properly handle special characters in the password.
+{: important}
+
+```sh
+psql 'postgresql://ibmcloud_user:lXcjb8q-2)ItFOq7l5)KtLgj%PmhFN,)@host:5432/postgres?sslmode=verify-full'
+```
+{: pre}
+
+Once connected, you see the PostgreSQL prompt:
+
+```text
+postgres=>
+```
+{: screen}
+
+Alternatively, retrieve the indivual connection details:
+
+```sh
+terraform output -raw pg_manager_username
+terraform output -raw pg_manager_password
+terraform output -raw hostname
+terraform output -raw port
+```
+{: pre}
+
+### Clean up resources
+{: #tf_clean_up}
+{: terraform}
+
+To destroy the infrastructure when you're done:
+
+```sh
+terraform destroy
+```
+{: pre}
+
+Type `yes` to confirm deletion of all resources.
+{: important}
+
+
+
+
+
+
 ## Next steps
 {: #next-steps}
 
@@ -622,32 +1253,3 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use th
 - To ensure the stability of your applications and your databases, see:
     - [High availability](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-ha-dr)
     - [Performance](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-performance&interface=ui)
-
-## Before you begin
-{: #tf_prereqs}
-{: terraform}
-
-Terraform is an open-source infrastructure as code (IaC) tool that allows you to define and provision cloud infrastructure using declarative configuration files.
-For {{site.data.keyword.databases-for-postgresql}}, Terraform provides a powerful way to manage your database instances programmatically rather than through manual console operations. Using Terraform to provision and manage your PostgreSQL instances offers several key benefits. Your database configurations become documented as
-code, making it easy to replicate instances across development, staging, and production environments. You can also version control your database infrastructure alongside your application code and resource keys and user credentials can be managed securely and consistently. In addition, you can automate the entire database
-lifecycle including provisioning, scaling, backup configurations, and user management. This approach is particularly valuable when managing multiple PostgreSQL instances or when you need to maintain consistent configurations across your organization.
-
-Before you begin, ensure you have the following:
-
-- An [{{site.data.keyword.cloud_notm}} account](https://cloud.ibm.com/registration){: external} with appropriate permissions to create database instances.
-- Access to a resource group in your {{site.data.keyword.cloud}} account.
-- Terraform installed on your local machine (version 1.0 or later recommended).
-
-### Install Terraform
-{: #tf_install}
-{: terraform}
-
-If you don't already have Terraform installed, download and install it from
-
-* [Step 1: Before you begin](#tf_prereqs)
-* [Step 2: Configure {{site.data.keyword.cloud_notm}} provider](#tf_configure_provider)
-* [Step 3: Project structure](#tf_project_structure)
-* [Step 4: Configuration files](#tf_configuration_files)
-* [Step 5: Deployment](#tf_deployment)
-* [Step 6: Post-deployment](#tf_post_deployment)
-* [Step 7: Connect to your database](#tf_connect_database)
