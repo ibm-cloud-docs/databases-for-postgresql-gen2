@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-15"
+lastupdated: "2025-12-18"
 
 keywords: HA, DR, high availability, disaster recovery, disaster recovery plan, disaster event, postgresql
 
@@ -28,7 +28,7 @@ subcollection: databases-for-postgresql-gen2
 ## High availability architecture
 {: #ha-architecture}
 
-![Architecture](images/postgresql-base.svg){: caption="PostgreSQL architecture" caption-side="bottom"}
+![Architecture](images/PostgreSQL_CDP_high_availability_architecture.svg){: caption="PostgreSQL architecture" caption-side="bottom"}
 
 {{site.data.keyword.databases-for-postgresql}} provides replication, failover, and high-availability features to protect your databases and data from infrastructure maintenance, upgrades, and some failures. Deployments contain a cluster with two data members - leader and replica. The replica is kept up to date using asynchronous replication. A distributed consensus mechanism is used to maintain cluster state and handle failovers. If the leader becomes unreachable, the cluster initiates a failover, and the replica is promoted to leader, and a new replica rejoins the cluster as a replica. The leader and replica will always be in different zones of an MZR. If the replica fails, a new replica is created. If a zone failure results in a member failing, the new replica will be created in a surviving zone.
 
@@ -70,7 +70,7 @@ Configuring synchronous replication can significantly increase write latency and
 
 The general strategy for disaster recovery is to create a new database, like the `Restore` database below. The contents of the new database can be a backup of the source database created before the disaster. A new database can be created using the point-in-time feature if the production database is available.
 
-![Architecture](images/postgresql-restore.svg){: caption="PostgreSQL architecture" caption-side="bottom"}
+![Architecture](images/PostgreSQL_CDP_disaster_recovery.svg){: caption="PostgreSQL architecture" caption-side="bottom"}
 
 ### Disaster recovery features
 {: #dr-features}
