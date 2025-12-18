@@ -793,7 +793,7 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use th
 
 {{site.data.keyword.atracker_full_notm}} allows you to view, manage, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-postgresql}} service.
 
-To get up and running with {{site.data.keyword.atracker_short}}, see [Getting Started with {{site.data.keyword.atracker_short}}]/docs/atracker?topic=atracker-getting-started){: external}.
+To get up and running with {{site.data.keyword.atracker_short}}, see [Getting Started with {{site.data.keyword.atracker_short}}](/docs/atracker?topic=atracker-getting-started){: external}.
 
 {{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/cloud-logs?topic=cloud-logs-instance-launch#instance-launch-cloud-ui){: external}.
 
@@ -1072,7 +1072,7 @@ terraform apply
 ```
 {: pre}
 
-Type `yes` when prompted to confirm. The provisioning process takes approximately 15-20 minutes. 
+Type `yes` when prompted to confirm. The provisioning process takes approximately 15-20 minutes.
 
 If you are using short-lived OAuth tokens, the token might expire during the provisioning process, causing `terraform apply` to fail with an authentication error. If this occurs:
 
@@ -1093,7 +1093,7 @@ If you are using short-lived OAuth tokens, the token might expire during the pro
     {: pre}
 
     You'll see output similar to:
-    
+
     ```text
     database = "postgres"
     host_flavor = "bx3d.8x40"
