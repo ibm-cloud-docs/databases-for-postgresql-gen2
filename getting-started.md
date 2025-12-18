@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025
-lastupdated: "2025-12-16"
+lastupdated: "2025-12-18"
 
 keywords: pgAdmin, postgresql gui, PostgreSQL, PostgreSQL cloud database, PostgreSQL getting started, Gen 2
 
@@ -595,7 +595,7 @@ You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use th
 
 To get up and running with {{site.data.keyword.atracker_short}}, see [Getting Started with {{site.data.keyword.atracker_short}}]/docs/atracker?topic=atracker-getting-started){: external}.
 
-{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/activity-tracker?topic=activity-tracker-getting-started#gs_step4){: external}.
+{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/cloud-logs?topic=cloud-logs-instance-launch#instance-launch-cloud-ui){: external}.
 
 For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 
