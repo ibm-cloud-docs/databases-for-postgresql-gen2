@@ -47,6 +47,7 @@ toc:
           - howto-resources-scaling.md
           - howto-managing-connections.md
       - include: ../cloud-databases-gen2/howto-manage-backups.md
+      - include: ../cloud-databases-gen2/backup-restore.md
       - howto-migration.md
       - topicgroup:
           label: Observability
