@@ -1,12 +1,12 @@
 ---
 
 copyright:
-  years: 2025
-lastupdated: "2025-12-03"
+  years: 2026
+lastupdated: "2026-01-19"
 
 keywords: export data, portability, pgdump, pgadmin
 
-subcollection: databases-for-postgresql
+subcollection: databases-for-postgresql-gen2
 
 ---
 
