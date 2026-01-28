@@ -1,10 +1,10 @@
 ---
 
 copyright:
-  years: 2025
-lastupdated: "2025-12-18"
+  years: 2026
+lastupdated: "2026-01-28"
 
-keywords: pgAdmin, postgresql gui, PostgreSQL, PostgreSQL cloud database, PostgreSQL getting started, Gen 2
+keywords: pgAdmin, postgresql gui, PostgreSQL getting started, Gen 2
 
 subcollection: databases-for-postgresql-gen2
 
@@ -303,7 +303,7 @@ Follow these steps to provision by using the [resource controller API](https://c
 
 1. You need to know the region where you would like to deploy.
 
-   To list all of the regions that instances can be provisioned into from the current region, use the [{{site.data.keyword.databases-for}} CLI plug-in](https://cloud.ibm.com/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}.
+   To list all of the regions that instances can be provisioned into from the current region, use the [{{site.data.keyword.databases-for}} CLI](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference){: external}.
 
    The command looks like:
 
@@ -1244,7 +1244,7 @@ Type `yes` to confirm deletion of all resources.
 - Connect to and manage your databases and data with {{site.data.keyword.databases-for-postgresql}}'s CLI tool [`psql`](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 - Looking for more tools on managing your databases? Connect to your instance with the following tools:
     - [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-install-ibmcloud-cli){: external}
-    - [{{site.data.keyword.databases-for}} CLI plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference){: external}
+    - [{{site.data.keyword.databases-for}} CLI](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference){: external}
     - [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external}
 - If you plan to use {{site.data.keyword.databases-for-postgresql}} for your applications, see:
     - [Connecting an external application](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-external-app)
