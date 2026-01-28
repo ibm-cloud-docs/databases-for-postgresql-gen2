@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2025
-lastupdated: "2025-12-10"
+  years: 2025, 2026
+lastupdated: "2026-01-28"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -26,6 +26,6 @@ content-type: release-note
 {: #databases-for-postgresql-15Dec2025}
 {: release-note}
 
-Introducing the Beta of {{site.data.keyword.databases-for-postgresql} Gen2
-: Support for PostgreSQL v18. : Built on VPC architecture with software-defined networking, delivering enhanced security and flexibility. 
+Introducing the Beta of {{site.data.keyword.databases-for-postgresql}} Gen 2
+: Support for PostgreSQL v18: Built on VPC architecture with software-defined networking, delivering enhanced security, and flexibility. 
 : Now available in the Montreal region, giving developers early access to next-generation database innovation.
