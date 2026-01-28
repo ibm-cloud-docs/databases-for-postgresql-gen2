@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2025
-lastupdated: "2025-12-10"
+  years: 2026
+lastupdated: "2026-01-28"
 
 keywords: postgresql, scaling, memory, disk IOPS, CPU, postgresql dedicated cores, scaling postgresql
 
@@ -109,7 +109,7 @@ After you are done, click *Apply changes* to trigger the scaling operation.
 {: #review-resources-cli}
 {: cli}
 
-[{{site.data.keyword.cloud_notm}} CLI cloud databases plug-in](/docs/databases-cli-plugin?topic=databases-cli-plugin-cdb-reference) supports viewing and scaling the resources on your deployment. Use the command `cdb deployment-groups` to see current resource information for your service, including which resource groups are adjustable. To scale any of the available resource groups, use `cdb deployment-groups-set` command.
+[{{site.data.keyword.cloud_notm}} CLI cloud databases plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference) supports viewing and scaling the resources on your deployment. Use the command `cdb deployment-groups` to see current resource information for your service, including which resource groups are adjustable. To scale any of the available resource groups, use `cdb deployment-groups-set` command.
 
 For example, with the following command you can view the resource groups for a deployment named "example-deployment". Note that this command will also reveal your database's hosting model name: [Isolated Compute](/doc/databases-for-postgresql?topic=databases-for-postgresql-hosting-models&interface=ui#hosting-models-iso-compute-ui) through the `hostflavor` attribute. If the `hostflavor` is null, it is on an old style hosting model.
 
