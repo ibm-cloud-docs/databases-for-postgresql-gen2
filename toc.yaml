@@ -24,7 +24,6 @@ toc:
       - include: ../cloud-databases-gen2/gen2-beta.md
       - include: ../cloud-databases-gen2/overview.md
       - include: ../cloud-databases-gen2/isolated-compute.md
-      - learn-dashboard-overview.md
       - learn-performance.md
       - learn-pricing.md
       - release-notes.md
@@ -90,10 +89,3 @@ toc:
           - ts-no-space-left.md
           - queries.md
           - include: ../cloud-databases-gen2/ts-terraform.md
-      - topicgroup:
-          label: FAQs
-          topics:
-          - include: ../cloud-databases-gen2/status-page-faq.md
-          - include: ../cloud-databases-gen2/resource-config-faq.md
-          - include: ../cloud-databases-gen2/availability-zones-faq.md
-          - include: ../cloud-databases-gen2/cert-faq.md
