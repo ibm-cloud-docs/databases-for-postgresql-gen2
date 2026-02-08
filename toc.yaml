@@ -47,10 +47,10 @@ toc:
           - howto-managing-connections.md
       - include: ../cloud-databases-gen2/howto-manage-backups.md
       - include: ../cloud-databases-gen2/backup-restore.md
-      - howto-migration.md
       - topicgroup:
           label: Observability
           topics:
+          - include: ../cloud-databases-gen2/cdb-logging-monitoring.md
           - include: ../cloud-databases-gen2/logging.md
           - include: ../cloud-databases-gen2/reference-monitoring.md
           - include: ../cloud-databases-gen2/at-events.md
@@ -87,10 +87,6 @@ toc:
           label: FAQs
           topics:
           - include: ../cloud-databases-gen2/status-page-faq.md
-            tag: hidden
           - include: ../cloud-databases-gen2/resource-config-faq.md
-            tag: hidden
           - include: ../cloud-databases-gen2/availability-zones-faq.md
-            tag: hidden
           - include: ../cloud-databases-gen2/cert-faq.md
-            tag: hidden
