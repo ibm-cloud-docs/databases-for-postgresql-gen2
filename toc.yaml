@@ -83,3 +83,7 @@ toc:
           - ts-max-connections.md
           - ts-no-space-left.md
           - queries.md
+      - topicgroup:
+          label: FAQs
+          topics:
+          - include: ../cloud-databases-gen2/faq.md
