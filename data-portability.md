@@ -2,9 +2,9 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-01-19"
+lastupdated: "2026-02-12"
 
-keywords: export data, portability, pgdump, pgadmin
+keywords: export data, portability, pgdump, gen2
 
 subcollection: databases-for-postgresql-gen2
 
@@ -47,18 +47,13 @@ To find out more about responsibility ownership for using {{site.data.keyword.cl
 ## Migrating data from {{site.data.keyword.databases-for-postgresql}}
 {: #data-portability-migrating-data-postgresql}
 
-You can use the following methods to export data from {{site.data.keyword.databases-for-postgresql}}.
+You can use the following method to export data from {{site.data.keyword.databases-for-postgresql}}.
 
 Connect to your {{site.data.keyword.cloud}} deployment: 
 
-To access your {{site.data.keyword.databases-for-postgresql}} deployment and its tools, follow the connection instructions provided in our documentation. Once connected, you'll have access to the `psql` and `pg_dump` commands. You can also use PGadmin to export data. For more information, see the [Getting started page](/docs/databases-for-postgresql?topic=databases-for-postgresql-getting-started&interface=ui).
+To access your {{site.data.keyword.databases-for-postgresql}} deployment and its tools, follow the connection instructions provided in our documentation. Once connected, you have access to the `psql` and `pg_dump` commands. 
 
-Ensure that you are connected to the deployment containing the database you want to export. Replace `<<CRN>>` with your actual Cloud Resource Name.
-
-```sh
-ibmcloud cdb cxn <<CRN>> -s
-```
-{: pre}
+Ensure that you are connected to the deployment containing the database you want to export. 
 
 ## Using `pg_dump`
 {: #ata-portability-pg_dump}
