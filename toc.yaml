@@ -45,6 +45,11 @@ toc:
           topics:
           - howto-resources-scaling.md
           - howto-managing-connections.md
+      - topicgroup:
+          label: Configuring PostgreSQL
+          topics:
+          - topic: howto-extensions.md
+            navtitle: Managing extensions
       - include: ../cloud-databases-gen2/howto-manage-backups.md
       - include: ../cloud-databases-gen2/backup-restore.md
       - topicgroup:
