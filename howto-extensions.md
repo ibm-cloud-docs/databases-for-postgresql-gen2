@@ -1,9 +1,9 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-02-12"
+lastupdated: "2026-02-16"
 
-keywords: postgresql, databases, postgresql extensions, postgres extensions, ibm_extension
+keywords: postgresql, databases, postgresql extensions, postgres extensions, ibm_extension , gen2
 
 subcollection: databases-for-postgresql-gen2
 
@@ -14,7 +14,7 @@ subcollection: databases-for-postgresql-gen2
 # Managing PostgreSQL extensions
 {: #extensions}
 
-In PostgreSQL, extensions are modules that supply extra functions, operators, or types. Many extensions are available in {{site.data.keyword.databases-for-postgresql_full}}. To use them, [set the admin password](/docs/databases-for-postgresql?topic=databases-for-postgresql-user-management&interface=ui#user-management-set-admin-password-ui) for your service and use it to [connect with `psql`](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql).
+In PostgreSQL, extensions are modules that supply extra functions, operators, or types. Many extensions are available in {{site.data.keyword.databases-for-postgresql_full}}. To use them, connect to your deployment [with `psql`](/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql).
 
 ## Listing installed extensions
 {: #listing-installed-extensions}
@@ -24,7 +24,7 @@ Get a list of all the extensions installed on a database by using the `\dx` comm
 For example, the output for `\dx` when run on the {{site.data.keyword.databases-for-postgresql}} default database shows the only installed extension.
 
 ```sh
-ibmclouddb=> \dx
+postgres=> \dx
                  List of installed extensions
   Name   | Version |   Schema   |         Description
 ---------+---------+------------+------------------------------
@@ -38,7 +38,7 @@ ibmclouddb=> \dx
 To install an extension on to a database use [`CREATE EXTENSION`](https://www.postgresql.org/docs/current/static/sql-createextension.html){: .external}. For example, to install `pg_stat_statements` on the `ibmclouddb` database, use the following command:
 
 ```sh
-ibmclouddb=> CREATE EXTENSION pg_stat_statements;
+postgres=> CREATE EXTENSION pg_stat_statements;
 CREATE EXTENSION
 ```
 {: pre}
@@ -49,7 +49,7 @@ The change from `public` schema to `ibm_extension` schema is necessary to protec
 If you run the `\dx` command after installing an extension, it appears in the table.
 
 ```sh
-ibmclouddb=> \dx
+postgres=> \dx
                                      List of installed extensions
         Name        | Version |   Schema      |                        Description
 --------------------+---------+---------------+-----------------------------------------------------------
@@ -103,16 +103,18 @@ If there is a newer version of an extension available than the one you currently
 See the following list of all available extensions. For a list of available extensions on your deployment, use `SELECT name FROM pg_available_extensions;` in `psql`.
 
 ```sh
-ibmclouddb=> SELECT name FROM pg_available_extensions order by 1;
+postgres=> SELECT name FROM pg_available_extensions order by 1;
 ```
 {: pre}
 
 ```sh
-             name             
+
+name             
 ------------------------------
  address_standardizer
  address_standardizer_data_us
  amcheck
+ anon
  autoinc
  bloom
  btree_gin
@@ -126,6 +128,7 @@ ibmclouddb=> SELECT name FROM pg_available_extensions order by 1;
  file_fdw
  fuzzystrmatch
  hstore
+ hypopg
  insert_username
  intagg
  intarray
@@ -133,14 +136,20 @@ ibmclouddb=> SELECT name FROM pg_available_extensions order by 1;
  lo
  ltree
  moddatetime
- old_snapshot
+ orafce
  pageinspect
  pg_buffercache
+ pg_cron
  pg_freespacemap
+ pg_hint_plan
+ pg_logicalinspect
+ pg_partman
  pg_prewarm
  pg_repack
+ pg_stat_monitor
  pg_stat_statements
  pg_surgery
+ pg_textsearch
  pg_trgm
  pg_visibility
  pg_walinspect
@@ -160,16 +169,15 @@ ibmclouddb=> SELECT name FROM pg_available_extensions order by 1;
  sslinfo
  tablefunc
  tcn
+ temporal_tables
  tsm_system_rows
  tsm_system_time
  unaccent
  uuid-ossp
+ vector
+ vectorscale
  xml2
-(55 rows)
 
-ibmclouddb=> select version();
-                                                 version
-----------------------------------------------------------------------------------------------------------
- PostgreSQL 16.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 11.5.0 20240719 (Red Hat 11.5.0-2), 64-bit
-(1 row)
+(66 rows)
+             
  ```
