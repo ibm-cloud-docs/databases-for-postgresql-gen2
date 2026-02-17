@@ -78,7 +78,7 @@ Follow these steps to complete the tutorial:
 {: api}
 
 Follow these steps to complete the tutorial:
-{: tf}
+{: terraform}
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through Terraform](#provision_instance_tf)
@@ -88,7 +88,7 @@ Follow these steps to complete the tutorial:
 * [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
 * [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next Steps](#next_steps)
-{: tf}
+{: terraform}
 
 
 ## Before you begin
@@ -111,7 +111,7 @@ Follow these steps to complete the tutorial:
 
 ## Before you begin
 {: #prereqs}
-{: tf}
+{: terraform}
 
 Terraform is an open-source infrastructure as code (IaC) tool that allows you to define and provision {{site.data.keyword.cloud_notm}} infrastructure using declarative configuration files. For {{site.data.keyword.databases-for-postgresql}}, Terraform provides a powerful way to manage your database instances programmatically rather than through manual console operations. Using Terraform to provision and manage your PostgreSQL instances offers several key benefits. Your database configurations become documented as code, making it easy to replicate instances across development, staging, and production environments. You can also version control your database infrastructure alongside your application code and resource keys and user credentials can be managed securely and consistently. In addition, you can automate the entire database lifecycle including provisioning, scaling, backup configurations, and user management. This approach is particularly valuable when managing multiple PostgreSQL instances or when you need to maintain consistent configurations across your organization.
 
@@ -137,7 +137,7 @@ Terraform v1.6.0
 ```
 {: codeblock}
 
-### The Setup
+### The setup
 {: #tf_setup}
 {: terraform}
 
@@ -187,7 +187,7 @@ export IC_IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq -r .iam_token | cut
 ```
 {: pre}
 
-###  Terraform Project structure
+###  Terraform project structure
 {: #tf_project_structure}
 {: terraform}
 
@@ -207,7 +207,7 @@ This modular approach separates concerns and makes you configuration easier to m
 {: #tf_configuration_files}
 {: terraform}
 
-Main configuration (main.tf)
+#### Main configuration (main.tf)
 {: #tf_main_cofig}
 {: terraform}
 
@@ -285,7 +285,7 @@ You can customize the following parameters:
 - `members` - Number of members (2 or 3)
 - `tags` - Labels for organizing and tracking resources
 
-### Outputs configuration (outputs.tf)
+#### Outputs configuration (outputs.tf)
 {: #tf_outputs_cofig}
 {: terraform}
 
@@ -489,6 +489,7 @@ Last Operation:
 
 ### Connect to your database with the CLI
 {: #connecting-cli}
+{: cli}
 
 Find the appropriate commands to connect to your database from the CLI in [{{site.data.keyword.databases-for}} CLI Reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference) and [Connecting with psql](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 
@@ -592,9 +593,6 @@ Use the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?top
 
 ## Step 1: Provision through Terraform
 {: #provision_instance_tf}
-{: tf}
-
-{: #tf_deployment}
 {: terraform}
 
 Initialize your Terraform project:
