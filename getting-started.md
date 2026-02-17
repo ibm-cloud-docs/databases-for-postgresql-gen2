@@ -20,7 +20,8 @@ completion-time: 30m
 # Getting started with {{site.data.keyword.databases-for-postgresql}}
 {: #getting-started}
 {: toc-content-type="tutorial"}
-{: toc-services=""}
+{: toc-services=""} 4
+
 {: toc-completion-time="30m"}
 
 [Gen 2]{: tag-purple}
@@ -875,7 +876,7 @@ Also, the sections below provide a clear overview of how a connection is establi
 
 ## Step 4: Create a connection
 {: #private_connect_setup_tf}
-(:tf)
+(: terraform)
 
 ### Connect with psql
 {: #tf_connect_psql}
@@ -942,7 +943,6 @@ terraform destroy
 
 Type `yes` to confirm deletion of all resources.
 {: important}
-
 
 
 ## Step 5: Connect {{site.data.keyword.mon_full_notm}} through the console
