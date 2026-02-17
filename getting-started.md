@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-01-28"
+lastupdated: "2026-02-17"
 
 keywords: pgAdmin, postgresql gui, PostgreSQL getting started, Gen 2
 
@@ -42,12 +42,11 @@ Follow these steps to complete the tutorial:
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the console](#provision_instance_ui)
-* [Step 2: Creating the Manager user through the console](#manager_user)
-* [Step 3: Users created with psql](#psql)
-* [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Create a connection](#connect_setup)
-* [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
-* [Step 7: Connect IBM Cloud Logs](#postgresql_logs)
+* [Step 2: Creating the `Manager` user](#manager_user)
+* [Step 3: Set up context-based restrictions](#postgresql_cbr)
+* [Step 4: Create a connection](#private_connect_setup)
+* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next Steps](#next_steps)
 {: ui}
 
@@ -56,12 +55,11 @@ Follow these steps to complete the tutorial:
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the CLI](#provision_instance_cli)
-* [Step 2: Creating the Manager user through the console](#manager_user)
-* [Step 3: Users created with psql](#psql)
-* [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Create a connection](#connect_setup)
-* [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
-* [Step 7: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
+* [Step 2: Creating the `Manager` user](#manager_user)
+* [Step 3: Set up context-based restrictions](#postgresql_cbr)
+* [Step 4: Create a connection](#private_connect_setup)
+* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next Steps](#next_steps)
 {: cli}
 
@@ -70,14 +68,14 @@ Follow these steps to complete the tutorial:
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the API](#provision_instance_api)
-* [Step 2: Creating the Manager user through the console](#manager_user)
-* [Step 3: Users created with psql](#psql)
-* [Step 4: Set up context-based restrictions](#postgresql_cbr)
-* [Step 5: Create a connection](#connect_setup)
-* [Step 6: Connect {{site.data.keyword.mon_full_notm}}](#connect_monitoring_ui)
-* [Step 7: Connect {{site.data.keyword.atracker_full}}](#activity_tracker_ui)
+* [Step 2: Creating the `Manager` user](#manager_user)
+* [Step 3: Set up context-based restrictions](#postgresql_cbr)
+* [Step 4: Create a connection](#private_connect_setup)
+* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next Steps](#next_steps)
 {: api}
+
 
 ## Before you begin
 {: #prereqs}
@@ -266,7 +264,7 @@ ibmcloud cdb deployment-connections example-postgres --start
 ```
 {: pre}
 
-The command prompts for the `manager` user password and then runs the `psql` CLI to connect to the database. To install the {{site.data.keyword.databases-for}} plug-in, see [Connecting with psql documentation here](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
+The command prompts for the `Manager` user password and then runs the `psql` CLI to connect to the database. To install the {{site.data.keyword.databases-for}} plug-in, see [Connecting with psql documentation here](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 
 ### The `--parameters` parameter
 {: #flags-params-service-endpoints}
@@ -357,31 +355,22 @@ Supported parameters:
 
 Use the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external} to work with your {{site.data.keyword.databases-for-postgresql}} instance. The resource controller API is used to [provision an instance](#provision_instance_api).
 
-## Step 2: Create the manager (admin-like) user
-{: #admin_like}
-{: ui}
 
-## Step 2: Create the manager (admin-like) user
-{: #admin_like}
-{: cli}
+## Step 2: Create the `Manager` (admin-like) user
+{: #manager_user}
 
-## Step 2: Create the manager (admin-like) user
-{: #admin_like}
-{: api}
-
-### The manager user
+### The `Manager` user
 {: #admin_like_manager_user}
-{: ui}
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
-{{site.data.keyword.databases-for-postgresql}} instances no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud_notm}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+{{site.data.keyword.databases-for-postgresql}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
 
-The `manager` user functions as an admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the instance.
+The `Manager` user functions as a admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the deployment.
 
 The `manager`user (admin-like) comes with the following roles:
 
-```
+```sh
 pg_read_all_data
 pg_write_all_data
 pg_monitor
@@ -396,97 +385,7 @@ pg_create_subscription
 
 When the `Manager` user (admin-like) creates a resource in a database, like a table, the user owns that object. Resources that are created by the `Manager` user are not accessible by other users, unless you explicitly grant permissions to them.
 
-The biggest difference between the `Manager` user and any other users you add to your instance is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
-
-You can also use the `Manager` user to grant roles to other users on your instance.
-
-To expose the ability to cancel queries to other database users, grant the pg_signal_backend role from the `Manager` user. Use a command like:
-
-```
-GRANT pg_signal_backend TO joe;
-```
-{: .pre}
-
-To set up a specific monitoring user, `mary`, use a command like:
-
-```
-GRANT pg_monitor TO mary;
-```
-{: .pre}
-
-### The manager user
-{: #admin_like_manager_user}
-{: cli}
-
-As part of provisioning a new instance in {{site.data.keyword.cloud_notm}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
-
-{{site.data.keyword.databases-for-postgresql}} instances no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud_notm}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
-
-The `manager` user functions as an admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the instance.
-
-The `manager`user (admin-like) comes with the following roles:
-
-```
-pg_read_all_data
-pg_write_all_data
-pg_monitor
-pg_read_all_settings
-pg_read_all_stats
-pg_stat_scan_tables
-pg_signal_backend
-pg_checkpoint
-pg_create_subscription
-```
-{: pre}
-
-When the `Manager` user (admin-like) creates a resource in a database, like a table, the user owns that object. Resources that are created by the `Manager` user are not accessible by other users, unless you explicitly grant permissions to them.
-
-The biggest difference between the `Manager` user and any other users you add to your instance is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
-
-You can also use the `Manager` user to grant roles to other users on your instance.
-
-To expose the ability to cancel queries to other database users, grant the pg_signal_backend role from the `Manager` user. Use a command like:
-
-```
-GRANT pg_signal_backend TO joe;
-```
-{: .pre}
-
-To set up a specific monitoring user, `mary`, use a command like:
-
-```
-GRANT pg_monitor TO mary;
-```
-{: .pre}
-
-### The manager user
-{: #admin_like_manager_user}
-{: api}
-
-As part of provisioning a new instance in {{site.data.keyword.cloud_notm}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
-
-{{site.data.keyword.databases-for-postgresql}} instances no longer include a default `admin` user. Instead, customers create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud_notm}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
-
-The `manager` user functions as an admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the instance.
-
-The `manager`user (admin-like) comes with the following roles:
-
-```
-pg_read_all_data
-pg_write_all_data
-pg_monitor
-pg_read_all_settings
-pg_read_all_stats
-pg_stat_scan_tables
-pg_signal_backend
-pg_checkpoint
-pg_create_subscription
-```
-{: pre}
-
-When the `Manager` user (admin-like) creates a resource in a database, like a table, the user owns that object. Resources that are created by the `Manager` user are not accessible by other users, unless you explicitly grant permissions to them.
-
-The biggest difference between the `Manager` user and any other users you add to your instance is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
+The biggest difference between the `Manager` user and any other users you add to your instance is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `Manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `Manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
 
 You can also use the `Manager` user to grant roles to other users on your instance.
 
@@ -508,28 +407,24 @@ GRANT pg_monitor TO mary;
 {: #user-management-set-manager-password-ui}
 {: ui}
 
-Changing a user password is not supported via the {{site.data.keyword.cloud_notm}} console on Gen 2. However, you can update a password using tools, such as `psql` by executing the following command:
+Changing the user password is not supported via the {{site.data.keyword.cloud_notm}} console on Gen 2.
 
-```
-ALTER ROLE username WITH PASSWORD 'new_password';
-```
-{: pre}
-
-### Create the manager user in the CLI
-{: #manager_user_set_cli}
+## Step 2: Create the manager (admin-like) user
+{: #manager_user}
 {: cli}
 
 Use one of the following commands from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to create the `Manager` user.
 
-```
-ibmcloud resource service-key-create <service_key_name> --instance-name <INSTANCE_NAME> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"}'
+```sh
+ibmcloud resource service-key-create <service_key_name> Manager --instance-name <instance_name>
 ```
 {: pre}
 
-```
-ibmcloud resource service-key-create <service_key_name> --instance-id <INSTANCE_GUID> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"}'
+```sh
+ibmcloud resource service-key-create <service_key_name> Manager --instance-id <guid>
 ```
 {: pre}
+
 
 These commands can be used when creating a user with either the Writer or Manager role. In this example, the command creates a PostgreSQL user (ibmcloud_d0388…) with CREATEROLE and CREATEDB privileges. This user inherits permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the instance.
 
@@ -587,66 +482,6 @@ ALTER ROLE username WITH PASSWORD 'new_password';
 ```
 {: pre}
 
-### Change the manager password through the API
-{: #manager_pw_set_api}
-{: api}
-
-Changing a user password is not supported via API on Gen 2. However, you can update a password using tools, such as `psql` by executing the following command:
-
-```sh
-ALTER ROLE username WITH PASSWORD 'new_password';
-```
-{: pre}
-
-### Use `psql`
-{: #using-pgadmin}
-{: ui}
-
-## Users created with `psql`
-{: #user-management-psql}
-{: cli}
-
-You can bypass creating users through the {{site.data.keyword.cloud_notm}} entirely, and create users directly in PostgreSQL with `psql`. This allows you to use PostgreSQL's native [role and user management](https://www.postgresql.org/docs/current/database-roles.html){: .external}. Users and roles created in `psql` must have all of their privileges set manually, as well as privileges to the objects that they create.
-
-Users that are created directly in PostgreSQL do not appear in _Service credentials_, but you can [add them](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connection-strings&interface=ui) if you choose.
-
-Note that these users are not integrated with IAM controls, even if added to _Service credentials_.
-{: .tip}
-
-## Additional users and connection strings
-{: #creating_users}
-{: cli}
-
-Access to your {{site.data.keyword.databases-for-postgresql}} instance is not restricted to users with `Manager` privileges only. Any user having appropriate permissions, whether created through the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or via `psql`, can also access the database instance.
-
-All users on your instance can use the connection strings, including connection strings for private endpoints.
-
-When you create a user, it is assigned certain database roles and privileges. These privileges include the ability to log in, create databases, and create other users.
-
-## Step 4: Set up context-based restrictions
-{: #postgresql_cbr}
-{: cli}
-
-Context-based restrictions give account owners and administrators the ability to define and enforce access restrictions for {{site.data.keyword.cloud}} resources based on the context of access requests. Access to {{site.data.keyword.databases-for}} resources can be controlled with context-based restrictions and Identity and Access Management (IAM) policies.
-
-To set up context-based restrictions for your {{site.data.keyword.databases-for-postgresql}} instance, follow the steps at [Protecting {{site.data.keyword.databases-for}} resources with context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr){: external}.
-
-## Step 5: Create a connection
-{: #create_connection}
-{: cli}
-
-Follow these subtopics to set up your environment and connect to the provisioned database:
-
-* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
-* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
-* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
-* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
-* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
-
-### Use `psql`
-{: #using-pgadmin}
-{: cli}
-
 ## Users created with `psql`
 {: #user-management-psql}
 {: cli}
@@ -669,19 +504,24 @@ All users on your instance can use the connection strings, including connection 
 When you create a user, it is assigned certain database roles and privileges. These privileges include the ability to log in, create databases, and create other users.
 
 
-## Step 4: Set up context-based restrictions
+## Step 3: Set up context-based restrictions
 {: #postgresql_cbr}
-{: api}
 
-Context-based restrictions give account owners and administrators the ability to define and enforce access restrictions for {{site.data.keyword.cloud}} resources based on the context of access requests. Access to {{site.data.keyword.databases-for}} resources can be controlled with context-based restrictions and Identity and Access Management (IAM) policies.
+Context-based restrictions give account owners and administrators the ability to define and enforce access restrictions for {{site.data.keyword.cloud_notm}} resources based on the context of access requests. Access to {{site.data.keyword.databases-for}} resources can be controlled with context-based restrictions and Identity and Access Management (IAM) policies.
 
-To set up context-based restrictions for your {{site.data.keyword.databases-for-postgresql}} instance, follow the steps at [Protecting {{site.data.keyword.databases-for}} resources with context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr){: external}.
 
-## Step 5: Create a connection
-{: #create_connection}
-{: api}
 
-Follow these subtopics to set up your environment and connect to the provisioned database:
+
+## Step 4: Create a connection
+{: #private_connect_setup}
+
+The **Connect** tab in Gen 2 provides guided instructions for creating a secure connection to your {{site.data.keyword.databases-for-mongodb}} deployment.
+
+Because Gen 2 supports **private endpoints only**, all connections are established through the {{site.data.keyword.cloud}} private network. The _Create a connection_ view walks you through the required setup to connect securely from your infrastructure, such as a Virtual Server Instance (VSI), by using Virtual Private Endpoint (VPE) gateway.
+
+This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
+
+Also, the sections below provide a clear overview of how a connection is established within the VPC environment.
 
 * [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
 * [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
@@ -689,63 +529,8 @@ Follow these subtopics to set up your environment and connect to the provisioned
 * [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
 * [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
 
-### Use `psql`
-{: #using-pgadmin}
-{: api}
-
-## Users created with `psql`
-{: #user-management-psql}
-{: api}
-
-You can bypass creating users through the {{site.data.keyword.cloud_notm}} entirely, and create users directly in PostgreSQL with `psql`. This allows you to use PostgreSQL's native [role and user management](https://www.postgresql.org/docs/current/database-roles.html){: .external}. Users and roles created in `psql` must have all of their privileges set manually, as well as privileges to the objects that they create.
-
-Users that are created directly in PostgreSQL do not appear in _Service credentials_, but you can [add them](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connection-strings&interface=ui) if you choose.
-
-Note that these users are not integrated with IAM controls, even if added to _Service credentials_.
-{: .tip}
-
-## Additional users and connection strings
-{: #creating_users}
-{: api}
-
-Access to your {{site.data.keyword.databases-for-postgresql}} instance is not restricted to users with `Manager` privileges only. Any user having appropriate permissions, whether created through the CLI, with the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference), or via `psql`, can also access the database instance.
-
-All users on your instance can use the connection strings, including connection strings for private endpoints.
-
-When you create a user, it is assigned certain database roles and privileges. These privileges include the ability to log in, create databases, and create other users.
-
-
-## Step 4: Set up context-based restrictions
-{: #postgresql_cbr}
-{: api}
-
-Context-based restrictions give account owners and administrators the ability to define and enforce access restrictions for {{site.data.keyword.cloud}} resources based on the context of access requests. Access to {{site.data.keyword.databases-for}} resources can be controlled with context-based restrictions and Identity and Access Management (IAM) policies.
-
-To set up context-based restrictions for your {{site.data.keyword.databases-for-postgresql}} instance, follow the steps at [Protecting {{site.data.keyword.databases-for}} resources with context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr){: external}.
-
-## Step 5: Create a connection
-{: #create_connection}
-{: api}
-
-Follow these subtopics to set up your environment and connect to the provisioned database:
-
-* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
-* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
-* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
-* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
-* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
-
-## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the console
-{: #connect_monitoring_ui}
-{: ui}
-
-You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
-
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-
-## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the CLI
-{: #connect_monitoring_cli}
-{: cli}
+## Step 5: Connect {{site.data.keyword.mon_full_notm}} through the console
+{: #postgresql_monitoring}
 
 You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
 
@@ -754,31 +539,14 @@ For more information about how to use {{site.data.keyword.monitoringshort}} with
 You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 {: note}
 
-## Step 6: Connect {{site.data.keyword.mon_full_notm}} through the API
-{: #connect_monitoring_api}
-{: api}
+## Step 6: Connect IBM Cloud Logs Activity Tracker
+{: #postgresql_logs}
 
-You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
+{{site.data.keyword.atracker_full}} allows you to view, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in IBM Cloud. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-mongodb}} service.
 
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+To get up and running with Activity Tracker Event Routing, see [Getting Started with Activity Tracker Event Routing]/docs/atracker?topic=atracker-getting-started){: external}.
 
-You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-{: note}
-
-## Step 7: Connect IBM Cloud Logs (#postgresql_logs)
-{: #acloudlogs_ui}
-{: ui}
-
-
-## Step 7: Connect {{site.data.keyword.atracker_full_notm}} through the CLI
-{: #activity_tracker_cli}
-{: cli}
-
-{{site.data.keyword.atracker_full}} allows you to view, manage, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-postgresql}} service.
-
-To get up and running with {{site.data.keyword.atracker_short}}, see [Getting started with {{site.data.keyword.atracker_short}}](/docs/atracker?topic=atracker-getting-started){: external}.
-
-{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/cloud-logs?topic=cloud-logs-getting-started#gs-access-ui){: external}.
+{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/cloud-logs?topic=cloud-logs-getting-started){: external}.
 
 For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 
@@ -787,22 +555,6 @@ Events are formatted according to the Cloud Auditing Data Federation (CADF) stan
 You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 {: note}
 
-## Step 7: Connect {{site.data.keyword.atracker_full}} through the API
-{: #activity_tracker_api}
-{: api}
-
-{{site.data.keyword.atracker_full_notm}} allows you to view, manage, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-postgresql}} service.
-
-To get up and running with {{site.data.keyword.atracker_short}}, see [Getting Started with {{site.data.keyword.atracker_short}}](/docs/atracker?topic=atracker-getting-started){: external}.
-
-{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/cloud-logs?topic=cloud-logs-instance-launch#instance-launch-cloud-ui){: external}.
-
-For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
-
-Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
-
-You cannot connect {{site.data.keyword.atracker_short}} by using the API. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
-{: note}
 
 
 
@@ -988,7 +740,7 @@ This configuration:
 
 - References your Default resource group.
 - Creates a PostgreSQL Gen 2 instance with 9600GB storage and 3 members running on bx3d.8x40 hosts in the Montreal location.
-- Creates a Manager user credential.
+- Creates a `Manager` user credential.
 - Outputs the connection details.
 
 You can customize the following parameters:
