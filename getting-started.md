@@ -55,7 +55,7 @@ Follow these steps to complete the tutorial:
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the CLI](#provision_instance_cli)
-* [Step 2: Creating the `Manager` user](#manager_user)
+* [Step 2: Creating the `Manager` user](#manager_user_cli)
 * [Step 3: Set up context-based restrictions](#postgresql_cbr)
 * [Step 4: Create a connection](#private_connect_setup)
 * [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
@@ -76,6 +76,19 @@ Follow these steps to complete the tutorial:
 * [Next Steps](#next_steps)
 {: api}
 
+Follow these steps to complete the tutorial:
+{: tf}
+
+* [Before you begin](#prereqs)
+* [Step 1: Provision through Terraform](#provision_instance_tf)
+* [Step 2: Creating the `Manager` user](#manager_user)
+* [Step 3: Set up context-based restrictions](#postgresql_cbr)
+* [Step 4: Create a connection](#private_connect_setup_tf)
+* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
+* [Next Steps](#next_steps)
+{: tf}
+
 
 ## Before you begin
 {: #prereqs}
@@ -94,6 +107,227 @@ Follow these steps to complete the tutorial:
 {: api}
 
 * You need an [{{site.data.keyword.cloud_notm}} account](https://cloud.ibm.com/registration){: external}.
+
+## Before you begin
+{: #prereqs}
+{: tf}
+
+Terraform is an open-source infrastructure as code (IaC) tool that allows you to define and provision {{site.data.keyword.cloud_notm}} infrastructure using declarative configuration files. For {{site.data.keyword.databases-for-postgresql}}, Terraform provides a powerful way to manage your database instances programmatically rather than through manual console operations. Using Terraform to provision and manage your PostgreSQL instances offers several key benefits. Your database configurations become documented as code, making it easy to replicate instances across development, staging, and production environments. You can also version control your database infrastructure alongside your application code and resource keys and user credentials can be managed securely and consistently. In addition, you can automate the entire database lifecycle including provisioning, scaling, backup configurations, and user management. This approach is particularly valuable when managing multiple PostgreSQL instances or when you need to maintain consistent configurations across your organization.
+
+Before you begin, ensure you have the following:
+
+- An [{{site.data.keyword.cloud}} account](https://cloud.ibm.com/registration){: external} with appropriate permissions to create database instances.
+- Access to a resource group in your {{site.data.keyword.cloud}} account.
+- Terraform installed on your local machine (version 1.0 or later recommended).
+
+If you don't already have Terraform installed, download and install it from [official Terraform website](https://www.terraform.io/downloads){: external}.
+
+After installation, verify that Terraform is installed correctly by running:
+
+```sh
+terraform version
+```
+{: pre}
+
+You should see output showing the installed Terraform version, for example:
+
+```text
+Terraform v1.6.0
+```
+{: codeblock}
+
+### The Setup
+{: #tf_setup}
+{: terraform}
+
+Create a new directory for your Terraform project and navigate to it:
+
+```
+mkdir postgresql-terraform
+cd postgresql-terraform
+```
+{:pre}
+
+Create three Terraform configuration files in this directory:
+
+- `provider.tf` - Defines the {{site.data.keyword.cloud_notm}} provider configuration.
+- `main.tf` - Contains the resource definitions for your PostgreSQL instance.
+- `outputs.tf` - Defines output values to display after deployment.
+
+### Configure {{site.data.keyword.cloud_notm}} provider
+{: #tf_configure_provider}
+{: terraform}
+
+Create a `provider.tf` file to configure the {{site.data.keyword.cloud_notm}} Terraform provider:
+
+```hcl
+terraform {
+  required_providers {
+    ibm = {
+      source  = "IBM-Cloud/ibm"
+      version = "~> 1.86.1"
+    }
+  }
+}
+```
+{: codeblock}
+
+Before running Terraform, you need to authenticate with {{site.data.keyword.cloud_notm}}. Set your {{site.data.keyword.cloud_notm}} API key as an environment variable:
+
+```sh
+export IC_API_KEY="your-ibm-cloud-api-key"
+```
+{: pre}
+
+Or, alternatively, use a short-lived oauth-token:
+
+```sh
+export IC_IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq -r .iam_token | cut -d ' ' -f2)
+```
+{: pre}
+
+###  Terraform Project structure
+{: #tf_project_structure}
+{: terraform}
+
+Your Terraform project should have the following structure:
+
+```text
+postgresql-terraform/
+├── provider.tf     # Provider configuration
+├── main.tf         # Resource definitions
+└── outputs.tf      # Output definitions
+```
+{: screen}
+
+This modular approach separates concerns and makes you configuration easier to maintain.
+
+### Configuration files
+{: #tf_configuration_files}
+{: terraform}
+
+Main configuration (main.tf)
+{: #tf_main_cofig}
+{: terraform}
+
+Create a `main.tf` file with the following content to provision your PostgreSQL instance:
+
+```hcl
+data "ibm_resource_group" "default" {
+  name = "Default"
+}
+
+resource "ibm_resource_instance" "pg_demo" {
+  name              = "pg-demo"
+  service           = "databases-for-postgresql"
+  plan              = "standard-gen2"
+  location          = "ca-mon"
+  resource_group_id = data.ibm_resource_group.default.id
+
+  parameters_json = jsonencode(
+    {
+      "dataservices": {
+        "postgresql": {
+          "storage_gb": 9600,
+          "members": 3,
+          "host_flavor":  "bx3d.8x40"
+        }
+      }
+    }
+  )
+
+  tags = ["terraform", "postgresql", "gen2"]
+
+  timeouts {
+    create = "20m"
+    update = "20m"
+    delete = "20m"
+  }
+}
+
+resource "ibm_resource_key" "pg_manager_key" {
+  name                 = "managerkey1"
+  resource_instance_id = ibm_resource_instance.pg_demo.id
+
+  parameters = {
+    "role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"
+  }
+}
+
+output "pg_manager_username" {
+  value = nonsensitive(ibm_resource_key.pg_manager_key.credentials.username)
+}
+
+output "pg_manager_password" {
+  value = nonsensitive(ibm_resource_key.pg_manager_key.credentials.password)
+}
+
+output "pg_manager_psql" {
+  value = nonsensitive(ibm_resource_key.pg_manager_key.credentials["connection.postgres.composed.0"])
+}
+```
+{: codeblock}
+
+This configuration:
+
+- References your Default resource group.
+- Creates a PostgreSQL Gen 2 instance with 9600GB storage and 3 members running on bx3d.8x40 hosts in the Montreal location.
+- Creates a `Manager` user credential.
+- Outputs the connection details.
+
+You can customize the following parameters:
+
+- `name` - Your instance name
+- `location` - Instance location
+- `storage_gb` - Storage per member (10-9600GB)
+- `host_flavor` - Host type per member
+- `members` - Number of members (2 or 3)
+- `tags` - Labels for organizing and tracking resources
+
+### Outputs configuration (outputs.tf)
+{: #tf_outputs_cofig}
+{: terraform}
+
+Create an `outputs.tf` file to display important information after deployment:
+
+```hcl
+output "instance_crn" {
+  description = "Instance CRN"
+  value       = ibm_resource_instance.pg_demo.crn
+}
+
+output "instance_id" {
+  description = "Instance GUID"
+  value       = ibm_resource_instance.pg_demo.guid
+}
+
+output "instance_status" {
+  description = "Instance Status"
+  value       = ibm_resource_instance.pg_demo.status
+}
+
+output "postgresql_version" {
+  description = "PostgreSQL Version"
+  value       = ibm_resource_instance.pg_demo.extensions["dataservices.postgresql.version"]
+}
+
+output "hostname" {
+  description = "PostgreSQL hostname"
+  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.hosts.0.hostname"], null)
+}
+
+output "port" {
+  description = "PostgreSQL port"
+  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.port"], null)
+}
+
+output "database" {
+  description = "Database name"
+  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.database"], null)
+}
+```
+{: codeblock}
+
 
 ## Step 1: Provision through the console
 {: #provision_instance_ui}
@@ -355,6 +589,112 @@ Supported parameters:
 
 Use the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external} to work with your {{site.data.keyword.databases-for-postgresql}} instance. The resource controller API is used to [provision an instance](#provision_instance_api).
 
+## Step 1: Provision through Terraform
+{: #provision_instance_tf}
+{: tf}
+
+{: #tf_deployment}
+{: terraform}
+
+Initialize your Terraform project:
+
+```sh
+terraform init
+```
+{: pre}
+
+This downloads the {{site.data.keyword.cloud_notm}} provider plug-in and initializes your workspace.
+
+Review the planned changes:
+
+```sh
+terraform plan
+```
+{: pre}
+
+If the plan looks correct, apply the configuration:
+
+```sh
+terraform apply
+```
+{: pre}
+
+Type `yes` when prompted to confirm. The provisioning process takes approximately 15-20 minutes.
+
+If you are using short-lived OAuth tokens, the token might expire during the provisioning process, causing `terraform apply` to fail with an authentication error. If this occurs:
+
+1. Mark the resource as successfully created:
+
+    ```
+    terraform untaint ibm_resource_instance.pg_demo
+    ```
+    {: pre}
+
+2. Refresh your authentication by exporting a new `IC_API_KEY`.
+
+3. Rerun the apply:
+
+    ```sh
+    terraform apply
+    ```
+    {: pre}
+
+    You'll see output similar to:
+
+    ```text
+    database = "postgres"
+    host_flavor = "bx3d.8x40"
+    hostname = "0b917284-1ab8-4b44-8aa5-dceab4812863.private.uhp.ca-mon.postgresql.dataservices.appdomain.cloud"
+    instance_crn = "crn:v1:bluemix:public:databases-for-postgresql:ca-mon:a/23b09aee04da4545b6e32805fa93249d:0b917284-1ab8-4b44-8aa5-dceab4812863::"
+    instance_id = "0b917284-1ab8-4b44-8aa5-dceab4812863"
+    instance_status = "active"
+    members = "3"
+    memory_gb = "40"
+    pg_manager_password = "lXcjb8q-2)ItFOq7l5)KtLgj%PmhFN,)"
+    pg_manager_psql = "postgres://ibmcloud_692fd265b48b4904a5dfdbe1dd218cb3:lXcjb8q-2%29ItFOq7l5%29KtLgj%25PmhFN,%29@0b917284-1ab8-4b44-8aa5-dceab4812863.private.uhp.ca-mon.postgresql.dataservices.appdomain.cloud:5432/postgres?sslmode=verify-full"
+    pg_manager_role = "Manager"
+    pg_manager_username = "ibmcloud_692fd265b48b4904a5dfdbe1dd218cb3"
+    port = "5432"
+    postgresql_cpu_count = "8"
+    postgresql_version = "18"
+    psql_connection_string = "PGUSER=$PGUSER PGPASSWORD=$PGPASSWORD PGSSLMODE=verify-full PGSSLROOTCERT=system psql 'host=0b917284-1ab8-4b44-8aa5-dceab4812863.private.uhp.ca-mon.postgresql.dataservices.appdomain.cloud port=5432 dbname=postgres'"
+    storage_gb = "9600"
+    ```
+    {: screen}
+
+### Post-deployment
+{: #tf_post_deployment}
+{: terraform}
+
+After successful deployment, verify your instance in the {{site.data.keyword.cloud_notm}} console:
+
+1. Log in to the {{site.data.keyword.cloud_notm}} console{: external}.
+2. Navigate to **Resource list > Databases**.
+3. Locate your instance (for example, pg-demo).
+4. Verify the status shows as *Active*.
+
+You can also view the instance details using Terraform:
+
+```sh
+terraform show
+```
+{: pre}
+
+To see only the output values:
+
+```sh
+terraform output
+```
+{: pre}
+
+To retrieve a specific output value:
+
+```sh
+terraform output instance_id
+terraform output pg_manager_username
+```
+{: pre}
+
 
 ## Step 2: Create the `Manager` (admin-like) user
 {: #manager_user}
@@ -410,8 +750,12 @@ GRANT pg_monitor TO mary;
 Changing the user password is not supported via the {{site.data.keyword.cloud_notm}} console on Gen 2.
 
 ## Step 2: Create the manager (admin-like) user
-{: #manager_user}
+{: #manager_user_cli}
 {: cli}
+
+{{site.data.keyword.databases-for-postgresql}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+
+The `Manager` user functions as a admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the deployment.
 
 Use one of the following commands from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to create the `Manager` user.
 
@@ -529,392 +873,9 @@ Also, the sections below provide a clear overview of how a connection is establi
 * [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
 * [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
 
-## Step 5: Connect {{site.data.keyword.mon_full_notm}} through the console
-{: #postgresql_monitoring}
-
-You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
-
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-
-You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-{: note}
-
-## Step 6: Connect IBM Cloud Logs Activity Tracker
-{: #postgresql_logs}
-
-{{site.data.keyword.atracker_full}} allows you to view, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in IBM Cloud. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-mongodb}} service.
-
-To get up and running with Activity Tracker Event Routing, see [Getting Started with Activity Tracker Event Routing]/docs/atracker?topic=atracker-getting-started){: external}.
-
-{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/cloud-logs?topic=cloud-logs-getting-started){: external}.
-
-For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
-
-Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
-
-You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
-{: note}
-
-
-
-
-
-Follow these steps to complete the tutorial:
-{: terraform}
-
-* [Step 1: Before you begin](#tf_prereqs)
-* [Step 2: Setup](#tf_setup)
-* [Step 3: Configure IBM Cloud provider](#tf_configure_provider)
-* [Step 4: Project structure](#tf_project_structure)
-* [Step 5: Configuration files](#tf_configuration_files)
-* [Step 6: Deployment](#tf_deployment)
-* [Step 7: Post-deployment](#tf_post_deployment)
-* [Step 8: Connect To your database](#tf_connect_database)
-{: terraform}
-
-
-This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} on the Gen 2 platform through infrastructure as code. You'll learn how to define and provision your database instance using Terraform, including resource allocation, security configurations, and integration with monitoring services. This declarative approach allows you to version control your infrastructure, replicate environments consistently, and automate your database lifecycle management.
-{: terraform}
-
-## Step 1: Before you begin
-{: #tf_prereqs}
-{: terraform}
-
-Terraform is an open-source infrastructure as code (IaC) tool that allows you to define and provision {{site.data.keyword.cloud_notm}} infrastructure using declarative configuration files. For {{site.data.keyword.databases-for-postgresql}}, Terraform provides a powerful way to manage your database instances programmatically rather than through manual console operations. Using Terraform to provision and manage your PostgreSQL instances offers several key benefits. Your database configurations become documented as code, making it easy to replicate instances across development, staging, and production environments. You can also version control your database infrastructure alongside your application code and resource keys and user credentials can be managed securely and consistently. In addition, you can automate the entire database lifecycle including provisioning, scaling, backup configurations, and user management. This approach is particularly valuable when managing multiple PostgreSQL instances or when you need to maintain consistent configurations across your organization.
-
-Before you begin, ensure you have the following:
-
-- An [{{site.data.keyword.cloud}} account](https://cloud.ibm.com/registration){: external} with appropriate permissions to create database instances.
-- Access to a resource group in your {{site.data.keyword.cloud}} account.
-- Terraform installed on your local machine (version 1.0 or later recommended).
-
-If you don't already have Terraform installed, download and install it from [official Terraform website](https://www.terraform.io/downloads){: external}.
-
-After installation, verify that Terraform is installed correctly by running:
-
-```sh
-terraform version
-```
-{: pre}
-
-You should see output showing the installed Terraform version, for example:
-
-```text
-Terraform v1.6.0
-```
-{: codeblock}
-
-## Step 2: Setup
-{: #tf_setup}
-{: terraform}
-
-Create a new directory for your Terraform project and navigate to it:
-
-```
-mkdir postgresql-terraform
-cd postgresql-terraform
-```
-{:pre}
-
-Create three Terraform configuration files in this directory:
-
-- `provider.tf` - Defines the {{site.data.keyword.cloud_notm}} provider configuration.
-- `main.tf` - Contains the resource definitions for your PostgreSQL instance.
-- `outputs.tf` - Defines output values to display after deployment.
-
-## Step 3: Configure {{site.data.keyword.cloud_notm}} provider
-{: #tf_configure_provider}
-{: terraform}
-
-Create a `provider.tf` file to configure the {{site.data.keyword.cloud_notm}} Terraform provider:
-
-```hcl
-terraform {
-  required_providers {
-    ibm = {
-      source  = "IBM-Cloud/ibm"
-      version = "~> 1.86.1"
-    }
-  }
-}
-```
-{: codeblock}
-
-Before running Terraform, you need to authenticate with {{site.data.keyword.cloud_notm}}. Set your {{site.data.keyword.cloud_notm}} API key as an environment variable:
-
-```sh
-export IC_API_KEY="your-ibm-cloud-api-key"
-```
-{: pre}
-
-Or, alternatively, use a short-lived oauth-token:
-
-```sh
-export IC_IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq -r .iam_token | cut -d ' ' -f2)
-```
-{: pre}
-
-## Step 4: Project structure
-{: #tf_project_structure}
-{: terraform}
-
-Your Terraform project should have the following structure:
-
-```text
-postgresql-terraform/
-├── provider.tf     # Provider configuration
-├── main.tf         # Resource definitions
-└── outputs.tf      # Output definitions
-```
-{: screen}
-
-This modular approach separates concerns and makes you configuration easier to maintain.
-
-## Step 5: Configuration files
-{: #tf_configuration_files}
-{: terraform}
-
-### Main configuration (main.tf)
-{: #tf_main_cofig}
-{: terraform}
-
-Create a `main.tf` file with the following content to provision your PostgreSQL instance:
-
-```hcl
-data "ibm_resource_group" "default" {
-  name = "Default"
-}
-
-resource "ibm_resource_instance" "pg_demo" {
-  name              = "pg-demo"
-  service           = "databases-for-postgresql"
-  plan              = "standard-gen2"
-  location          = "ca-mon"
-  resource_group_id = data.ibm_resource_group.default.id
-
-  parameters_json = jsonencode(
-    {
-      "dataservices": {
-        "postgresql": {
-          "storage_gb": 9600,
-          "members": 3,
-          "host_flavor":  "bx3d.8x40"
-        }
-      }
-    }
-  )
-
-  tags = ["terraform", "postgresql", "gen2"]
-
-  timeouts {
-    create = "20m"
-    update = "20m"
-    delete = "20m"
-  }
-}
-
-resource "ibm_resource_key" "pg_manager_key" {
-  name                 = "managerkey1"
-  resource_instance_id = ibm_resource_instance.pg_demo.id
-
-  parameters = {
-    "role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"
-  }
-}
-
-output "pg_manager_username" {
-  value = nonsensitive(ibm_resource_key.pg_manager_key.credentials.username)
-}
-
-output "pg_manager_password" {
-  value = nonsensitive(ibm_resource_key.pg_manager_key.credentials.password)
-}
-
-output "pg_manager_psql" {
-  value = nonsensitive(ibm_resource_key.pg_manager_key.credentials["connection.postgres.composed.0"])
-}
-```
-{: codeblock}
-
-This configuration:
-
-- References your Default resource group.
-- Creates a PostgreSQL Gen 2 instance with 9600GB storage and 3 members running on bx3d.8x40 hosts in the Montreal location.
-- Creates a `Manager` user credential.
-- Outputs the connection details.
-
-You can customize the following parameters:
-
-- `name` - Your instance name
-- `location` - Instance location
-- `storage_gb` - Storage per member (10-9600GB)
-- `host_flavor` - Host type per member
-- `members` - Number of members (2 or 3)
-- `tags` - Labels for organizing and tracking resources
-
-### Outputs configuration (outputs.tf)
-{: #tf_outputs_cofig}
-{: terraform}
-
-Create an `outputs.tf` file to display important information after deployment:
-
-```hcl
-output "instance_crn" {
-  description = "Instance CRN"
-  value       = ibm_resource_instance.pg_demo.crn
-}
-
-output "instance_id" {
-  description = "Instance GUID"
-  value       = ibm_resource_instance.pg_demo.guid
-}
-
-output "instance_status" {
-  description = "Instance Status"
-  value       = ibm_resource_instance.pg_demo.status
-}
-
-output "postgresql_version" {
-  description = "PostgreSQL Version"
-  value       = ibm_resource_instance.pg_demo.extensions["dataservices.postgresql.version"]
-}
-
-output "hostname" {
-  description = "PostgreSQL hostname"
-  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.hosts.0.hostname"], null)
-}
-
-output "port" {
-  description = "PostgreSQL port"
-  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.port"], null)
-}
-
-output "database" {
-  description = "Database name"
-  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.database"], null)
-}
-```
-{: codeblock}
-
-
-## Step 6: Deployment
-{: #tf_deployment}
-{: terraform}
-
-Initialize your Terraform project:
-
-```sh
-terraform init
-```
-{: pre}
-
-This downloads the {{site.data.keyword.cloud_notm}} provider plug-in and initializes your workspace.
-
-Review the planned changes:
-
-```sh
-terraform plan
-```
-{: pre}
-
-If the plan looks correct, apply the configuration:
-
-```sh
-terraform apply
-```
-{: pre}
-
-Type `yes` when prompted to confirm. The provisioning process takes approximately 15-20 minutes.
-
-If you are using short-lived OAuth tokens, the token might expire during the provisioning process, causing `terraform apply` to fail with an authentication error. If this occurs:
-
-1. Mark the resource as successfully created:
-
-    ```
-    terraform untaint ibm_resource_instance.pg_demo
-    ```
-    {: pre}
-
-2. Refresh your authentication by exporting a new `IC_API_KEY`.
-
-3. Rerun the apply:
-
-    ```sh
-    terraform apply
-    ```
-    {: pre}
-
-    You'll see output similar to:
-
-    ```text
-    database = "postgres"
-    host_flavor = "bx3d.8x40"
-    hostname = "0b917284-1ab8-4b44-8aa5-dceab4812863.private.uhp.ca-mon.postgresql.dataservices.appdomain.cloud"
-    instance_crn = "crn:v1:bluemix:public:databases-for-postgresql:ca-mon:a/23b09aee04da4545b6e32805fa93249d:0b917284-1ab8-4b44-8aa5-dceab4812863::"
-    instance_id = "0b917284-1ab8-4b44-8aa5-dceab4812863"
-    instance_status = "active"
-    members = "3"
-    memory_gb = "40"
-    pg_manager_password = "lXcjb8q-2)ItFOq7l5)KtLgj%PmhFN,)"
-    pg_manager_psql = "postgres://ibmcloud_692fd265b48b4904a5dfdbe1dd218cb3:lXcjb8q-2%29ItFOq7l5%29KtLgj%25PmhFN,%29@0b917284-1ab8-4b44-8aa5-dceab4812863.private.uhp.ca-mon.postgresql.dataservices.appdomain.cloud:5432/postgres?sslmode=verify-full"
-    pg_manager_role = "Manager"
-    pg_manager_username = "ibmcloud_692fd265b48b4904a5dfdbe1dd218cb3"
-    port = "5432"
-    postgresql_cpu_count = "8"
-    postgresql_version = "18"
-    psql_connection_string = "PGUSER=$PGUSER PGPASSWORD=$PGPASSWORD PGSSLMODE=verify-full PGSSLROOTCERT=system psql 'host=0b917284-1ab8-4b44-8aa5-dceab4812863.private.uhp.ca-mon.postgresql.dataservices.appdomain.cloud port=5432 dbname=postgres'"
-    storage_gb = "9600"
-    ```
-    {: screen}
-
-## Step 7: Post-Deployment
-{: #tf_post_deployment}
-{: terraform}
-
-After successful deployment, verify your instance in the {{site.data.keyword.cloud_notm}} console:
-
-1. Log in to the {{site.data.keyword.cloud_notm}} console{: external}.
-2. Navigate to **Resource list > Databases**.
-3. Locate your instance (for example, pg-demo).
-4. Verify the status shows as *Active*.
-
-You can also view the instance details using Terraform:
-
-```sh
-terraform show
-```
-{: pre}
-
-To see only the output values:
-
-```sh
-terraform output
-```
-{: pre}
-
-To retrieve a specific output value:
-
-```sh
-terraform output instance_id
-terraform output pg_manager_username
-```
-{: pre}
-
-## Step 8: Connect to your database
-{: #tf_connect_database}
-{: terraform}
-
-### Network setup
-{: #tf_network_setup}
-{: terraform}
-
-You need to set up secure network connectivity to your PostgreSQL instance. See the following links for detailed steps on setting up a VPC, VSI, and VPE for secure private connectivity:
-
-* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud_notm}} where you can securely run resources.
-* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
-* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
-* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
-* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
+## Step 4: Create a connection
+{: #private_connect_setup_tf}
+(:tf)
 
 ### Connect with psql
 {: #tf_connect_psql}
@@ -984,7 +945,31 @@ Type `yes` to confirm deletion of all resources.
 
 
 
+## Step 5: Connect {{site.data.keyword.mon_full_notm}} through the console
+{: #postgresql_monitoring}
 
+You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
+
+For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+
+You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+{: note}
+
+## Step 6: Connect {{site.data.keyword.atracker_short}}
+{: #postgresql_logs}{{site.data.keyword.atracker_short}}
+
+{{site.data.keyword.atracker_full}} allows you to view, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-mongodb}} service.
+
+To get up and running with {{site.data.keyword.atracker_full_notm}}, see [Getting started with {{site.data.keyword.atracker_full_notm}}]/docs/atracker?topic=atracker-getting-started){: external}.
+
+{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/cloud-logs?topic=cloud-logs-getting-started){: external}.
+
+For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [{{site.data.keyword.atracker_short}} events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
+
+Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
+
+You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
+{: note}
 
 
 ## Next steps
@@ -995,13 +980,17 @@ Type `yes` to confirm deletion of all resources.
 - Connect your instance to [IBM Cloud Log Analysis](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-logging&interface=ui) and [IBM Cloud Monitoring](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring&interface=ui) for observability and alerting.
 - Connect to and manage your databases and data with {{site.data.keyword.databases-for-postgresql}}'s CLI tool [`psql`](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 - Looking for more tools on managing your databases? Connect to your instance with the following tools:
+
     - [{{site.data.keyword.cloud_notm}} CLI](/docs/cli?topic=cli-install-ibmcloud-cli){: external}
     - [{{site.data.keyword.databases-for}} CLI](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference){: external}
     - [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external}
+    - 
 - If you plan to use {{site.data.keyword.databases-for-postgresql}} for your applications, see:
+ 
     - [Connecting an external application](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-external-app)
     - [Connecting an {{site.data.keyword.cloud_notm}} application](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-ibmcloud-app)
 
 - To ensure the stability of your applications and your databases, see:
+
     - [High availability](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-ha-dr)
     - [Performance](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-performance&interface=ui)
