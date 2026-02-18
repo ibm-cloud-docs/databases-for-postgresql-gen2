@@ -200,23 +200,6 @@ For more information about how to use {{site.data.keyword.monitoringshort}} with
 You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 {: note}
 
-## Step 5: Connect {{site.data.keyword.atracker_short}}
-{: #postgresql_logs}
-
-{{site.data.keyword.atracker_full}} allows you to view, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-mongodb}} service.
-
-To get up and running with {{site.data.keyword.atracker_full_notm}}, see [Getting started with {{site.data.keyword.atracker_full_notm}}]/docs/atracker?topic=atracker-getting-started){: external}.
-
-{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/cloud-logs?topic=cloud-logs-getting-started){: external}.
-
-For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [{{site.data.keyword.atracker_short}} events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
-
-Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
-
-You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
-{: note}
-
-
 ## Before you begin
 {: #prereqs}
 {: cli}
@@ -428,6 +411,7 @@ All users on your instance can use the connection strings, including connection 
 
 When you create a user, it is assigned certain database roles and privileges. These privileges include the ability to log in, create databases, and create other users.
 
+
 ## Before you begin
 {: #prereqs}
 {: api}
@@ -499,6 +483,11 @@ Supported parameters:
    {: note}
 
 * `service_endpoints` - The [Service endpoints](/docs/cloud-databases?topic=cloud-databases-service-endpoints) supported on your instance,`private`. This is a required parameter.
+
+## Step 2: Create the `Manager` (admin-like) user
+{: #manager_user}
+{:api}
+
 
 ### Using APIs
 {: #using_apis}
@@ -654,7 +643,7 @@ export IC_IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq -r .iam_token | cut
 ```
 {: pre}
 
-###  Terraform project structure
+### Terraform project structure
 {: #tf_project_structure}
 {: terraform}
 
@@ -831,10 +820,6 @@ terraform output pg_manager_username
 {: pre}
 
 
-## Step 2: Create the `Manager` (admin-like) user
-{: #manager_user}
-{:api}
-
 ### The `Manager` user
 {: #admin_like_manager_user}
 
@@ -951,6 +936,21 @@ terraform destroy
 Type `yes` to confirm deletion of all resources.
 {: important}
 
+## Step 5: Connect {{site.data.keyword.atracker_short}}
+{: #postgresql_logs}
+
+{{site.data.keyword.atracker_full}} allows you to view, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-mongodb}} service.
+
+To get up and running with {{site.data.keyword.atracker_full_notm}}, see [Getting started with {{site.data.keyword.atracker_full_notm}}](/docs/atracker?topic=atracker-getting-started){: external}.
+
+{{site.data.keyword.atracker_short}} can have only one instance per location. To view events, you must access the web UI of the {{site.data.keyword.atracker_short}} service in the same location where your service instance is available. For more information, see [Launch the web UI](/docs/cloud-logs?topic=cloud-logs-getting-started){: external}.
+
+For more information about events specific to {{site.data.keyword.databases-for-postgresql}}, see [{{site.data.keyword.atracker_short}} events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
+
+Events are formatted according to the Cloud Auditing Data Federation (CADF) standard. For further details of the information they include, see [CADF standard](/docs/atracker?topic=atracker-event){: external}.
+
+You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
+{: note}
 
 ## Next steps
 {: #next-steps}
