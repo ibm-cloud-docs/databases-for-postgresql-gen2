@@ -43,11 +43,10 @@ Follow these steps to complete the tutorial:
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the console](#provision_instance_ui)
 * [Step 2: Creating the `Manager` user](#manager_user)
-
-* [Step 4: Create a connection](#private_connect_setup)
-* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
-* [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
-* [Next Steps](#next_steps)
+* [Step 3: Create a connection](#private_connect_setup)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
+* [Next steps](#next_steps)
 {: ui}
 
 Follow these steps to complete the tutorial:
@@ -56,11 +55,10 @@ Follow these steps to complete the tutorial:
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the CLI](#provision_instance_cli)
 * [Step 2: Creating the `Manager` user](#manager_user_cli)
-
-* [Step 4: Create a connection](#private_connect_setup)
-* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
-* [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
-* [Next Steps](#next_steps)
+* [Step 3: Create a connection](#private_connect_setup)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
+* [Next steps](#next_steps)
 {: cli}
 
 Follow these steps to complete the tutorial:
@@ -69,11 +67,10 @@ Follow these steps to complete the tutorial:
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the API](#provision_instance_api)
 * [Step 2: Creating the `Manager` user](#manager_user)
-
-* [Step 4: Create a connection](#private_connect_setup)
-* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
-* [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
-* [Next Steps](#next_steps)
+* [Step 3: Create a connection](#private_connect_setup)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
+* [Next steps](#next_steps)
 {: api}
 
 Follow these steps to complete the tutorial:
@@ -82,11 +79,10 @@ Follow these steps to complete the tutorial:
 * [Before you begin](#prereqs)
 * [Step 1: Provision through Terraform](#provision_instance_tf)
 * [Step 2: Creating the `Manager` user](#manager_user)
-
-* [Step 4: Create a connection](#private_connect_setup_tf)
-* [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
-* [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
-* [Next Steps](#next_steps)
+* [Step 3: Create a connection](#private_connect_setup_tf)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
+* [Next steps](#next_steps)
 {: terraform}
 
 ## Before you begin
