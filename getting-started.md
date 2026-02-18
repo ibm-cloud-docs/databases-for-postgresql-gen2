@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-02-17"
+lastupdated: "2026-02-18"
 
 keywords: pgAdmin, postgresql gui, PostgreSQL getting started, Gen 2
 
@@ -20,8 +20,7 @@ completion-time: 30m
 # Getting started with {{site.data.keyword.databases-for-postgresql}}
 {: #getting-started}
 {: toc-content-type="tutorial"}
-{: toc-services=""} 4
-
+{: toc-services=""}
 {: toc-completion-time="30m"}
 
 [Gen 2]{: tag-purple}
@@ -44,7 +43,7 @@ Follow these steps to complete the tutorial:
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the console](#provision_instance_ui)
 * [Step 2: Creating the `Manager` user](#manager_user)
-* [Step 3: Set up context-based restrictions](#postgresql_cbr)
+
 * [Step 4: Create a connection](#private_connect_setup)
 * [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
 * [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
@@ -57,7 +56,7 @@ Follow these steps to complete the tutorial:
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the CLI](#provision_instance_cli)
 * [Step 2: Creating the `Manager` user](#manager_user_cli)
-* [Step 3: Set up context-based restrictions](#postgresql_cbr)
+
 * [Step 4: Create a connection](#private_connect_setup)
 * [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
 * [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
@@ -70,7 +69,7 @@ Follow these steps to complete the tutorial:
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the API](#provision_instance_api)
 * [Step 2: Creating the `Manager` user](#manager_user)
-* [Step 3: Set up context-based restrictions](#postgresql_cbr)
+
 * [Step 4: Create a connection](#private_connect_setup)
 * [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
 * [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
@@ -83,13 +82,12 @@ Follow these steps to complete the tutorial:
 * [Before you begin](#prereqs)
 * [Step 1: Provision through Terraform](#provision_instance_tf)
 * [Step 2: Creating the `Manager` user](#manager_user)
-* [Step 3: Set up context-based restrictions](#postgresql_cbr)
+
 * [Step 4: Create a connection](#private_connect_setup_tf)
 * [Step 5: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
 * [Step 6: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next Steps](#next_steps)
 {: terraform}
-
 
 ## Before you begin
 {: #prereqs}
@@ -329,7 +327,6 @@ output "database" {
 ```
 {: codeblock}
 
-
 ## Step 1: Provision through the console
 {: #provision_instance_ui}
 {: ui}
@@ -424,68 +421,13 @@ You can provision a {{site.data.keyword.databases-for-postgresql}} instance thro
    | `--parameters` | JSON file or JSON string of parameters to create service instance. | -p |
    {: caption="Basic command format fields" caption-side="top"}
 
-   You see a response like:
-
-   ```text
-   Service instance <INSTANCE_NAME> was created.
-
-Name:                   <INSTANCE_NAME>
-ID:                     crn:v1:bluemix:public:databases-for-postgresql:<LOCATION>:a/<ACCOUNT>:<INSTANCE_GUID>::
-GUID:                   <INSTANCE_GUID>
-Location:               <LOCATION>
-State:                  provisioning
-Type:                   service_instance
-Sub Type:               Public
-Allow Cleanup:          false
-Locked:                 false
-One-time credentials:   false
-Created at:             <CREATED_AT_TIMESTAMP>
-Updated at:             <UPDATED_AT_TIMESTAMP>
-Last Operation:
-                        Status    create in progress
-                        Message   Started create instance operation
-   ```
-   {: codeblock}
-
-1. To check provisioning status, use the following command:
+1. Use the following command to check the provisioning status:
 
    ```sh
    ibmcloud resource service-instance <INSTANCE_NAME>
    ```
    {: pre}
-
-   When complete, you see a response like:
-
-   ```Retrieving service instance <INSTANCE_NAME> in resource group default under account <ACCOUNT> as <USER_ID>...
-OK
-Name:                   <INSTANCE_NAME>
-ID:                     crn:v1:bluemix:public:databases-for-postgresql:<LOCATION>:a/<ACCOUNT>:<INSTANCE_GUID>::
-GUID:                   <INSTANCE_GUID>
-Location:               LOCATION
-Service Name:           databases-for-postgresql
-Service Plan Name:      standard-gen2
-Resource Group Name:    Default
-State:                  active
-Type:                   service_instance
-Sub Type:               Public
-Locked:                 false
-One-time credentials:   false
-Created at:             <CREATED_AT_TIMESTAMP>
-Created by:             <USER_ID>
-Updated at:             <UPDATED_AT_TIMESTAMP>
-Last Operation:
-                        Status    create succeeded
-                        Message   Provision completed successfully
-   ```
-   {: codeblock}
-
-1. (Optional) Deleting a service instance
-   Delete an instance by running a command like this one:
-
-   ```sh
-   ibmcloud resource service-instance-delete <INSTANCE_NAME>
-   ```
-   {: pre}
+  
 
 ### Connect to your database with the CLI
 {: #connecting-cli}
@@ -697,6 +639,7 @@ terraform output pg_manager_username
 
 ## Step 2: Create the `Manager` (admin-like) user
 {: #manager_user}
+{:ui}
 
 ### The `Manager` user
 {: #admin_like_manager_user}
@@ -742,7 +685,7 @@ GRANT pg_monitor TO mary;
 ```
 {: .pre}
 
-### Change the user password in the UI
+### Change the user password in the console
 {: #user-management-set-manager-password-ui}
 {: ui}
 
@@ -846,19 +789,63 @@ All users on your instance can use the connection strings, including connection 
 
 When you create a user, it is assigned certain database roles and privileges. These privileges include the ability to log in, create databases, and create other users.
 
+## Step 2: Create the `Manager` (admin-like) user
+{: #manager_user}
+{:api}
 
-## Step 3: Set up context-based restrictions
-{: #postgresql_cbr}
+### The `Manager` user
+{: #admin_like_manager_user}
 
-Context-based restrictions give account owners and administrators the ability to define and enforce access restrictions for {{site.data.keyword.cloud_notm}} resources based on the context of access requests. Access to {{site.data.keyword.databases-for}} resources can be controlled with context-based restrictions and Identity and Access Management (IAM) policies.
+As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
+
+{{site.data.keyword.databases-for-postgresql}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+
+The `Manager` user functions as a admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the deployment.
+
+The `manager`user (admin-like) comes with the following roles:
+
+```sh
+pg_read_all_data
+pg_write_all_data
+pg_monitor
+pg_read_all_settings
+pg_read_all_stats
+pg_stat_scan_tables
+pg_signal_backend
+pg_checkpoint
+pg_create_subscription
+```
+{: pre}
+
+When the `Manager` user (admin-like) creates a resource in a database, like a table, the user owns that object. Resources that are created by the `Manager` user are not accessible by other users, unless you explicitly grant permissions to them.
+
+The biggest difference between the `Manager` user and any other users you add to your instance is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `Manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `Manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
+
+You can also use the `Manager` user to grant roles to other users on your instance.
+
+To expose the ability to cancel queries to other database users, grant the pg_signal_backend role from the `Manager` user. Use a command like:
+
+```
+GRANT pg_signal_backend TO joe;
+```
+{: .pre}
+
+To set up a specific monitoring user, `mary`, use a command like:
+
+```
+GRANT pg_monitor TO mary;
+```
+{: .pre}
+
 
 
 
 
 ## Step 4: Create a connection
 {: #private_connect_setup}
+{: ui}
 
-The **Connect** tab in Gen 2 provides guided instructions for creating a secure connection to your {{site.data.keyword.databases-for-mongodb}} deployment.
+The **Connect** tab in Gen 2 provides guided instructions for creating a secure connection to your {{site.data.keyword.databases-for-postgresql}} deployment.
 
 Because Gen 2 supports **private endpoints only**, all connections are established through the {{site.data.keyword.cloud}} private network. The _Create a connection_ view walks you through the required setup to connect securely from your infrastructure, such as a Virtual Server Instance (VSI), by using Virtual Private Endpoint (VPE) gateway.
 
@@ -873,7 +860,7 @@ Also, the sections below provide a clear overview of how a connection is establi
 * [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
 
 ## Step 4: Create a connection
-{: #private_connect_setup_tf}
+{: #private_connect_setup}
 (: terraform)
 
 ### Connect with psql
@@ -942,9 +929,9 @@ terraform destroy
 Type `yes` to confirm deletion of all resources.
 {: important}
 
-
 ## Step 5: Connect {{site.data.keyword.mon_full_notm}} through the console
 {: #postgresql_monitoring}
+{: ui}
 
 You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
 
@@ -954,7 +941,7 @@ You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the
 {: note}
 
 ## Step 6: Connect {{site.data.keyword.atracker_short}}
-{: #postgresql_logs}{{site.data.keyword.atracker_short}}
+{: #postgresql_logs}
 
 {{site.data.keyword.atracker_full}} allows you to view, and audit service activity to comply with corporate policies and industry regulations. {{site.data.keyword.atracker_short}} records user-initiated activities that change the state of a service in {{site.data.keyword.cloud_notm}}. Use {{site.data.keyword.atracker_short}} to track how users and applications interact with the {{site.data.keyword.databases-for-mongodb}} service.
 
@@ -969,12 +956,11 @@ Events are formatted according to the Cloud Auditing Data Federation (CADF) stan
 You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 {: note}
 
-
 ## Next steps
 {: #next-steps}
 
 - If you are using {{site.data.keyword.databases-for-postgresql}} for the first time, see the [official {{site.data.keyword.databases-for-postgresql}} documentation](https://www.postgresql.org/docs/){: external}.
-- Secure your instance by adding [context-based restrictions](/docs/cloud-databases?topic=cloud-databases-cbr&interface=ui).
+
 - Connect your instance to [IBM Cloud Log Analysis](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-logging&interface=ui) and [IBM Cloud Monitoring](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring&interface=ui) for observability and alerting.
 - Connect to and manage your databases and data with {{site.data.keyword.databases-for-postgresql}}'s CLI tool [`psql`](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql).
 - Looking for more tools on managing your databases? Connect to your instance with the following tools:
