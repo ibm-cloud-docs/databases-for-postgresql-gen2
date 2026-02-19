@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-02-18"
+lastupdated: "2026-02-19"
 
 keywords: pgAdmin, postgresql gui, PostgreSQL getting started, Gen 2
 
@@ -42,9 +42,9 @@ Follow these steps to complete the tutorial:
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the console](#provision_instance_ui)
-* [Step 2: Create the `Manager` user](#manager_user)
-* [Step 3: Create a connection](#private_connect_setup)
-* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 2: Creating the `Manager` user](#manager_user_ui)
+* [Step 3: Create a connection](#private_connect_setup_ui)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring_ui)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next steps](#next_steps)
 {: ui}
@@ -54,9 +54,9 @@ Follow these steps to complete the tutorial:
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the CLI](#provision_instance_cli)
-* [Step 2: Create the `Manager` user](#manager_user_cli)
-* [Step 3: Create a connection](#private_connect_setup)
-* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 2: Creating the `Manager` user](#manager_user_cli)
+* [Step 3: Create a connection](#private_connect_setup_cli)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring_cli)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next steps](#next_steps)
 {: cli}
@@ -66,9 +66,9 @@ Follow these steps to complete the tutorial:
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through the API](#provision_instance_api)
-* [Step 2: Create the `Manager` user](#manager_user)
-* [Step 3: Create a connection](#private_connect_setup)
-* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 2: Creating the `Manager` user](#manager_user_api)
+* [Step 3: Create a connection](#private_connect_setup_api)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring_api)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next steps](#next_steps)
 {: api}
@@ -78,9 +78,9 @@ Follow these steps to complete the tutorial:
 
 * [Before you begin](#prereqs)
 * [Step 1: Provision through Terraform](#provision_instance_tf)
-* [Step 2: Create the `Manager` user](#manager_user)
+* [Step 2: Creating the `Manager` user](#manager_user_tf)
 * [Step 3: Create a connection](#private_connect_setup_tf)
-* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring_tf)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next steps](#next_steps)
 {: terraform}
@@ -647,6 +647,12 @@ export IC_IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq -r .iam_token | cut
 {: #tf_project_structure}
 {: terraform}
 
+## Step 2: Create the `Manager` (admin-like) user
+{: #manager_user_ui}
+{:ui}
+
+### The `Manager` user
+
 Your Terraform project should have the following structure:
 
 ```text
@@ -819,9 +825,58 @@ terraform output pg_manager_username
 ```
 {: pre}
 
+## Step 2: Create the `Manager` (admin-like) user
+{: #manager_user_api}
+{:api}
 
 ### The `Manager` user
-{: #admin_like_manager_user}
+
+As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
+
+{{site.data.keyword.databases-for-postgresql}} instances no longer include a default admin user. Instead, you create a user with the `Manager` or `Writer` role using the {{site.data.keyword.cloud}} service credential interface — via UI or CLI. These users come with necessary credentials to connect to and manage the instance.
+
+The `Manager` user functions as a admin-like user and is automatically granted the PostgreSQL default role `pg_monitor`, which provides access to monitoring views and functions within the database. The created user has the CREATEROLE and CREATEDB privileges, inheriting permissions from both `ibm_admin` and `ibm_writer`, enabling broader access and management capabilities within the deployment.
+
+The `manager`user (admin-like) comes with the following roles:
+
+```sh
+pg_read_all_data
+pg_write_all_data
+pg_monitor
+pg_read_all_settings
+pg_read_all_stats
+pg_stat_scan_tables
+pg_signal_backend
+pg_checkpoint
+pg_create_subscription
+```
+{: pre}
+
+When the `Manager` user (admin-like) creates a resource in a database, like a table, the user owns that object. Resources that are created by the `Manager` user are not accessible by other users, unless you explicitly grant permissions to them.
+
+The biggest difference between the `Manager` user and any other users you add to your instance is the [`pg_monitor`](https://www.postgresql.org/docs/current/default-roles.html){: .external} and [`pg_signal_backend`](https://www.postgresql.org/docs/current/default-roles.html){: .external} roles. The `pg_monitor` role provides a set of permissions that makes the `Manager` user appropriate for monitoring the database server. The `pg_signal_backend` role provides the `Manager` user the ability to send signals to cancel queries and connections that are initiated by other users. It is not able to send signals to processes owned by superusers.
+
+You can also use the `Manager` user to grant roles to other users on your instance.
+
+To expose the ability to cancel queries to other database users, grant the pg_signal_backend role from the `Manager` user. Use a command like:
+
+```
+GRANT pg_signal_backend TO joe;
+```
+{: .pre}
+
+To set up a specific monitoring user, `mary`, use a command like:
+
+```
+GRANT pg_monitor TO mary;
+```
+{: .pre}
+
+## Step 2: Create the `Manager` (admin-like) user
+{: #manager_user_tf}
+{:terraform}
+
+### The `Manager` user
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
@@ -866,9 +921,81 @@ GRANT pg_monitor TO mary;
 
 
 
+
 ## Step 3: Create a connection
-{: #private_connect_setup}
-{: terraform}
+{: #private_connect_setup_ui}
+{: ui}
+
+The **Connect** tab in Gen 2 provides guided instructions for creating a secure connection to your {{site.data.keyword.databases-for-postgresql}} deployment.
+
+Because Gen 2 supports **private endpoints only**, all connections are established through the {{site.data.keyword.cloud}} private network. The _Create a connection_ view walks you through the required setup to connect securely from your infrastructure, such as a Virtual Server Instance (VSI), by using Virtual Private Endpoint (VPE) gateway.
+
+This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
+
+Also, the sections below provide a clear overview of how a connection is established within the VPC environment.
+
+* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
+* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
+* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
+
+## Step 3: Create a connection
+{: #private_connect_setup_cli}
+{: cli}
+
+The **Connect** tab in Gen 2 provides guided instructions for creating a secure connection to your {{site.data.keyword.databases-for-postgresql}} deployment.
+
+Because Gen 2 supports **private endpoints only**, all connections are established through the {{site.data.keyword.cloud}} private network. The _Create a connection_ view walks you through the required setup to connect securely from your infrastructure, such as a Virtual Server Instance (VSI), by using Virtual Private Endpoint (VPE) gateway.
+
+This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
+
+Also, the sections below provide a clear overview of how a connection is established within the VPC environment.
+
+* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
+* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
+* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
+
+
+## Step 3: Create a connection
+{: #private_connect_setup_api}
+{: api}
+
+The **Connect** tab in Gen 2 provides guided instructions for creating a secure connection to your {{site.data.keyword.databases-for-postgresql}} deployment.
+
+Because Gen 2 supports **private endpoints only**, all connections are established through the {{site.data.keyword.cloud}} private network. The _Create a connection_ view walks you through the required setup to connect securely from your infrastructure, such as a Virtual Server Instance (VSI), by using Virtual Private Endpoint (VPE) gateway.
+
+This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
+
+Also, the sections below provide a clear overview of how a connection is established within the VPC environment.
+
+* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
+* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
+* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
+
+
+## Step 3: Create a connection
+{: #private_connect_setup_tf}
+(: terraform)
+
+The **Connect** tab in Gen 2 provides guided instructions for creating a secure connection to your {{site.data.keyword.databases-for-postgresql}} deployment.
+
+Because Gen 2 supports **private endpoints only**, all connections are established through the {{site.data.keyword.cloud}} private network. The _Create a connection_ view walks you through the required setup to connect securely from your infrastructure, such as a Virtual Server Instance (VSI), by using Virtual Private Endpoint (VPE) gateway.
+
+This guided experience is designed to help you configure a production-ready, secure connection without exposing your database to the public internet.
+
+Also, the sections below provide a clear overview of how a connection is established within the VPC environment.
+
+* [Create a VPC](https://cloud.ibm.com/infrastructure/network/vpcs/) (Virtual Private Cloud): A VPC is your own isolated network within {{site.data.keyword.cloud}} where you can securely run resources.
+* [Generate an SSH key](https://cloud.ibm.com/infrastructure/compute/sshKeys/): SSH keys allow you to securely connect to your virtual servers.
+* [Provision a Virtual Server Instance (VSI)](https://cloud.ibm.com/infrastructure/compute/vs/): A VSI is your cloud-based server where applications and workloads will run.
+* [Reserve a floating IP for your VSI](https://cloud.ibm.com/infrastructure/network/floatingIPs/): A floating IP is a public IP address that lets you access your VSI from the internet.
+* [Create a Virtual Private Endpoint (VPE)](https://cloud.ibm.com/infrastructure/network/endpointGateways/): A VPE provides secure, private connectivity to {{site.data.keyword.cloud_notm}} services.
+
 
 ### Connect with psql
 {: #tf_connect_psql}
@@ -936,6 +1063,51 @@ terraform destroy
 Type `yes` to confirm deletion of all resources.
 {: important}
 
+
+## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the console
+{: #postgresql_monitoring_ui}
+{: ui}
+
+You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
+
+For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+
+You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+{: note}
+
+## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the console
+{: #postgresql_monitoring_cli}
+{: cli}
+
+You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
+
+For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+
+You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+{: note}
+
+## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the console
+{: #postgresql_monitoring_api}
+{: api}
+
+You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
+
+For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+
+You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+{: note}
+
+## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the console
+{: #postgresql_monitoring_tf}
+{: terraform}
+
+You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
+
+For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+
+You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
+{: note}
+
 ## Step 5: Connect {{site.data.keyword.atracker_short}}
 {: #postgresql_logs}
 
@@ -951,6 +1123,7 @@ Events are formatted according to the Cloud Auditing Data Federation (CADF) stan
 
 You cannot connect {{site.data.keyword.atracker_short}} by using the CLI. Use the console to complete this task. For more information, see [Activity tracking events](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-at_events&interface=api).
 {: note}
+
 
 ## Next steps
 {: #next-steps}
