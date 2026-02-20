@@ -964,7 +964,7 @@ Also, the sections below provide a clear overview of how a connection is establi
 
 ## Step 3: Create a connection
 {: #private_connect_setup_tf}
-(: terraform)
+{: terraform}
 
 The **Connect** tab in Gen 2 provides guided instructions for creating a secure connection to your {{site.data.keyword.databases-for-postgresql}} deployment.
 
