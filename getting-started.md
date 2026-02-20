@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-02-19"
+lastupdated: "2026-02-20"
 
 keywords: pgAdmin, postgresql gui, PostgreSQL getting started, Gen 2
 
@@ -29,13 +29,6 @@ completion-time: 30m
 {: beta}
 
 This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} on the Gen 2 platform by provisioning an instance, setting up a secure connection through a VSI and VPE, and enabling logging and monitoring.
-{: ui}
-
-This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} on the Gen 2 platform by provisioning an instance, setting up a secure connection through a VSI and VPE, and enabling logging and monitoring.
-{: cli}
-
-This tutorial guides you through the steps to quickly start by using {{site.data.keyword.databases-for-postgresql}} on the Gen 2 platform by provisioning an instance, setting up a secure connection through a VSI and VPE, and enabling logging and monitoring.
-{: api}
 
 Follow these steps to complete the tutorial:
 {: ui}
@@ -44,7 +37,7 @@ Follow these steps to complete the tutorial:
 * [Step 1: Provision through the console](#provision_instance_ui)
 * [Step 2: Creating the `Manager` user](#manager_user_ui)
 * [Step 3: Create a connection](#private_connect_setup_ui)
-* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring_ui)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next steps](#next_steps)
 {: ui}
@@ -56,7 +49,7 @@ Follow these steps to complete the tutorial:
 * [Step 1: Provision through the CLI](#provision_instance_cli)
 * [Step 2: Creating the `Manager` user](#manager_user_cli)
 * [Step 3: Create a connection](#private_connect_setup_cli)
-* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring_cli)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next steps](#next_steps)
 {: cli}
@@ -68,7 +61,7 @@ Follow these steps to complete the tutorial:
 * [Step 1: Provision through the API](#provision_instance_api)
 * [Step 2: Creating the `Manager` user](#manager_user_api)
 * [Step 3: Create a connection](#private_connect_setup_api)
-* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring_api)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next steps](#next_steps)
 {: api}
@@ -80,7 +73,7 @@ Follow these steps to complete the tutorial:
 * [Step 1: Provision through Terraform](#provision_instance_tf)
 * [Step 2: Creating the `Manager` user](#manager_user_tf)
 * [Step 3: Create a connection](#private_connect_setup_tf)
-* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring_tf)
+* [Step 4: Connect {{site.data.keyword.mon_full_notm}}](#postgresql_monitoring)
 * [Step 5: Connect {{site.data.keyword.atracker_full}}](#postgresql_logs)
 * [Next steps](#next_steps)
 {: terraform}
@@ -97,19 +90,16 @@ Follow these steps to complete the tutorial:
 
 1. Log in to the {{site.data.keyword.cloud_notm}} console.
 1. Click the [**{{site.data.keyword.databases-for-postgresql}} service**](https://cloud.ibm.com/catalog){: external} in the **catalog**.
-
 1. In **Service details**, configure the following:
     - **Location** - Select a location that supports Gen 2
     - **Service name** - The name can be any string and is the name that is used on the web and in the CLI to identify the new instance.
     - **Resource group** - If you are organizing your services into resource groups. For more information, see [Managing resource groups](/docs/account?topic=account-rgs).
-
 1. **Resource allocation** - Select an isolated compute instance with a certain amount of RAM and CPU cores. Changing resource allocation requires selecting a different host size. *Once provisioned, disk cannot be scaled down.*
 1. In **Service configuration**, configure the following:
     - **Database version** [Set only at deployment]{: tag-red} - The deployment version of your database. To ensure optimal performance, run the preferred version. The latest minor version is used automatically. For more information, see [Database versioning policy](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-versioning-policy&interface=ui){: external}.
     - **Encryption** - If you use [Key Protect](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-key-protect&interface=ui), an instance and key can be selected to encrypt the instance's disk. If you do not use your own key, the instance automatically creates and manages its own disk encryption key.
 
 1. Click **Create**. The {{site.data.keyword.databases-for}} **Resource list** page opens.
-
 1. When your instance has been provisioned, click the instance name to view more information.
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
@@ -647,23 +637,49 @@ export IC_IAM_TOKEN=$(ibmcloud iam oauth-tokens -o json | jq -r .iam_token | cut
 {: #tf_project_structure}
 {: terraform}
 
-## Step 2: Create the `Manager` (admin-like) user
-{: #manager_user_ui}
-{:ui}
+#### Outputs configuration (outputs.tf)
+{: #tf_outputs_cofig}
+{: terraform}
 
-### The `Manager` user
+Create an `outputs.tf` file to display important information after deployment:
 
-Your Terraform project should have the following structure:
+```hcl
+output "instance_crn" {
+  description = "Instance CRN"
+  value       = ibm_resource_instance.pg_demo.crn
+}
 
-```text
-postgresql-terraform/
-├── provider.tf     # Provider configuration
-├── main.tf         # Resource definitions
-└── outputs.tf      # Output definitions
+output "instance_id" {
+  description = "Instance GUID"
+  value       = ibm_resource_instance.pg_demo.guid
+}
+
+output "instance_status" {
+  description = "Instance Status"
+  value       = ibm_resource_instance.pg_demo.status
+}
+
+output "postgresql_version" {
+  description = "PostgreSQL Version"
+  value       = ibm_resource_instance.pg_demo.extensions["dataservices.postgresql.version"]
+}
+
+output "hostname" {
+  description = "PostgreSQL hostname"
+  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.hosts.0.hostname"], null)
+}
+
+output "port" {
+  description = "PostgreSQL port"
+  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.port"], null)
+}
+
+output "database" {
+  description = "Database name"
+  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.database"], null)
+}
 ```
-{: screen}
-
-This modular approach separates concerns and makes you configuration easier to maintain.
+{: codeblock}
 
 ### Configuration files
 {: #tf_configuration_files}
@@ -747,51 +763,6 @@ You can customize the following parameters:
 - `members` - Number of members (2 or 3)
 - `tags` - Labels for organizing and tracking resources
 
-#### Outputs configuration (outputs.tf)
-{: #tf_outputs_cofig}
-{: terraform}
-
-Create an `outputs.tf` file to display important information after deployment:
-
-```hcl
-output "instance_crn" {
-  description = "Instance CRN"
-  value       = ibm_resource_instance.pg_demo.crn
-}
-
-output "instance_id" {
-  description = "Instance GUID"
-  value       = ibm_resource_instance.pg_demo.guid
-}
-
-output "instance_status" {
-  description = "Instance Status"
-  value       = ibm_resource_instance.pg_demo.status
-}
-
-output "postgresql_version" {
-  description = "PostgreSQL Version"
-  value       = ibm_resource_instance.pg_demo.extensions["dataservices.postgresql.version"]
-}
-
-output "hostname" {
-  description = "PostgreSQL hostname"
-  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.hosts.0.hostname"], null)
-}
-
-output "port" {
-  description = "PostgreSQL port"
-  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.port"], null)
-}
-
-output "database" {
-  description = "Database name"
-  value       = try(ibm_resource_instance.pg_demo.extensions["dataservices.connection.postgres.database"], null)
-}
-```
-{: codeblock}
-
-
 ### Post-deployment
 {: #tf_post_deployment}
 {: terraform}
@@ -826,10 +797,25 @@ terraform output pg_manager_username
 {: pre}
 
 ## Step 2: Create the `Manager` (admin-like) user
+{: #manager_user_ui}
+{:ui}
+
+Your Terraform project should have the following structure:
+
+```text
+postgresql-terraform/
+├── provider.tf     # Provider configuration
+├── main.tf         # Resource definitions
+└── outputs.tf      # Output definitions
+```
+{: screen}
+
+This modular approach separates concerns and makes you configuration easier to maintain.
+
+
+## Step 2: Create the `Manager` (admin-like) user
 {: #manager_user_api}
 {:api}
-
-### The `Manager` user
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
@@ -875,8 +861,6 @@ GRANT pg_monitor TO mary;
 ## Step 2: Create the `Manager` (admin-like) user
 {: #manager_user_tf}
 {:terraform}
-
-### The `Manager` user
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
@@ -1049,6 +1033,7 @@ terraform output -raw port
 ```
 {: pre}
 
+
 ### Clean up resources
 {: #tf_clean_up}
 {: terraform}
@@ -1064,9 +1049,8 @@ Type `yes` to confirm deletion of all resources.
 {: important}
 
 
-## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the console
-{: #postgresql_monitoring_ui}
-{: ui}
+## Step 4: Connect {{site.data.keyword.mon_full_notm}}
+{: #postgresql_monitoring}
 
 You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
 
@@ -1075,38 +1059,6 @@ For more information about how to use {{site.data.keyword.monitoringshort}} with
 You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
 {: note}
 
-## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the console
-{: #postgresql_monitoring_cli}
-{: cli}
-
-You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
-
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-
-You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-{: note}
-
-## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the console
-{: #postgresql_monitoring_api}
-{: api}
-
-You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
-
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-
-You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-{: note}
-
-## Step 4: Connect {{site.data.keyword.mon_full_notm}} through the console
-{: #postgresql_monitoring_tf}
-{: terraform}
-
-You can use {{site.data.keyword.mon_full_notm}} to get operational visibility into the performance and health of your applications, services, and platforms. {{site.data.keyword.mon_full_notm}} provides administrators, DevOps teams, and developers full stack telemetry with advanced features to monitor and troubleshoot, define alerts, and design custom dashboards.
-
-For more information about how to use {{site.data.keyword.monitoringshort}} with {{site.data.keyword.databases-for-postgresql}}, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-
-You cannot connect {{site.data.keyword.mon_full_notm}} by using the CLI. Use the console to complete this task. For more information, see [Monitoring integration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-monitoring&interface=ui).
-{: note}
 
 ## Step 5: Connect {{site.data.keyword.atracker_short}}
 {: #postgresql_logs}
