@@ -815,7 +815,7 @@ This modular approach separates concerns and makes you configuration easier to m
 
 ## Step 2: Create the `Manager` (admin-like) user
 {: #manager_user_api}
-{:api}
+{: api}
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
@@ -860,7 +860,7 @@ GRANT pg_monitor TO mary;
 
 ## Step 2: Create the `Manager` (admin-like) user
 {: #manager_user_tf}
-{:terraform}
+{: terraform}
 
 As part of provisioning a new instance in {{site.data.keyword.cloud}}, you can use the service credential console page to create a user with different roles (Manager and Writer).
 
