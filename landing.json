@@ -51,7 +51,6 @@
     }
   ],
   "section_devtools": {
-    "api": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-api",
     "cli": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-cdb-reference",
     "terraform": "https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database"
   },
