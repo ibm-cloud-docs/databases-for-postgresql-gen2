@@ -797,8 +797,8 @@ terraform output pg_manager_username
 {: pre}
 
 ## Step 2: Create the `Manager` (admin-like) user
-{: #manager_user_ui}
-{:ui}
+{: #manager_user_tf}
+{: terraform}
 
 Your Terraform project should have the following structure:
 
