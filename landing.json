@@ -8,31 +8,31 @@
     "links": [
       {
         "title": "Getting started",
-        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-getting-started&interface=ui"
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-getting-started"
       },
       {
-        "title": "Upgrading to a new major version",
-        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-upgrading&interface=ui"
+        "title": "Gen 2 overview",
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2"
       },
       {
-        "title": "The read-only replica",
-        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-read-only-replicas&interface=ui"
+        "title": "Gen 2 isolated compute",
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-isolated-compute"
       },
       {
-        "title": "Scaling and switching hosting models",
-        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-resources-scaling&interface=ui"
+        "title": "Provisioning",
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-provisioning"
       },
       {
-        "title": "Changing your Databases for PostgreSQL configuration",
-        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-changing-configuration&interface=cli"
+        "title": "Comparison of Gen 1 and Gen 2 backups",
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-comparison-backups"
       },
       {
         "title": "Connecting an external application to your PostgreSQL deployment",
-        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-external-app"
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-external-app"
       },
       {
         "title": "Connecting with psql",
-        "href": "/docs/databases-for-postgresql?topic=databases-for-postgresql-connecting-psql"
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql"
       }
     ]
   },
@@ -51,28 +51,20 @@
     }
   ],
   "section_devtools": {
-    "api": "/apidocs/cloud-databases-api/cloud-databases-api-v5#introduction",
-    "cli": "/docs/databases-cli-plugin",
+    "api": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-api",
+    "cli": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-cdb-reference",
     "terraform": "https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database"
   },
   "section_updates": {
-    "view_more": "/docs/databases-for-postgresql?topic=databases-for-postgresql-postgresql-relnotes",
+    "view_more": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-postgresql-relnotes",
     "tiles": [
       {
-        "date": "22 October 2024",
-        "title": "Databases for PostgreSQL end-of-life procedure change"
+        "date": "February 2026",
+        "title": "GA of Databases for PostgreSQL Gen 2"
       },
       {
-        "date": "27 September 2024",
-        "title": "Databases for PostgreSQL version 13 End of life on October 22, 2025"
-      },
-      {
-        "date": "16 September 2024",
-        "title": "Private endpoints as new default"
-      },
-      {
-        "date": "1 May 2024",
-        "title": "New hosting models"
+        "date": "December 2025",
+        "title": "Introducing the Beta of Databases for PostgreSQL Gen 2"
       }
     ]
   }
