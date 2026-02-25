@@ -26,7 +26,7 @@ For pricing estimation, use the **Add to estimate** button on the [{{site.data.k
 ## Gen 2 backups pricing
 {: #pricing-backup}
 
-{{site.data.keyword.databases}} uses a snapshot based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies, therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database.
+{{site.data.keyword.databases}} uses a snapshot based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies, therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database. Snapshots have a minimum size of 1 GB and are rounded up to the next full Gigabyte.
 
 By default, {{site.data.keyword.databases-for-postgresql}} provides a daily backup that is stored for 30 days. These backups, and any on-demand backups you make, all count toward the above allocation.
 
