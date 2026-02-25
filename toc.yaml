@@ -21,7 +21,6 @@ toc:
           href: https://www.ibm.com/cloud/learn/postgresql
       - topic: getting-started.md
         navtitle: Getting started
-      - include: ../cloud-databases-gen2/gen2-beta.md
       - include: ../cloud-databases-gen2/overview.md
       - include: ../cloud-databases-gen2/isolated-compute.md
       - learn-performance.md
