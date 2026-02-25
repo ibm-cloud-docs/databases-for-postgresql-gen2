@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-01-14"
+lastupdated: "2026-02-25"
 
 keywords: HA, DR, high availability, disaster recovery, disaster recovery plan, disaster event, postgresql
 
@@ -16,9 +16,6 @@ subcollection: databases-for-postgresql-gen2
 {: #postgresql-ha-dr}
 
 [Gen 2]{: tag-purple}
-
-{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
-{: beta}
 
 [High availability](#x2284708){: term} (HA) is the ability for a service to remain operational and accessible in the presence of unexpected failures. [Disaster recovery](#x2113280){: term} is the process of recovering the service instance to a working state.
 {: shortdesc}
