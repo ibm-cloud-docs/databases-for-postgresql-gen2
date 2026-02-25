@@ -1,7 +1,7 @@
 ---
 copyright:
-  years: 2025
-lastupdated: "2025-12-12"
+  years: 2026
+lastupdated: "2026-02-25"
 
 keywords: postgresql, gen 2, pricing
 
@@ -15,9 +15,6 @@ subcollection: databases-for-postgresql-gen2
 {: #pricing}
 
 [Gen 2]{: tag-purple}
-
-{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
-{: beta}
 
 A {{site.data.keyword.databases-for-postgresql}} deployment consists of a highly available PostgreSQL cluster with two data members, ensuring your data is replicated across both. Pricing is based on the total resources allocated to the deployment-disk storage, RAM, virtual CPU cores, and backup storage—calculated on an hourly prorated basis. Gen 2 instances require at least 5 GB of disk space, and the smallest configuration profile offers 4 vCPU cores.
 
