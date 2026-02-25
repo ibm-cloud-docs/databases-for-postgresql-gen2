@@ -70,6 +70,9 @@ toc:
   - navgroup:
       id: reference
       topics:
+      - link:
+          label: Gen 1 docs
+          href: https://cloud.ibm.com/docs/databases-for-postgresql
       - include: ../cloud-databases-gen2/cli.md
       - include: ../cloud-databases-gen2/api.md
       - include: ../cloud-databases-gen2/reference-responsibilities.md
