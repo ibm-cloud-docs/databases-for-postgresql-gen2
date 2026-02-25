@@ -31,8 +31,8 @@
         "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-external-app"
       },
       {
-        "title": "Connecting with psql",
-        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-connecting-psql"
+        "title": "Gen 1 docs",
+        "href": "/docs/databases-for-postgresql"
       }
     ]
   },
