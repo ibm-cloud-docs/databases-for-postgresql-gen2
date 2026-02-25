@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2025
-lastupdated: "2025-12-16"
+  years: 2026
+lastupdated: "2026-02-25"
 
 keywords: troubleshooting for PostgreSQL, query history, slow queries
 
@@ -20,9 +20,6 @@ content-type: troubleshoot
 {: support}
 
 [Gen 2]{: tag-purple}
-
-{{site.data.keyword.databases-for}} Gen 2 is currently in Beta. The Beta plan is provided exclusively for evaluation and testing purposes. It is not covered by warranties, SLAs, or support, and is not intended for production use. For more information, see the  [Beta reference](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-icd-gen2-beta).
-{: beta}
 
 PostgreSQL queries are commands used to retrieve data from a table in a relational database management system. PostgreSQL uses the standard SQL query language.
 
