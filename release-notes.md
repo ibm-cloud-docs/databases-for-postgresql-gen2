@@ -20,7 +20,7 @@ content-type: release-note
 [Gen 2]{: tag-purple}
 
 ## February 2026
-{: #EventStreams-feb2026}
+{: #databases-for-postgresql-feb2026}
 {: release-note}
 
 {{site.data.keyword.databases-for-postgresql}} Gen 2
