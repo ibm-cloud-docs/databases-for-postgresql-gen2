@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "title": "IBM Cloud® Databases for PostgreSQL Gen 2",
+  "introduction": "PostgreSQL is a powerful, open source object-relational database that is highly customizable.",
+  "product_page": "https://www.ibm.com/products/databases-for-postgresql",
+  "console_page": "/databases/databases-for-postgresql/create",
+  "section_topics": {
+    "links": [
+      {
+        "title": "Getting started",
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-getting-started"
+      },
+      {
+        "title": "Overview of Gen 1 and Gen 2",
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2"
+      },
+      {
+        "title": "Gen 2 isolated compute",
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-isolated-compute"
+      },
+      {
+        "title": "Provisioning",
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-provisioning"
+      },
+      {
+        "title": "Comparison of Gen 1 and Gen 2 backups",
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-comparison-backups"
+      },
+      {
+        "title": "Connecting an external application to your PostgreSQL deployment",
+        "href": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-external-app"
+      },
+      {
+        "title": "Gen 1 docs",
+        "href": "/docs/databases-for-postgresql"
+      }
+    ]
+  },
+  "section_highlights": [
+    {
+      "title": "IBM named a leader for cloud database management systems",
+      "description": "Gartner named IBM a leader in Gartner Magic Quadrant for 2021 Cloud Database Management Systems.",
+      "href": "https://www.ibm.com/blog/ibm-is-named-a-leader-in-the-2021-gartner-magic-quadrant-for-cloud-database-management-systems-dbms/",
+      "type": "blog"
+    },
+    {
+      "title": "IBM Training - Cloud",
+      "description": "Includes Power Virtual Server, SAP, VMware, Advocate, Architect, Developer, and Site Reliability Engineer, and more",
+      "href": "https://www.ibm.com/training/cloud",
+      "type": "training"
+    }
+  ],
+  "section_devtools": {
+    "cli": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-cdb-reference",
+    "terraform": "https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database"
+  },
+  "section_updates": {
+    "view_more": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-postgresql-relnotes",
+    "tiles": [
+      {
+        "date": "February 2026",
+        "title": "GA of Databases for PostgreSQL Gen 2"
+      },
+      {
+        "date": "December 2025",
+        "title": "Introducing the Beta of Databases for PostgreSQL Gen 2"
+      }
+    ]
+  }
+}
