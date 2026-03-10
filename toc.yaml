@@ -87,8 +87,10 @@ toc:
           label: Troubleshooting
           topics:
           - ts-connect.md
-          - ts-max-connections.md
-          - ts-no-space-left.md
+          - topic: ts-max-connections.md
+            navtitle: How do I increase max_connections?
+          - topic: ts-no-space-left.md
+            navtitle: How do I scale disk to get my deployment back online?
           - queries.md
       - topicgroup:
           label: FAQs
