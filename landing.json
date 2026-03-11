@@ -58,6 +58,10 @@
     "view_more": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-postgresql-relnotes",
     "tiles": [
       {
+        "date": "March 2026",
+        "title": "Databases for PostgreSQL Gen 2 available in Chennai"
+      },
+      {
         "date": "February 2026",
         "title": "GA of Databases for PostgreSQL Gen 2"
       },
