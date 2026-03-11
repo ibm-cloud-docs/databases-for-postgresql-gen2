@@ -23,7 +23,7 @@ content-type: release-note
 {: #databases-for-postgresql-02mar2026}
 {: release-note}
 
-{{site.data.keyword.databases-for-postgresql}} Gen 2 now availabe in Chennai
+{{site.data.keyword.databases-for-postgresql}} Gen 2 is now availabe in Chennai
 : {{site.data.keyword.databases-for-postgresql}} Gen 2 is now also available in Chennai - Airtel (in-che), in addition to Montreal (ca-mon). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2#feature-differentiators).
 
 ## 26 February 2026
