@@ -1,3 +1,4 @@
 # Databases for PostgreSQL documentation
 
-This repo contains documentation for the Databases for PostgreSQL services.
+
+Documentation source repository for content published at https://cloud.ibm.com/docs/services/databases-for-postgresql-gen2.
