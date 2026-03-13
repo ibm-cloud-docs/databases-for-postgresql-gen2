@@ -18,7 +18,7 @@ toc:
           href: https://cloud.ibm.com/docs/cloud-databases
       - link:
           label: What is PostgreSQL?
-          href: https://www.ibm.com/cloud/learn/postgresql
+          href: https://www.ibm.com/products/databases-for-postgresql
       - topic: getting-started.md
         navtitle: Getting started
       - include: ../cloud-databases-gen2/overview.md
