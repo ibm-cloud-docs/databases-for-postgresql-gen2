@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-03-11"
+lastupdated: "2026-03-17"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -23,7 +23,7 @@ content-type: release-note
 {: #databases-for-postgresql-02mar2026}
 {: release-note}
 
-{{site.data.keyword.databases-for-postgresql}} Gen 2 is now availabe in Chennai
+{{site.data.keyword.databases-for-postgresql}} Gen 2 is now available in Chennai
 : {{site.data.keyword.databases-for-postgresql}} Gen 2 is now also available in Chennai - Airtel (in-che), in addition to Montreal (ca-mon). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2#feature-differentiators).
 
 ## 26 February 2026
@@ -39,5 +39,5 @@ content-type: release-note
 {: release-note}
 
 {{site.data.keyword.databases-for-postgresql}} Gen 2 is now available in beta
-: Support for PostgreSQL v18: Built on VPC architecture with software-defined networking, delivering enhanced security, and flexibility. 
+: Support for PostgreSQL v18: Built on VPC architecture with software-defined networking, delivering enhanced security, and flexibility.
 : Now available in the Montreal region, giving developers early access to next-generation database innovation.
