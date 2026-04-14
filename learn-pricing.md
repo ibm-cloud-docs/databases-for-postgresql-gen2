@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2026
-lastupdated: "2026-02-25"
+lastupdated: "2026-04-14"
 
 keywords: postgresql, gen 2, pricing
 
@@ -21,12 +21,12 @@ A {{site.data.keyword.databases-for-postgresql}} deployment consists of a highly
 ## Using the pricing calculator
 {: #pricing-calc}
 
-For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-postgresql}} catalog page](https://cloud.ibm.com/catalog). Input your total consumption across two data members into the calculator. This is roughly double the size of your data because your data is replicated to both members. For example, 5 GB of disk with a 4 by 20 profile across two data members would be priced at 10 GB of disk and 8vCPU, 40 GB of RAM respectively. 
+For pricing estimation, use the **Add to estimate** button on the [{{site.data.keyword.databases-for-postgresql}} catalog page](https://cloud.ibm.com/catalog). Input your total consumption across two data members into the calculator. This is equal to the number of members because your data is replicated to all members. For example, 5 GB of disk on a 4 vCPU x 20 GB RAM profile would have a total bill for 10 GB of disk and the total cost of 2 members.
 
 ## Gen 2 backups pricing
 {: #pricing-backup}
 
-{{site.data.keyword.databases}} uses a snapshot based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies, therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database. Snapshots have a minimum size of 1 GB and are rounded up to the next full Gigabyte.
+Gen 2 {{site.data.keyword.databases-for}} uses a snapshot based backup model, with pricing aligned to the size of your provisioned database storage. Snapshots differ from traditional backups in that they are block-level incremental copies, therefore you are billed based on how much data has changed since the last snapshot, not just the total size of your database. Snapshots have a minimum size of 1 GB and are rounded up to the next full Gigabyte.
 
 By default, {{site.data.keyword.databases-for-postgresql}} provides a daily backup that is stored for 30 days. These backups, and any on-demand backups you make, all count toward the above allocation.
 
@@ -44,18 +44,25 @@ Overage charges:
 
 Worked example, for a 2-member PostgreSQL deployment with 100 GB of data per member:
 
-* Day 1: A full snapshot is taken. Each snapshot captures the full volume, so you consume 200 GB of snapshot storage (100 GB × 2).
+* Day 1: A full snapshot is taken from the current primary. This consumes 100 GB of snapshot storage.
 
-This worked example models the worst case scenario. The full snapshot is equal to the file system and in most cases, this will be smaller than the entire disk volume. New databases will be small and grow over time, therefore the first snapshot will be considerably smaller for new instances, reducing your overall bill for backups.
+This models the worst case scenario where the full snapshot is equal to the file system size. In practice, especially for new databases that grow over time, snapshot sizes are typically smaller, which helps reduce backup costs.
 {: note}
 
-* Day 2: You write 10 GB of new data to each member. The next snapshot is incremental — it only stores the changes since the last snapshot. So you consume an additional 20 GB (10 GB × 2 members), bringing your total snapshot usage to 220 GB.
+* Day 2-16: You write 10 GB of new data per day. Snapshots are incremental and only store changes. Over 15 days, this adds 150 GB, bringing total snapshot usage to 100 GB + 150 GB = 250 GB.
 
-* Day 30: You write 2 GB of data per day, bringing your total snapshot usage to ((2x28) + 220) = 276 GB.
+* Your backup storage utilization is now greater than the free allocation of 200 GB for the month (in this scenario). Billing incurs for an overage at a rate of $0.095/month per gigabyte.
 
-* In a given month, if you have a {{site.data.keyword.databases-for-postgresql}} deployment that has 100 GB of disk per member, and have two data members, you receive 200 GB of snapshot storage free for that month. Your backup storage utilization is greater than 200 GB for the month (in this scenario), you are charged an overage of $0.095/month per gigabyte, therefore your total bill = (276 GB - 200 GB) X 0.095 = $7.22.
+* Day 17: A failover occurs, and one secondary member becomes the new primary. A full snapshot is taken from this new primary, consuming another 100 GB.
 
-* With large instances and frequent writes, you’re more likely to exceed the free tier after the first snapshot, and your snapshot storage costs will grow quickly.
+* Day 18-30: You continue writing 10 GB per day, adding 130 GB over 13 days.
+  
+Total snapshot = 100 GB (initial) + 150 GB (incremental) + 100 GB (failover snapshot) + 130 GB (post-failover incremental) = 480 GB
+Free allocation = 100 GB x 2 members = 200 GB
+Overage = 480 GB - 200 GB = 280 GB
+Monthly charge = (480 GB - 200 GB) x $0.095 = $26.6
+
+With large deployments and frequent writes, you may exceed the free tier after the first snapshot.
 
 * Cross-region copies: If you choose to copy snapshots to another region, {{site.data.keyword.cloud}} charges for the full size of the snapshot in the destination region (not incremental) and continued incremental growth in the original region as new snapshots are taken.
 
