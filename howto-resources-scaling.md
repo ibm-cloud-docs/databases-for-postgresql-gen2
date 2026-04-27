@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-03-24"
+lastupdated: "2026-04-27"
 
 keywords: postgresql, scaling, memory, disk IOPS, CPU, postgresql dedicated cores, scaling postgresql
 
@@ -125,10 +125,10 @@ ibmcloud resource service-instance-update <INSTANCE_NAME> -p '<{FIELDS_TO_UPDATE
 ```
 {: pre}
 
-For example, to update the `host_flavor` of a {{site.data.keyword.databases-for-mongodb}} instance, use a command like:
+For example, to update the `host_flavor` of a {{site.data.keyword.databases-for-postgresql}} instance, use a command like:
 
 ```sh
-ibmcloud resource service-instance-update test-database databases-for-mongodb standard us-south -p '{"host_flavor": "mx3d.8x80.encrypted", "storage_gb": 10 }'
+ibmcloud resource service-instance-update test-database databases-for-postgresql standard us-south -p '{"host_flavor": "mx3d.8x80.encrypted", "storage_gb": 10 }'
 ```
 {: pre}
 
