@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-06-02"
+lastupdated: "2026-06-15"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -41,7 +41,6 @@ see [Overview of Gen 1 and Gen 2{{site.data.keyword.databases-for}}](/docs/datab
 
 {{site.data.keyword.databases-for-postgresql}} Gen 2 is now generally available (GA)
 : {{site.data.keyword.databases-for-postgresql}} Gen 2 is now available, offering the same fully managed {{site.data.keyword.databases-for-postgresql}} engine on newer VPC‑based infrastructure with improved security, networking, and more performant snapshot‑based backups. [Try {{site.data.keyword.databases-for-postgresql}} Gen 2 now](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-provisioning).
-
 
 ## 15 December 2025
 {: #databases-for-postgresql-15Dec2025}
