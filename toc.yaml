@@ -41,6 +41,7 @@ toc:
           - include: ../cloud-databases-gen2/independent-backups.md
       - include: ../cloud-databases-gen2/private-connections.md
       - howto-user-management.md
+      - howto-upgrading.md
       - howto-getting-connection-strings.md
       - include: ../cloud-databases-gen2/ha-dr.md
       - topicgroup:
