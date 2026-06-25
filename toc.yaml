@@ -43,6 +43,7 @@ toc:
       - howto-user-management.md
       - howto-upgrading.md
       - howto-getting-connection-strings.md
+      - include: ../cloud-databases-gen2/closures.md
       - include: ../cloud-databases-gen2/ha-dr.md
       - topicgroup:
           label: Connecting to Databases for PostgreSQL
