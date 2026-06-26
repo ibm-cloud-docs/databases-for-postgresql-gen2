@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2020, 2026
-lastupdated: "2026-06-25"
+lastupdated: "2026-06-26"
 
 keywords: postgresql, databases, upgrading, major versions, postgresql new deployment, postgresql database version, postgresql major version
 
@@ -315,7 +315,7 @@ Increase the timeout if needed, as Terraform uses timeouts instead of expiration
 ### Troubleshooting
 {: #upgrading-in-place-troubleshooting}
 
-If issues occur after a successful upgrade and you need to return to the previous version, contact IBM Cloud support for guidance. Avoid performing PITR or restores without guidance, as this can complicate recovery.
+If issues occur after a successful upgrade and you need to return to the previous version, contact {{site.data.keyword.cloud}} support for guidance. Avoid performing PITR or restores without guidance, as this can complicate recovery.
 {: .attention}
 
 Upgrades run only after all prechecks pass. If the upgrade is blocked, verify:
@@ -456,7 +456,7 @@ For the end-of-life dates, refer to the [version policy page](/docs/cloud-databa
 ## _Role privilege_ issues during version upgrades
 {: #_role_privilege_issues}
 
-Starting with PostgreSQL 16, role privilege enforcement is more stringent. This is an upstream PostgreSQL architectural change, not an {{site.data.keyword.ibm}}-specific behavior change. In earlier versions, roles with the `CREATEROLE` attribute could manage other roles more broadly. In PostgreSQL 16 and later, a role must have the `ADMIN OPTION` on another role to grant or revoke it. For more information, see the PostgreSQL 16 [release notes](https://www.postgresql.org/docs/16/release-16.html){: external}, [role attributes](https://www.postgresql.org/docs/16/role-attributes.html){: external}, and [`GRANT` on roles](https://www.postgresql.org/docs/16/sql-grant.html){: external}.
+Starting with PostgreSQL 16, role privilege enforcement is more stringent. This is an upstream PostgreSQL architectural change, not an {{site.data.keyword.IBM}}-specific behavior change. In earlier versions, roles with the `CREATEROLE` attribute could manage other roles more broadly. In PostgreSQL 16 and later, a role must have the `ADMIN OPTION` on another role to grant or revoke it. For more information, see the PostgreSQL 16 [release notes](https://www.postgresql.org/docs/16/release-16.html){: external}, [role attributes](https://www.postgresql.org/docs/16/role-attributes.html){: external}, and [`GRANT` on roles](https://www.postgresql.org/docs/16/sql-grant.html){: external}.
 {: .note}
 
 If you are upgrading from PostgreSQL 15 or earlier to PostgreSQL 16 or later, review your role grants before starting in-place upgrade (IPU). If role management must continue after the upgrade, ensure that the required roles are granted with WITH ADMIN OPTION before you start the upgrade.
