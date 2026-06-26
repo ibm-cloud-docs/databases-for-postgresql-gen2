@@ -38,7 +38,6 @@ toc:
           topics:
           - include: ../cloud-databases-gen2/backup-restore.md
           - include: ../cloud-databases-gen2/coupled-backups.md
-          - include: ../cloud-databases-gen2/independent-backups.md
       - include: ../cloud-databases-gen2/private-connections.md
       - howto-user-management.md
       - howto-upgrading.md
