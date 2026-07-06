@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-06-15"
+lastupdated: "2026-07-06"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -19,13 +19,20 @@ content-type: release-note
 
 [Gen 2]{: tag-purple}
 
+## 06 July 2026
+{: #cloud-databases-06jul2026}
+{: release-note}
+
+{{site.data.keyword.databases-for-postgresql}} Gen 2 is now availabe in Frankfurt
+: {{site.data.keyword.databases-for-postgresql}} Gen 2 is now also available in Frankfurt (eu-de), in addition to Mumbai (in-mum), Chennai (in-che) and Montreal (ca-mon). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2#feature-differentiators).
+
+
 ## 01 June 2026
 {: #cloud-databases-01jun2026}
 {: release-note}
 
 {{site.data.keyword.databases-for-postgresql}} Gen 2 is now availabe in Mumbai
-: {{site.data.keyword.databases-for-postgresql}} Gen 2 is now also available in Mumbai (in-mum), in addition to Chennai - Airtel (in-che) and Montreal (ca-mon). For more information,
-see [Overview of Gen 1 and Gen 2{{site.data.keyword.databases-for}}](/docs/databases-for-mongodb-gen2?topic=databases-for-mongodb-gen2-overview-gen1-gen2#feature-differentiators).
+: {{site.data.keyword.databases-for-postgresql}} Gen 2 is now also available in Mumbai (in-mum), in addition to Chennai - Airtel (in-che) and Montreal (ca-mon). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2#feature-differentiators).
 
 
 ## 02 March 2026
