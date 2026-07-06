@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-03-18"
+lastupdated: "2026-07-01"
 
 keywords: HA, DR, high availability, disaster recovery, disaster recovery plan, disaster event, postgresql
 
@@ -67,7 +67,7 @@ Configuring synchronous replication can significantly increase write latency and
 
 The general strategy for disaster recovery is to create a new database, like the `Restore` database below. The contents of the new database can be a backup of the source database created before the disaster. A new database can be created using the point-in-time feature if the production database is available.
 
-![Architecture](images/PostgreSQL_CDP_disaster_recovery.svg){: caption="PostgreSQL architecture" caption-side="bottom"}
+![Architecture](images/PostgreSQL_CDP_disaster_recovery.svg){: caption="PostgreSQL disaster recovery architecture" caption-side="bottom"}
 
 ### Disaster recovery features
 {: #dr-features}
@@ -139,7 +139,7 @@ To find out more about responsibility ownership between the customer and {{site.
 ## Stay informed: {{site.data.keyword.IBM_notm}} notifications
 {: #ibm-service-notifications}
 
-Updates affecting customer workloads are communicated through {{site.data.keyword.cloud_notm}} notifications. To stay informed about planned maintenance, announcements, and release notes related to this service,  refer to the [Monitoring notifications and status](/docs/account?topic=account-viewing-cloud-status) page. In addition, regularly review the [Version policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy) page for the latest updates on End-of-Life versions and dates.
+Updates affecting customer workloads are communicated through {{site.data.keyword.cloud_notm}} notifications. To stay informed about planned maintenance, announcements, and release notes related to this service,  refer to the [Monitoring notifications and status](/docs/support?topic=support-viewing-status) page. In addition, regularly review the [Version policy](/docs/cloud-databases?topic=cloud-databases-versioning-policy) page for the latest updates on End-of-Life versions and dates.
 
 ## Additional guidance
 {: #ha_dr-guidance}

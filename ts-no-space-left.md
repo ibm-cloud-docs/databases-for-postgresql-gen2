@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-02-25"
+lastupdated: "2026-06-17"
 
 keywords: troubleshooting for PostgreSQL, postgresql max_connections, postgres max connections, postgresql connection pooling, postgres connection pooling, disk space, scaling considerations
 
@@ -14,7 +14,7 @@ content-type: troubleshoot
 
  {{site.data.keyword.attribute-definition-list}}
 
-# How do I scale disk to get my {{site.data.keyword.databases-for-postgresql_full}} deployment back online?
+# How do I scale disk to get my {{site.data.keyword.databases-for-postgresql}} deployment back online?
 {: #troubleshoot-no-space-left}
 {: troubleshoot}
 {: support}
