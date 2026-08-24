@@ -138,6 +138,10 @@ ibmcloud resource service-instance-update test-database databases-for-postgresql
 
 The host_flavor parameter defines your Compute sizing. Input the appropriate value for your desired size.
 
+#### Fixed profiles
+{: #host-flavor-parameter-cli-fixed}
+{: cli}
+
 | Host size | vCPU x RAM           | host_flavor value         |
 |-----------|----------------------|---------------------------|
 | 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted       |
@@ -147,13 +151,16 @@ The host_flavor parameter defines your Compute sizing. Input the appropriate val
 | 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted     |
 {: caption="Fixed profile CLI selections" caption-side="bottom"}
 
+#### Flex profiles
+{: #host-flavor-parameter-cli-flex}
+{: cli}
+
 | Host size | vCPU x RAM           | host_flavor value         |
 |-----------|----------------------|---------------------------|
 | 4x16      | 4 vCPU x 16 GB RAM   | b3c.4x16.encrypted        |
 | 8x32      | 8 vCPU x 32 GB RAM   | b3c.8x32.encrypted        |
 | 16x64     | 16 vCPU x 64 GB RAM  | b3c.16x64.encrypted       |
 {: caption="Flex profile CLI selections" caption-side="bottom"}
-
 
 ## Review current resources and hosting model
 {: #review-resources-api}
@@ -210,6 +217,10 @@ For more information, see the [API reference](/docs/databases-for-postgresql-gen
 
 The host_flavor parameter defines your Compute sizing. Choose the appropriate value for your desired size.
 
+#### Fixed profiles
+{: #host-flavor-parameter-api-fixed}
+{: api}
+
 | Host size | vCPU x RAM           | host_flavor value         |
 |-----------|----------------------|---------------------------|
 | 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted       |
@@ -218,6 +229,10 @@ The host_flavor parameter defines your Compute sizing. Choose the appropriate va
 | 32x160    | 32 vCPU x 160 GB RAM | bx3d.32x160.encrypted     |
 | 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted     |
 {: caption="Fixed profile API selections" caption-side="bottom"}
+
+#### Flex profiles
+{: #host-flavor-parameter-api-flex}
+{: api}
 
 | Host size | vCPU x RAM           | host_flavor value         |
 |-----------|----------------------|---------------------------|
@@ -232,6 +247,10 @@ The host_flavor parameter defines your Compute sizing. Choose the appropriate va
 
 The host_flavor parameter defines your Compute sizing. Input the appropriate value for your desired size.
 
+#### Fixed profiles
+{: #host-flavor-parameter-terraform-fixed}
+{: terraform}
+
 | Host size | vCPU x RAM           | host_flavor value         |
 |-----------|----------------------|---------------------------|
 | 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted       |
@@ -241,13 +260,16 @@ The host_flavor parameter defines your Compute sizing. Input the appropriate val
 | 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted     |
 {: caption="Fixed profile Terraform selections" caption-side="bottom"}
 
+#### Flex profiles
+{: #host-flavor-parameter-terraform-flex}
+{: terraform}
+
 | Host size | vCPU x RAM           | host_flavor value         |
 |-----------|----------------------|---------------------------|
 | 4x16      | 4 vCPU x 16 GB RAM   | b3c.4x16.encrypted        |
 | 8x32      | 8 vCPU x 32 GB RAM   | b3c.8x32.encrypted        |
 | 16x64     | 16 vCPU x 64 GB RAM  | b3c.16x64.encrypted       |
 {: caption="Flex profile Terraform selections" caption-side="bottom"}
-
 
 ## Review current resources and hosting model
 {: #review-resources-terraform}
