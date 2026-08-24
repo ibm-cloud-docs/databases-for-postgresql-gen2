@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-04-27"
+lastupdated: "2026-08-24"
 
 keywords: postgresql, scaling, memory, disk IOPS, CPU, postgresql dedicated cores, scaling postgresql
 
@@ -28,7 +28,7 @@ To scale an [Isolated compute](/docs/cloud-databases?topic=cloud-databases-hosti
 
 You can manually adjust the resources available to your {{site.data.keyword.databases-for-postgresql_full}} deployment to suit your workload and the size of your data.
 
-**Note: Terraform scaling allocations are per-member.**
+**Note: Terraform scaling allocations are per member.**
 {: terraform}
 
 **Note: API scaling allocations use total allocation values.**
@@ -136,19 +136,23 @@ ibmcloud resource service-instance-update test-database databases-for-postgresql
 {: #host-flavor-parameter-cli}
 {: cli}
 
-Isolated Compute offers six size options to choose from.
-
 The host_flavor parameter defines your Compute sizing. Input the appropriate value for your desired size.
 
 | Host size | vCPU x RAM           | host_flavor value         |
 |-----------|----------------------|---------------------------|
-| 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted        |
-| 8x40      | 8 vCPU x 40 GB RAM   | bx3d.8x40.encrypted        |
-| 8x80      | 8 vCPU x 80 GB RAM   | mx3d.8x80.encrypted        |
-| 16x80     | 16 vCPU x 80 GB RAM  | bx3d.16x80.encrypted       |
-| 32x160    | 32 vCPU x 160 GB RAM | bx3d.32x160.encrypted      |
-| 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted      |
-{: caption="Isolated Compute CLI selections" caption-side="bottom"}
+| 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted       |
+| 8x40      | 8 vCPU x 40 GB RAM   | bx3d.8x40.encrypted       |
+| 16x80     | 16 vCPU x 80 GB RAM  | mx3d.16x80.encrypted      |
+| 32x160    | 32 vCPU x 160 GB RAM | bx3d.32x160.encrypted     |
+| 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted     |
+{: caption="Fixed profile CLI selections" caption-side="bottom"}
+
+| Host size | vCPU x RAM           | host_flavor value         |
+|-----------|----------------------|---------------------------|
+| 4x16      | 4 vCPU x 16 GB RAM   | b3c.4x16.encrypted        |
+| 8x32      | 8 vCPU x 32 GB RAM   | b3c.8x32.encrypted        |
+| 16x64     | 16 vCPU x 64 GB RAM  | b3c.16x64.encrypted       |
+{: caption="Flex profile CLI selections" caption-side="bottom"}
 
 
 ## Review current resources and hosting model
@@ -204,19 +208,45 @@ For more information, see the [API reference](/docs/databases-for-postgresql-gen
 {: #host-flavor-parameter-api}
 {: api}
 
-Isolated Compute offers six size options to choose from.
-
 The host_flavor parameter defines your Compute sizing. Choose the appropriate value for your desired size.
 
 | Host size | vCPU x RAM           | host_flavor value         |
 |-----------|----------------------|---------------------------|
-| 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted        |
-| 8x40      | 8 vCPU x 40 GB RAM   | bx3d.8x40.encrypted        |
-| 8x80      | 8 vCPU x 80 GB RAM   | mx3d.8x80.encrypted        |
-| 16x80     | 16 vCPU x 80 GB RAM  | bx3d.16x80.encrypted       |
-| 32x160    | 32 vCPU x 160 GB RAM | bx3d.32x160.encrypted      |
-| 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted      |
-{: caption="Isolated Compute API selections" caption-side="bottom"}
+| 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted       |
+| 8x40      | 8 vCPU x 40 GB RAM   | bx3d.8x40.encrypted       |
+| 16x80     | 16 vCPU x 80 GB RAM  | mx3d.16x80.encrypted      |
+| 32x160    | 32 vCPU x 160 GB RAM | bx3d.32x160.encrypted     |
+| 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted     |
+{: caption="Fixed profile API selections" caption-side="bottom"}
+
+| Host size | vCPU x RAM           | host_flavor value         |
+|-----------|----------------------|---------------------------|
+| 4x16      | 4 vCPU x 16 GB RAM   | b3c.4x16.encrypted        |
+| 8x32      | 8 vCPU x 32 GB RAM   | b3c.8x32.encrypted        |
+| 16x64     | 16 vCPU x 64 GB RAM  | b3c.16x64.encrypted       |
+{: caption="Flex profile API selections" caption-side="bottom"}
+
+### The `host_flavor` parameter
+{: #host-flavor-parameter-terraform}
+{: terraform}
+
+The host_flavor parameter defines your Compute sizing. Input the appropriate value for your desired size.
+
+| Host size | vCPU x RAM           | host_flavor value         |
+|-----------|----------------------|---------------------------|
+| 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted       |
+| 8x40      | 8 vCPU x 40 GB RAM   | bx3d.8x40.encrypted       |
+| 16x80     | 16 vCPU x 80 GB RAM  | mx3d.16x80.encrypted      |
+| 32x160    | 32 vCPU x 160 GB RAM | bx3d.32x160.encrypted     |
+| 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted     |
+{: caption="Fixed profile Terraform selections" caption-side="bottom"}
+
+| Host size | vCPU x RAM           | host_flavor value         |
+|-----------|----------------------|---------------------------|
+| 4x16      | 4 vCPU x 16 GB RAM   | b3c.4x16.encrypted        |
+| 8x32      | 8 vCPU x 32 GB RAM   | b3c.8x32.encrypted        |
+| 16x64     | 16 vCPU x 64 GB RAM  | b3c.16x64.encrypted       |
+{: caption="Flex profile Terraform selections" caption-side="bottom"}
 
 
 ## Review current resources and hosting model
