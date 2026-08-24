@@ -52,9 +52,7 @@ For Gen 2 deployments, only the Isolated hosting model is available.
 {: #resource_allocation}
 {: ui}
 
-Fine tune your resource allocation.
-
-Use the table to choose the machine size for each member of your deployment, and specify the disk size.
+Fine tune your resource allocation. Use the tables to choose the machine size for each member of your deployment, and specify the disk size.
 
 #### Fixed profiles
 {: #pg-fixed-profiles}
