@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-03-18"
+lastupdated: "2026-08-24"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision PostgreSQL, Gen 2
 
@@ -46,7 +46,7 @@ Deploy from the console by specifying the following parameters:
 For Gen 2 deployments, only the Isolated hosting model is available.
 {: note}
 
-- **Isolated:** Secure single-tenant offering for complex, highly-performant enterprise workloads. For more information, see [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute&interface=ui).
+**Isolated:** Secure single-tenant offering for complex, highly-performant enterprise workloads. For more information, see [Hosting models](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-isolated-compute&interface=ui).
 
 ### Resource allocation
 {: #resource_allocation}
@@ -54,17 +54,30 @@ For Gen 2 deployments, only the Isolated hosting model is available.
 
 Fine tune your resource allocation.
 
-- **Isolated:** Use the table to choose the machine size for each member of your deployment, and specify the disk size.
+Use the table to choose the machine size for each member of your deployment, and specify the disk size.
 
-   | **Host sizes/members**     |
-   |:--------------------------:|
-   | 4 vCPU x 16 RAM            |
-   | 8 vCPU x 32 RAM            |
-   | 8 vCPU x 64 RAM            |
-   | 16 vCPU x 64 RAM           |
-   | 32 vCPU x 128 RAM          |
-   | 30 vCPU x 240 RAM          |
-   {: caption="Isolated Compute sizing parameter" caption-side="bottom"}
+#### Fixed profiles
+{: #pg-fixed-profiles}
+
+| Host size | vCPU x RAM |
+| --- | --- |
+| 4x20 | 4 vCPU x 20 GB RAM |
+| 8x40 | 8 vCPU x 40 GB RAM |
+| 16x80 | 16 vCPU x 80 GB RAM |
+| 32x160 | 32 vCPU x 160 GB RAM |
+| 48x240 | 48 vCPU x 240 GB RAM |
+{: caption="Fixed profile selections" caption-side="bottom"}
+
+#### Flex profiles
+{: #pg-flex-profiles}
+
+| Host size | vCPU x RAM |
+| --- | --- |
+| 4x16 | 4 vCPU x 16 GB RAM |
+| 8x32 | 8 vCPU x 32 GB RAM |
+| 16x64 | 16 vCPU x 64 GB RAM |
+| 32x128 | 32 vCPU x 128 GB RAM |
+{: caption="Flex profile selections" caption-side="bottom"}
 
 Choose the disk size based on your requirements. You can increase it later if necessary, but reducing the size after provisioning is not allowed to avoid potential data loss.
 {: note}
@@ -104,7 +117,6 @@ Before provisioning, follow the instructions provided in the documentation to in
     ibmcloud resource service-instance-create <INSTANCE_NAME> <SERVICE_NAME> <SERVICE_PLAN_NAME> <LOCATION> <RESOURCE_GROUP> -p '{"members_host_flavor": "<members_host_flavor value>"}' --service-endpoints="<Endpoint>"
     ```
     {: pre}
-THIS WILL NEED TO BE UPDATED TO ISOLATED EXAMPLE  - WAITING ON OMAR'S FEEDBACK
 
     For example, to provision a {{site.data.keyword.databases-for-postgresql}} Shared Compute hosting model instance, use a command like:
 
@@ -210,15 +222,21 @@ The `members_host_flavor` parameter defines your Compute sizing.
 
 To provision an Isolated Compute instance, specify the CPU and RAM values that meet your desired configuration.
 
-   | **Members host flavor** | **members_host_flavor value** |
-    |:-------------------------:|:---------------------:|
-   | 4 CPU x 16 RAM            | `b3c.4x16.encrypted`    |
-   | 8 CPU x 32 RAM            | `b3c.8x32.encrypted`    |
-   | 8 CPU x 64 RAM            | `m3c.8x64.encrypted`    |
-   | 16 CPU x 64 RAM           | `b3c.16x64.encrypted`   |
-   | 32 CPU x 128 RAM          | `b3c.32x128.encrypted`  |
-   | 30 CPU x 240 RAM          | `m3c.30x240.encrypted`  |
-   {: caption="Host flavor sizing parameter" caption-side="bottom"}
+| Host size | vCPU x RAM           | host_flavor value         |
+|-----------|----------------------|---------------------------|
+| 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted       |
+| 8x40      | 8 vCPU x 40 GB RAM   | bx3d.8x40.encrypted       |
+| 16x80     | 16 vCPU x 80 GB RAM  | mx3d.16x80.encrypted      |
+| 32x160    | 32 vCPU x 160 GB RAM | bx3d.32x160.encrypted     |
+| 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted     |
+{: caption="Fixed profile CLI selections" caption-side="bottom"}
+
+| Host size | vCPU x RAM           | host_flavor value         |
+|-----------|----------------------|---------------------------|
+| 4x16      | 4 vCPU x 16 GB RAM   | b3c.4x16.encrypted        |
+| 8x32      | 8 vCPU x 32 GB RAM   | b3c.8x32.encrypted        |
+| 16x64     | 16 vCPU x 64 GB RAM  | b3c.16x64.encrypted       |
+{: caption="Flex profile CLI selections" caption-side="bottom"}
 
 CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute, however, disk autoscaling is supported. Monitor your resources with the [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring), which tracks memory, disk space, and disk I/O usage. To increase resources, scale your deployment manually.
 {: note}
@@ -372,15 +390,6 @@ Follow these steps to provision by using the [Resource Controller API](https://c
     ```
     {: pre}
 
-    As shown, the Isolated Compute host flavors available to a {{site.data.keyword.databases-for-postgresql}} instance in the `us-south` region are:
-
-    - `b3c.4x16.encrypted`
-    - `b3c.8x32.encrypted`
-    - `m3c.8x64.encrypted`
-    - `b3c.16x64.encrypted`
-    - `b3c.32x128.encrypted`
-    - `m3c.30x240.encrypted`
-
     To provision or scale your instance to 4 CPUs and `16384` megabytes or RAM, submit the following command:
 
     ```sh
@@ -469,15 +478,21 @@ The `members_host_flavor` parameter defines your Compute sizing.
 
 To provision an Isolated Compute instance, specify the CPU and RAM values that meet your desired configuration.
 
-| **Members Host flavor** | **members_host_flavor value** |
-|:-------------------------:|:---------------------:|
-| 4 CPU x 16 RAM            | `b3c.4x16.encrypted`    |
-| 8 CPU x 32 RAM            | `b3c.8x32.encrypted`    |
-| 8 CPU x 64 RAM            | `m3c.8x64.encrypted`    |
-| 16 CPU x 64 RAM           | `b3c.16x64.encrypted`   |
-| 32 CPU x 128 RAM          | `b3c.32x128.encrypted`  |
-| 30 CPU x 240 RAM          | `m3c.30x240.encrypted`  |
-{: caption="Host flavor sizing parameter" caption-side="bottom"}
+| Host size | vCPU x RAM           | host_flavor value         |
+|-----------|----------------------|---------------------------|
+| 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted       |
+| 8x40      | 8 vCPU x 40 GB RAM   | bx3d.8x40.encrypted       |
+| 16x80     | 16 vCPU x 80 GB RAM  | mx3d.16x80.encrypted      |
+| 32x160    | 32 vCPU x 160 GB RAM | bx3d.32x160.encrypted     |
+| 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted     |
+{: caption="Fixed profile API selections" caption-side="bottom"}
+
+| Host size | vCPU x RAM           | host_flavor value         |
+|-----------|----------------------|---------------------------|
+| 4x16      | 4 vCPU x 16 GB RAM   | b3c.4x16.encrypted        |
+| 8x32      | 8 vCPU x 32 GB RAM   | b3c.8x32.encrypted        |
+| 16x64     | 16 vCPU x 64 GB RAM  | b3c.16x64.encrypted       |
+{: caption="Flex profile API selections" caption-side="bottom"}
 
 CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute, however, disk autoscaling is supported. Monitor your resources with the [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring), which tracks memory, disk space, and disk I/O usage. To increase resources, scale your deployment manually.
 {: note}
@@ -557,15 +572,21 @@ The `host_flavor` parameter defines your Compute sizing.
 
 **Isolated Compute** - To provision an Isolated Compute instance, specify the CPU and RAM values that meet your desired configuration.
 
-| **Host flavor** | **host_flavor value** |
-|:-------------------------:|:---------------------:|
-| 4 CPU x 16 RAM            | `b3c.4x16.encrypted`    |
-| 8 CPU x 32 RAM            | `b3c.8x32.encrypted`    |
-| 8 CPU x 64 RAM            | `m3c.8x64.encrypted`    |
-| 16 CPU x 64 RAM           | `b3c.16x64.encrypted`   |
-| 32 CPU x 128 RAM          | `b3c.32x128.encrypted`  |
-| 30 CPU x 240 RAM          | `m3c.30x240.encrypted`  |
-{: caption="Host flavor sizing parameter" caption-side="bottom"}
+| Host size | vCPU x RAM           | host_flavor value         |
+|-----------|----------------------|---------------------------|
+| 4x20      | 4 vCPU x 20 GB RAM   | bx3d.4x20.encrypted       |
+| 8x40      | 8 vCPU x 40 GB RAM   | bx3d.8x40.encrypted       |
+| 16x80     | 16 vCPU x 80 GB RAM  | mx3d.16x80.encrypted      |
+| 32x160    | 32 vCPU x 160 GB RAM | bx3d.32x160.encrypted     |
+| 48x240    | 48 vCPU x 240 GB RAM | bx3d.48x240.encrypted     |
+{: caption="Fixed profile Terraform selections" caption-side="bottom"}
+
+| Host size | vCPU x RAM           | host_flavor value         |
+|-----------|----------------------|---------------------------|
+| 4x16      | 4 vCPU x 16 GB RAM   | b3c.4x16.encrypted        |
+| 8x32      | 8 vCPU x 32 GB RAM   | b3c.8x32.encrypted        |
+| 16x64     | 16 vCPU x 64 GB RAM  | b3c.16x64.encrypted       |
+{: caption="Flex profile Terraform selections" caption-side="bottom"}
 
 CPU and RAM autoscaling is not supported on {{site.data.keyword.databases-for}} Isolated Compute, however, Disk autoscaling is supported. Monitor your resources with the [{{site.data.keyword.monitoringfull}} integration](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-monitoring), which tracks memory, disk space, and disk I/O usage. To increase resources, scale your deployment manually.
 {: note}
