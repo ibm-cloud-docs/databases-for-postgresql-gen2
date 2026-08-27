@@ -1,7 +1,7 @@
 ---
 copyright:
   years: 2020, 2026
-lastupdated: "2026-06-26"
+lastupdated: "2026-08-27"
 
 keywords: postgresql, databases, upgrading, major versions, postgresql new deployment, postgresql database version, postgresql major version
 
@@ -181,7 +181,7 @@ If your applications must continue to read data during the upgrade, you can prov
 To improve recoverability, create:
 
 - A backup before the upgrade to protect your current data state
-- A backup immediately after the upgrade to establish the first restore point for the new version  
+- A backup immediately after the upgrade to establish the first restore point for the new version
 
 If you do not take a backup after the upgrade, point-in-time recovery (PITR) is not available for the new version until the next scheduled backup completes.
 
@@ -212,7 +212,7 @@ Review the following before you start the upgrade:
   ```
   {: pre}
 
-- Review precheck requirements. The upgrade runs on the source deployment and is blocked 
+- Review precheck requirements. The upgrade runs on the source deployment and is blocked
 if risks are detected. Ensure that:
 
   - The deployment is healthy
@@ -320,10 +320,10 @@ If issues occur after a successful upgrade and you need to return to the previou
 
 Upgrades run only after all prechecks pass. If the upgrade is blocked, verify:
 
-- Cluster health (Patroni state is stable)  
-- Sufficient free disk space  
-- Acceptable disk I/O utilization  
-- Schema size and object count limits  
+- Cluster health (Patroni state is stable)
+- Sufficient free disk space
+- Acceptable disk I/O utilization
+- Schema size and object count limits
 
 Large schemas and high object counts can increase upgrade duration.
 
@@ -456,13 +456,13 @@ For the end-of-life dates, refer to the [version policy page](/docs/cloud-databa
 ## _Role privilege_ issues during version upgrades
 {: #_role_privilege_issues}
 
-Starting with PostgreSQL 16, role privilege enforcement is more stringent. This is an upstream PostgreSQL architectural change, not an {{site.data.keyword.IBM}}-specific behavior change. In earlier versions, roles with the `CREATEROLE` attribute could manage other roles more broadly. In PostgreSQL 16 and later, a role must have the `ADMIN OPTION` on another role to grant or revoke it. For more information, see the PostgreSQL 16 [release notes](https://www.postgresql.org/docs/16/release-16.html){: external}, [role attributes](https://www.postgresql.org/docs/16/role-attributes.html){: external}, and [`GRANT` on roles](https://www.postgresql.org/docs/16/sql-grant.html){: external}.
+Starting with PostgreSQL 16, role privilege enforcement is more stringent. This is an upstream PostgreSQL architectural change, not a behavior change specific to {{site.data.keyword.IBM}}. In earlier versions, roles with the `CREATEROLE` attribute could manage other roles more broadly. In PostgreSQL 16 and later, a role must have the `ADMIN OPTION` on another role to grant or revoke it. For more information, see the PostgreSQL 16 [release notes](https://www.postgresql.org/docs/16/release-16.html){: external}, [role attributes](https://www.postgresql.org/docs/16/role-attributes.html){: external}, and [`GRANT` on roles](https://www.postgresql.org/docs/16/sql-grant.html){: external}.
 {: .note}
 
 If you are upgrading from PostgreSQL 15 or earlier to PostgreSQL 16 or later, review your role grants before starting in-place upgrade (IPU). If role management must continue after the upgrade, ensure that the required roles are granted with WITH ADMIN OPTION before you start the upgrade.
 {: warning}
 
-**If you encounter privilege-related errors after the upgrade, such as:**
+**If you encounter privilege-related errors after the upgrade, for example:**
 
 ```sh
 ERROR: only roles with the ADMIN OPTION on role "some_role" may grant this role
