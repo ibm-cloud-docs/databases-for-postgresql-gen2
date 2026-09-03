@@ -31,7 +31,7 @@ content-type: release-note
 {: #cloud-databases-06jul2026}
 {: release-note}
 
-{{site.data.keyword.databases-for-postgresql}} Gen 2 is now availabe in Frankfurt
+{{site.data.keyword.databases-for-postgresql}} Gen 2 is now available in Frankfurt
 : {{site.data.keyword.databases-for-postgresql}} Gen 2 is now also available in Frankfurt (eu-de), in addition to Mumbai (in-mum), Chennai (in-che) and Montreal (ca-mon). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2#feature-differentiators).
 
 
@@ -39,7 +39,7 @@ content-type: release-note
 {: #cloud-databases-01jun2026}
 {: release-note}
 
-{{site.data.keyword.databases-for-postgresql}} Gen 2 is now availabe in Mumbai
+{{site.data.keyword.databases-for-postgresql}} Gen 2 is now available in Mumbai
 : {{site.data.keyword.databases-for-postgresql}} Gen 2 is now also available in Mumbai (in-mum), in addition to Chennai - Airtel (in-che) and Montreal (ca-mon). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2#feature-differentiators).
 
 
