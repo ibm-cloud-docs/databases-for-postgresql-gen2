@@ -58,6 +58,8 @@ toc:
       - topicgroup:
           label: Configuring PostgreSQL
           topics:
+          - topic: howto-configure-parameters.md
+            navtitle: Changing your configuration
           - topic: howto-extensions.md
             navtitle: Managing extensions
       - topicgroup:
