@@ -17,7 +17,7 @@ subcollection: databases-for-postgresql-gen2
 
 [Gen 2]{: tag-purple}
 
-You can configure database parameters at provisioning time and on a running instance by using {{site.data.keyword.databases-for-postgresql_full}} Gen 2. Some parameters require a **rolling restart** (each member restarted one at a time); others are applied immediately with no downtime.
+You can configure database parameters at provisioning time and on a running instance using the API or CLI with {{site.data.keyword.databases-for-postgresql_full}} Gen 2. Some parameters require a **rolling restart** (each member restarted one at a time); others are applied immediately with no downtime.
 
 ## Provisioning a new instance with custom parameters
 {: #configure-parameters-provision}
