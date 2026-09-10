@@ -191,7 +191,7 @@ Maximum concurrent client connections. The default of 115 reserves 15 connection
 - **Default**: false
 - **Restart required**: No
 
-Logs each successful connection. Useful for compliance audit trails (SOC 2, PCI DSS).
+Logs each successful connection, which is useful for compliance audit trails (for example, SOC 2 or PCI DSS).
 
 ### log_disconnections
 {: #log_disconnections}
@@ -273,7 +273,7 @@ Maximum simultaneous WAL sender processes. Each logical replication subscriber a
 - **Range**: 10 – 40
 - **Restart required**: Yes
 
-Maximum replication slots. Each logical replication subscriber requires one slot. Drop unused slots promptly — abandoned slots retain WAL and can exhaust disk space. Must satisfy max_wal_senders >= max_replication_slots.
+Maximum replication slots. Each logical replication subscriber requires one slot. Drop unused slots promptly because abandoned slots retain WAL and can exhaust disk space. Must satisfy max_wal_senders >= max_replication_slots.
 
 ### max_worker_processes
 {: #max_worker_processes}
