@@ -17,7 +17,7 @@ subcollection: databases-for-postgresql-gen2
 
 [Gen 2]{: tag-purple}
 
-{{site.data.keyword.databases-for-postgresql_full}} Gen 2 allows you to configure database parameters at provisioning time and on a running instance. Some parameters require a **rolling restart** (each member restarted one at a time); others are applied immediately with no downtime.
+You can configure database parameters at provisioning time and on a running instance by using {{site.data.keyword.databases-for-postgresql_full}} Gen 2. Some parameters require a **rolling restart** (each member restarted one at a time); others are applied immediately with no downtime.
 
 ## Provisioning a new instance with custom parameters
 {: #configure-parameters-provision}
@@ -172,8 +172,11 @@ curl -X PATCH \
 {: api}
 
 ## Configuring PostgreSQL parameters
+{: #configuring-parameters-pg}
 
 ### max_connections
+{: #max_connections}
+
 - **Type**: integer
 - **Default**: 115
 - **Range**: 25 – 500
@@ -182,6 +185,8 @@ curl -X PATCH \
 Maximum concurrent client connections. The default of 115 reserves 15 connections for platform monitoring; 100 are available for client workloads.
 
 ### log_connections
+{: #log_connections}
+
 - **Type**: boolean
 - **Default**: false
 - **Restart required**: No
@@ -189,6 +194,8 @@ Maximum concurrent client connections. The default of 115 reserves 15 connection
 Logs each successful connection. Useful for compliance audit trails (SOC 2, PCI DSS).
 
 ### log_disconnections
+{: #log_disconnections}
+
 - **Type**: boolean
 - **Default**: false
 - **Restart required**: No
@@ -196,6 +203,8 @@ Logs each successful connection. Useful for compliance audit trails (SOC 2, PCI 
 Logs each session at disconnect, including session duration.
 
 ### log_min_duration_statement
+{: #log_min_duration_statement}
+
 - **Type**: integer (milliseconds)
 - **Default**: 100
 - **Range**: -1 – 3,600,000
@@ -204,6 +213,8 @@ Logs each session at disconnect, including session duration.
 Logs statements exceeding the specified duration (ms). Set to -1 to disable, 0 to log all statements.
 
 ### max_locks_per_transaction
+{: #max_locks_per_transaction}
+
 - **Type**: integer
 - **Default**: 64
 - **Range**: 10 – 1,024
@@ -212,6 +223,8 @@ Logs statements exceeding the specified duration (ms). Set to -1 to disable, 0 t
 Average number of object locks available per transaction.
 
 ### max_prepared_transactions
+{: #max_prepared_transactions}
+
 - **Type**: integer
 - **Default**: 0
 - **Range**: 0 – 500
@@ -220,6 +233,8 @@ Average number of object locks available per transaction.
 Maximum transactions in the prepared state. Set to 0 (default) to disable two-phase commit. Set to a non-zero value only if your application uses PREPARE TRANSACTION. When enabled, keep this value equal to max_connections.
 
 ### shared_buffers
+{: #shared_buffers}
+
 - **Type**: integer (8 kB blocks)
 - **Default**: ~25% of host flavor RAM
 - **Range**: ~25% RAM – ~40% RAM
@@ -228,6 +243,8 @@ Maximum transactions in the prepared state. Set to 0 (default) to disable two-ph
 Shared memory pool size in 8 kB blocks. 1 GiB = 131,072 blocks. The platform sets the default to ~25% of host RAM, with a maximum of ~40%. The value is automatically adjusted when infrastructure is scaled.
 
 ### wal_level
+{: #wal_level}
+
 - **Type**: enum
 - **Default**: logical
 - **Valid values**: replica, logical
@@ -235,10 +252,12 @@ Shared memory pool size in 8 kB blocks. 1 GiB = 131,072 blocks. The platform set
 
 Controls WAL verbosity. logical supports logical replication and CDC; replica supports physical replication only.
 
-Lowering from logical to replica can make existing logical replication slots unusable. Ensure no CDC or logical replication workloads are active before changing this value.
+Reducing from logical to replica can make existing logical replication slots unusable. Ensure no CDC or logical replication workloads are active before changing this value.
 {: .important}
 
 ### max_wal_senders
+{: #max_wal_senders}
+
 - **Type**: integer
 - **Default**: 10
 - **Range**: 10 – 40
@@ -257,10 +276,12 @@ Maximum simultaneous WAL sender processes. Each logical replication subscriber a
 Maximum replication slots. Each logical replication subscriber requires one slot. Drop unused slots promptly — abandoned slots retain WAL and can exhaust disk space. Must satisfy max_wal_senders >= max_replication_slots.
 
 ### max_worker_processes
+{: #max_worker_processes}
+
 - **Type**: integer
 - **Default**: 8
 - **Minimum**: 8
-- **Maximum**: Memory-tiered — 8, 16, 24, or 32 depending on host flavor RAM
+- **Maximum**: Memory-tiered. 8, 16, 24, or 32 depending on host flavor RAM
 - **Restart required**: Yes
 
 Total background worker budget, shared across logical replication and other background tasks.
@@ -276,6 +297,8 @@ Total background worker budget, shared across logical replication and other back
 Must satisfy max_worker_processes >= max_logical_replication_workers + 4.
 
 ### max_logical_replication_workers
+{: #max_logical_replication_workers}
+
 - **Type**: integer
 - **Default**: 4
 - **Minimum**: 4
@@ -293,6 +316,8 @@ Workers available for logical replication. Maximum is max_worker_processes tier 
 {: caption="max_logical_replication_workers limits by RAM" caption-side="bottom"}
 
 ### pgaudit.log
+{: #pgaudit_log}
+
 - **Type**: string (comma-separated event classes)
 - **Default**: "ddl"
 - **Restart required**: No
@@ -308,7 +333,7 @@ Comma-separated list of statement classes to audit:
 | ddl | All DDL except role-related statements |
 | misc | DISCARD, FETCH, CHECKPOINT, VACUUM, SET |
 | misc_set | SET statements only |
-| all | All of the above |
+| all | All of the previous statement classes |
 | none | Disables session audit logging |
 {: caption="pgaudit.log event classes" caption-side="bottom"}
 
@@ -316,8 +341,10 @@ Using all or write on busy instances can generate high log volumes.
 {: .important}
 
 ### pgaudit.role
+{: #pgaudit_role}
+
 - **Type**: string
 - **Default**: "" (empty — object-level audit logging disabled)
 - **Restart required**: No
 
-Role used for object-level audit logging. pgAudit logs activity on objects where this role has privileges. The role must exist before setting this parameter.
+Role used for object-level audit logging. pgAudit logs activity on objects where this role has privileges. The role must exist before you set this parameter.
