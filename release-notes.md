@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-09-03"
+lastupdated: "2026-09-10"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -18,6 +18,13 @@ content-type: release-note
 {: #postgresql-relnotes}
 
 [Gen 2]{: tag-purple}
+
+## 04 September 2026
+{: #databases-for-postgresql-04sep2026}
+{: release-note}
+
+Customer-configurable server parameters now available
+: {{site.data.keyword.databases-for-postgresql_full}} Gen 2 now supports 14 customer-configurable PostgreSQL server parameters. You can set parameters at provisioning time and update them on a running instance, including connection limits, logging thresholds, memory allocation, WAL and replication settings, and pgAudit classes. For more information, see [Changing your PostgreSQL configuration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-configure-parameters).
 
 ## 01 September 2026
 {: #cloud-databases-01sep2026}
