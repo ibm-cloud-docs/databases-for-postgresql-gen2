@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-09-10"
+lastupdated: "2026-09-21"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -18,6 +18,13 @@ content-type: release-note
 {: #postgresql-relnotes}
 
 [Gen 2]{: tag-purple}
+
+## 16 September 2026
+{: #cloud-databases-16sep2026}
+{: release-note}
+
+{{site.data.keyword.databases-for-postgresql}} Gen 2 is now available in Dallas and London
+: {{site.data.keyword.databases-for-postgresql}} Gen 2 is now also available in Dallas (us-south) and London (eu-gb) in addition to Madrid (eu-es), Sydney (au-syd), Mumbai (in-mum), Chennai (in-che), and Montreal (ca-mon). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2#feature-differentiators).
 
 ## 10 September 2026
 {: #databases-for-postgresql-10sep2026}
