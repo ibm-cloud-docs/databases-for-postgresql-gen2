@@ -22,7 +22,6 @@ toc:
       - topic: getting-started.md
         navtitle: Getting started
       - include: ../cloud-databases-gen2/overview.md
-      - gen1-vs-gen2-differences.md
       - include: ../cloud-databases-gen2/isolated-compute.md
       - learn-performance.md
       - learn-pricing.md
