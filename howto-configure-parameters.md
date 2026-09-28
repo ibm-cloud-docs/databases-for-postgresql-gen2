@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-09-10"
+lastupdated: "2026-09-28"
 
 keywords: postgresql, databases, config, server parameters, configuration, gen2, max_connections, wal_level, shared_buffers, pgaudit, logical replication, postgresql parameters, changing configuration, updating parameters
 
@@ -281,17 +281,17 @@ Maximum replication slots. Each logical replication subscriber requires one slot
 - **Type**: integer
 - **Default**: 8
 - **Minimum**: 8
-- **Maximum**: Memory-tiered. 8, 16, 24, or 32 depending on host flavor RAM
+- **Maximum**: Memory-tiered — 8, 16, 24, or 32 depending on host flavor RAM
 - **Restart required**: Yes
 
 Total background worker budget, shared across logical replication and other background tasks.
 
 | Host RAM | Maximum max_worker_processes |
 |---|---|
-| Less than 16 GiB | 8 |
-| 16 – 31 GiB | 16 |
-| 32 – 63 GiB | 24 |
-| 64 GiB or more | 32 |
+| Up to 2 GiB | 8 |
+| Up to 4 GiB | 16 |
+| Up to 8 GiB | 24 |
+| More than 8 GiB | 32 |
 {: caption="max_worker_processes limits by RAM" caption-side="bottom"}
 
 Must satisfy max_worker_processes >= max_logical_replication_workers + 4.
@@ -305,14 +305,14 @@ Must satisfy max_worker_processes >= max_logical_replication_workers + 4.
 - **Maximum**: Memory-tiered — 4, 12, 20, or 28 depending on host flavor RAM
 - **Restart required**: Yes
 
-Workers available for logical replication. Maximum is max_worker_processes tier - 4:
+Workers available for logical replication. Maximum is max_worker_processes - 4:
 
 | Host RAM | Maximum max_logical_replication_workers |
 |---|---|
-| Less than 16 GiB | 4 |
-| 16 – 31 GiB | 12 |
-| 32 – 63 GiB | 20 |
-| 64 GiB or more | 28 |
+| Up to 2 GiB | 4 |
+| Up to 4 GiB | 12 |
+| Up to 8 GiB | 20 |
+| More than 8 GiB | 28 |
 {: caption="max_logical_replication_workers limits by RAM" caption-side="bottom"}
 
 ### pgaudit.log
