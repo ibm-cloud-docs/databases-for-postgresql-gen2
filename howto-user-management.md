@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-02-25"
+lastupdated: "2026-09-30"
 
 keywords: manager, superuser, roles, service credentials, postgresql users, postgresql service credentials, connection strings, manager password, new user, Gen 2
 
@@ -80,12 +80,12 @@ ALTER ROLE username WITH PASSWORD 'new_password';
 Use one of the following commands from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to create the `manager` user.
 
 ```sh
-ibmcloud resource service-key-create <service_key_name> Manager --instance-name <instance_name>
+ibmcloud resource service-key-create <service_key_name> --instance-name <instance_name> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"}'
 ```
 {: pre}
 
 ```sh
-ibmcloud resource service-key-create <service_key_name> Manager --instance-id <guid>
+ibmcloud resource service-key-create <service_key_name> --instance-id <guid> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"}'
 ```
 {: pre}
 
@@ -105,7 +105,7 @@ These commands can be used when creating a user with either the Writer or Manage
 Similarly, for creating a user with the `Writer` role, use the following command:
 
 ```sh
-ibmcloud resource service-key-create <service_key_name> Writer --instance-name <instance_name>
+ibmcloud resource service-key-create <service_key_name> --instance-name <instance_name> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer"}'
 ```
 {: pre}
 
