@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-04-27"
+lastupdated: "2026-09-30"
 
 keywords: postgresql gui, postgresql, postgres, postgresql cloud database, postgres getting started, Gen 2
 
@@ -417,12 +417,12 @@ The `Manager` user functions as a admin-like user and is automatically granted t
 Use one of the following commands from the {{site.data.keyword.cloud_notm}} CLI {{site.data.keyword.databases-for}} plug-in to create the `Manager` user.
 
 ```sh
-ibmcloud resource service-key-create <service_key_name> Manager --instance-name <instance_name>
+ibmcloud resource service-key-create <service_key_name> --instance-name <instance_name> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"}'
 ```
 {: pre}
 
 ```sh
-ibmcloud resource service-key-create <service_key_name> Manager --instance-id <guid>
+ibmcloud resource service-key-create <service_key_name> --instance-id <guid> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"}'
 ```
 {: pre}
 
