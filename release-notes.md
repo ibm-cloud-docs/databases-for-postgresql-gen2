@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-09-21"
+lastupdated: "2026-10-02"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -19,8 +19,10 @@ content-type: release-note
 
 [Gen 2]{: tag-purple}
 
+
+
 ## 16 September 2026
-{: #cloud-databases-16sep2026}
+{: #databases-for-postgresql-16sep2026}
 {: release-note}
 
 {{site.data.keyword.databases-for-postgresql}} Gen 2 is now available in Dallas and London
@@ -34,7 +36,7 @@ Customer-configurable server parameters now available
 : {{site.data.keyword.databases-for-postgresql_full}} Gen 2 now supports 14 customer-configurable PostgreSQL server parameters. You can set parameters at provisioning time and update them on a running instance. The configurable parameters include connection limits, logging thresholds, memory allocation, WAL, and replication settings, and pgAudit classes. For more information, see [Changing your PostgreSQL configuration](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-configure-parameters).
 
 ## 01 September 2026
-{: #cloud-databases-01sep2026}
+{: #databases-for-postgresql-01sep2026}
 {: release-note}
 
 {{site.data.keyword.databases-for-postgresql}} Gen 2 is now available in Madrid and Sydney
@@ -42,7 +44,7 @@ Customer-configurable server parameters now available
 
 
 ## 06 July 2026
-{: #cloud-databases-06jul2026}
+{: #databases-for-postgresql-06jul2026}
 {: release-note}
 
 {{site.data.keyword.databases-for-postgresql}} Gen 2 is now available in Frankfurt
@@ -50,12 +52,11 @@ Customer-configurable server parameters now available
 
 
 ## 01 June 2026
-{: #cloud-databases-01jun2026}
+{: #databases-for-postgresql-01jun2026}
 {: release-note}
 
 {{site.data.keyword.databases-for-postgresql}} Gen 2 is now available in Mumbai
 : {{site.data.keyword.databases-for-postgresql}} Gen 2 is now also available in Mumbai (in-mum), in addition to Chennai - Airtel (in-che) and Montreal (ca-mon). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2#feature-differentiators).
-
 
 ## 02 March 2026
 {: #databases-for-postgresql-02mar2026}
