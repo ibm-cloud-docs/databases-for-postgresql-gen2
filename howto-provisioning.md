@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-08-24"
+lastupdated: "2026-10-02"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision PostgreSQL, Gen 2
 
@@ -525,19 +525,22 @@ Select the [hosting model](/docs/cloud-databases?topic=cloud-databases-hosting-m
 
 Provision a {{site.data.keyword.databases-for-postgresql}} Isolated instance with the same `"host_flavor"` parameter, setting it to the desired Isolated size. Available hosting sizes and their `host_flavor value` parameters are listed in [Table 1](#host-flavor-parameter-terraform). For example, `{"host_flavor": "b3c.4x16.encrypted"}`. Note that since the host flavor selection includes CPU and RAM sizes (`b3c.4x16.encrypted` is 4 CPU and 16 RAM), this request does not accept both, an Isolated size selection and separate CPU and RAM allocation selections.
 
+Gen 2 does not provide a default administrator user or password. Create a service credential with the **Manager** role using `ibm_resource_key` to generate database credentials after provisioning.
+{: note}
+
 ```terraform
 data "ibm_resource_group" "group" {
   name = "<your_group>"
 }
+
 resource "ibm_database" "<your_database>" {
   name              = "<your_database_name>"
   plan              = "standard"
-  location          = "eu-gb"
+  location          = "<region>"
   service           = "databases-for-postgresql"
   resource_group_id = data.ibm_resource_group.group.id
   service_endpoints = "private"
   tags              = ["tag1", "tag2"]
-  adminpassword                = "password12"
   group {
     group_id = "member"
     host_flavor {
@@ -547,17 +550,16 @@ resource "ibm_database" "<your_database>" {
       allocation_mb = 256000
     }
   }
-  users {
-    name     = "user123"
-    password = "password12"
-  }
   allowlist {
     address     = "172.168.1.1/32"
     description = "desc"
   }
 }
-output "ICD Postgresql database connection string" {
-  value = "http://${ibm_database.test_acc.ibm_database_connection.icd_conn}"
+
+resource "ibm_resource_key" "this" {
+  name                 = "<your_credential_name>"
+  resource_instance_id = "<your_database_resource_instance_id>"
+  parameters           = { "role" = "Manager" }
 }
 ```
 {: codeblock}
