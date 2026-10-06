@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-10-02"
+lastupdated: "2026-10-06"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -18,6 +18,13 @@ content-type: release-note
 {: #postgresql-relnotes}
 
 [Gen 2]{: tag-purple}
+
+## 30 September 2026
+{: #databases-for-postgresql-30sep2026}
+{: release-note}
+
+{{site.data.keyword.databases-for-postgresql}} Gen 2 is now available in all VPC multizone regions
+: You can now deploy {{site.data.keyword.databases-for-postgresql}} Gen 2 in all supported {{site.data.keyword.cloud}} VPC multizone regions (MZRs). This release adds support for Toronto (ca-tor), Tokyo (jp-tok), Osaka (jp-osa), and Sao Paulo (br-sao). For more information, see [Overview of Gen 1 and Gen 2](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-overview-gen1-gen2#feature-differentiators).
 
 
 
