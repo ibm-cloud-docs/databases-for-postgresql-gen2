@@ -24,7 +24,7 @@ content-type: release-note
 {: release-note}
 
 Context-based restrictions (CBR) support now available
-:  You can now use context-based restrictions (CBR) to restrict access to {{site.data.keyword.databases-for-postgresql}}{{site.data.keyword.databases-for}} resources based on network context, such as IP addresses, VPCs, and {{site.data.keyword.cloud}} services. For more information, see [Managing access with context-based restrictions](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-cbr&interface=ui).
+:  You can now use context-based restrictions (CBR) to restrict access to {{site.data.keyword.databases-for-postgresql}} resources based on network context, such as IP addresses, VPCs, and {{site.data.keyword.cloud}} services. For more information, see [Managing access with context-based restrictions](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-cbr&interface=ui).
 
 ## 7 October 2026
 {: #databases-for-postgresql-gen2-07oct2026}
