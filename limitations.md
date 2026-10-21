@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-10-19"
+lastupdated: "2026-10-20"
 
 keywords: postgresql gen 2 differences, postgresql gen 2 limitations, cloud databases gen 2 postgresql, gen 1 vs gen 2
 
@@ -60,6 +60,7 @@ The following list represents capabilities available in Gen 1 that are not yet a
 | **{{site.data.keyword.keymanagementserviceshort}}: Resource group scope**  \n Scoping IAM Service-to-Service authorization policies to a resource group. | Future release | The Gen 2 provisioning broker does not evaluate broad resource group-scoped S2S policies.  \n **Workaround:** Scope the S2S policy directly to the specific {{site.data.keyword.keymanagementserviceshort}} instance. |
 | **Read replicas**  \n Dedicated read replicas for offloading read queries or disaster recovery (available cross-region or locally).  | Future release | Dedicated cross-region and local read-only replicas for query offloading are planned in a future release. **Workaround:** Scale horizontally by adding internal cluster data members to distribute read traffic. |
 | **Kill all connections (End connections)**  \n Terminate all active database sessions by using a single administrative action. | Future release | The one-click button and `ibmcloud cdb deployment-kill-connections` command are not yet available in Gen 2.  \n **Workaround:** Terminate active sessions directly by running `SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE pid <> pg_backend_pid();` as an administrative user by using `psql`, or restart the instance. |
+| **max_connections >= 500** \n Configuration parameter `max_connections` is limited to 500. | Future release. | {{site.data.keyword.databases-for-postgresql}} Gen 2 does not yet support more than 500 connections. \n **Workaround:** Use a connection pooler, such as pgbouncer. | 
 {: caption="Feature parity for {{site.data.keyword.databases-for-postgresql}} Gen 2" caption-side="bottom"}
 
 ## Detailed domain breakdown

@@ -2,9 +2,9 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-10-02"
+lastupdated: "2026-10-20"
 
-keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision PostgreSQL, Gen 2
+keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision PostgreSQL, Gen 2, single node, single member, non-ha, single zone
 
 subcollection: databases-for-postgresql-gen2
 
@@ -19,7 +19,46 @@ subcollection: databases-for-postgresql-gen2
 
 Provision an {{site.data.keyword.databases-for-postgresql_full}} deployment through the [catalog](https://cloud.ibm.com/catalog){: external}, the [{{site.data.keyword.databases-for}} CLI plug-in](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-cdb-reference){: external}, the [{{site.data.keyword.databases-for}} API](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-api){: external}, or through [Terraform](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/resources/database){: external}.
 
-## Provisioning through the {{site.data.keyword.cloud_notm}} console (UI)
+By default, all deployments are provisioned as highly available, standard two-member formations.
+{: note}
+
+## Single-node deployments (Beta)
+{: #single-node-overview}
+
+Single-node deployments are available as a Beta feature for selected {{site.data.keyword.databases-for-postgresql}} deployments. They are intended for evaluation purposes only, and functionality, pricing, and availability will evolve at general availability. 
+{: beta}
+
+A single-node deployment provisions one member instead of the default two-member high-availability formation. Single-node deployments are intended for nonproduction workloads, such as development, testing, and proof-of-concept workloads.
+
+Single-node provisioning is supported only for {{site.data.keyword.databases-for-postgresql}} on Gen 2. 
+{: restriction}
+
+### Current limitations
+{: #single-node-limitations}
+
+- Compute is provided at no charge during the Beta period.
+- Only the default deployment profile is supported.
+- Scaling to larger deployment profiles is not supported.
+- Availability is limited to supported database services and regions.
+
+For production workloads that require resiliency to infrastructure failures and maintenance events, use a highly available deployment. 
+{: important}
+
+### Considerations before you provision a single-node instance
+{: #single-node-considerations}
+
+Review the following limitations compared to a standard high-availability deployment.
+
+No high availability
+: A single-node deployment runs with one member and no replica set peers. If the node becomes unavailable because of a host failure, planned maintenance, or a zone-level disruption, the database is unavailable until the node recovers. Automatic failover isn't available.
+
+Reduced service level objectives
+: Single-node deployments don't provide the same availability guarantees as multi-member deployments. Review the Service Level Agreement (SLA) before you use a single-node deployment for a workload that requires continuous availability.
+
+Scaling to high availability
+: You can scale a single-node deployment to a high-availability formation by changing the member count from `1` to `2`. This converts the deployment to a standard two-member replica set without requiring a new deployment or data migration.
+
+## Provisioning through the {{site.data.keyword.cloud_notm}} console
 {: #catalog}
 {: ui}
 
@@ -100,7 +139,7 @@ After you select the appropriate settings, click **Create** to start the provisi
 
 Before provisioning, follow the instructions provided in the documentation to install the [{{site.data.keyword.cloud_notm}} CLI tool](/docs/cli?topic=cli-install-ibmcloud-cli){: external}.
 
-1. Log in to {{site.data.keyword.cloud_notm}}. If you use a federated user ID, it's important that you switch to a one-time passcode (`ibmcloud login --sso`), or use an API key (`ibmcloud --apikey key or @key_file`) to authenticate. For more information about how to log in by using the CLI, see [General CLI (ibmcloud) commands](/docs/cli?topic=cli-ibmcloud_cli#ibmcloud_login){: external} under `ibmcloud login`.
+1. Log in to {{site.data.keyword.cloud_notm}}. If you use a federated user ID, it's important that you switch to a one-time passcode (`ibmcloud login --sso`), or use an API key (`ibmcloud login --apikey key or @key_file`) to authenticate. For more information about how to log in by using the CLI, see [General CLI (ibmcloud) commands](/docs/cli?topic=cli-ibmcloud_cli#ibmcloud_login){: external} under `ibmcloud login`.
 
       ```sh
       ibmcloud login
@@ -141,6 +180,7 @@ Before provisioning, follow the instructions provided in the documentation to in
     | `RESOURCE_GROUP` | The Resource group name. The default value is `default`. | -g |
     | `--parameters` | JSON file or JSON string of parameters to create service instance | -p |
     | `members_host_flavor` | To provision an Isolated Compute instance, use `{"members_host_flavor": "<members_host_flavor value>"}`. For Isolated Compute, select desired CPU and RAM configuration. For more information, see the following table or [Hosting models](/docs/cloud-databases?topic=cloud-databases-hosting-models).| |
+  | `members` | Set to `1` to provision a single-node, non-HA formation. Omit this parameter or set it to `2` to provision the default high-availability formation. | |
     | `--service-endpoints` [Required]{: tag-red} | Supports only `private`. |  |
     {: caption="Basic command format fields" caption-side="top"}
 
