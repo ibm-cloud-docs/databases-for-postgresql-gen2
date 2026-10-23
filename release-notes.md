@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-10-14"
+lastupdated: "2026-10-23"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -18,6 +18,17 @@ content-type: release-note
 {: #postgresql-relnotes}
 
 [Gen 2]{: tag-purple}
+
+## 21 October 2026
+{: #databases-for-postgresql-gen2-21Oct2026}
+{: release-note}
+
+Single-node deployments (Beta) now available
+:  {{site.data.keyword.databases-for-postgresql}} now supports single-node deployments (Beta) in select regions. Single-node deployments provision a single database member instead of the default two high-availability configuration and are intended for development, testing, and proof-of-concept workloads. Single-node deployments can be converted to a high-availability deployment without requiring data migration. For more information, see Provisioning for [Postgres](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-provisioning&interface=ui)
+
+Customer-defined maintenance windows now available
+:   You can now configure the days and start time for maintenance on your {{site.data.keyword.databases-for-postgresql}} deployment. Customer-defined maintenance windows allow you to schedule maintenance activities during times that align with your operational requirements while ensuring critical security, reliability, and platform updates are applied. For more information, see [Customer-defined maintenance windows](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-maintenance-windows&interface=cli).
+
 
 ## 12 October 2026
 {: #databases-for-postgresql-gen2-12oct2026}
