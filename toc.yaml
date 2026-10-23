@@ -34,7 +34,7 @@ toc:
       id: howto
       topics:
       - howto-provisioning.md
-      - maintenance-windows.md
+      - include: ../cloud-databases-gen2/maintenance-windows.md
       - topicgroup:
           label: Managing backups
           topics:
