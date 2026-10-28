@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-09-30"
+lastupdated: "2026-10-26"
 
 keywords: manager, superuser, roles, service credentials, postgresql users, postgresql service credentials, connection strings, manager password, new user, Gen 2
 
@@ -192,14 +192,28 @@ The new credentials appear in the table, and the connection strings are availabl
 {: #user-management-creating-users-cli}
 {: cli}
 
-If you manage your service through the {{site.data.keyword.cloud_notm}} CLI and the [cloud databases plug-in](/docs/cli?topic=cli-install-ibmcloud-cli), you can create a new user with `cdb user-create`. For example, to create a new user for an "example-deployment", use the following command:
+On Gen 2, the `ibmcloud cdb` plug-in commands for user management are not yet supported. In the meantime, use the {{site.data.keyword.cloud_notm}} resource CLI instead. To create a new user, use `ibmcloud resource service-key-create` with a `role_crn` parameter to specify the role (`Manager` or `Writer`).
+
+To create a user with the `Manager` role:
 
 ```sh
-ibmcloud cdb user-create example-deployment <NEW_USER_NAME> <NEW_PASSWORD>
+ibmcloud resource service-key-create <service_key_name> --instance-name <instance_name> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Manager"}'
 ```
 {: pre}
 
-Once the task has finished, you can retrieve the new user's connection strings with the `ibmcloud cdb deployment-connections` command.
+To create a user with the `Writer` role:
+
+```sh
+ibmcloud resource service-key-create <service_key_name> --instance-name <instance_name> -p '{"role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer"}'
+```
+{: pre}
+
+Once the task has finished, you can retrieve the new user's connection strings from _Service credentials_ in the UI, or by running:
+
+```sh
+ibmcloud resource service-key <service_key_name>
+```
+{: pre}
 
 ### Creating users from the API
 {: #user-management-creating-users-api}
