@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-10-23"
+lastupdated: "2026-10-30"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -18,6 +18,8 @@ content-type: release-note
 {: #postgresql-relnotes}
 
 [Gen 2]{: tag-purple}
+
+
 
 ## 21 October 2026
 {: #cloud-databases-for-postgresql-gen2-21oct2026}
