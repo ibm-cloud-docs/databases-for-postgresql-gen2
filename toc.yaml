@@ -34,12 +34,15 @@ toc:
       id: howto
       topics:
       - howto-provisioning.md
+      - topic: migrate-to-gen2.md
+        navtitle: Migrating to Gen 2
       - include: ../cloud-databases-gen2/maintenance-windows.md
       - topicgroup:
           label: Managing backups
           topics:
           - include: ../cloud-databases-gen2/backup-restore.md
           - include: ../cloud-databases-gen2/coupled-backups.md
+          - include: ../cloud-databases-gen2/independent-backups.md
       - include: ../cloud-databases-gen2/private-connections.md
       - howto-user-management.md
       - howto-upgrading.md
