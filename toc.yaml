@@ -34,6 +34,8 @@ toc:
       id: howto
       topics:
       - howto-provisioning.md
+      - topic: migrate-to-gen2.md
+        navtitle: Migrating to Gen 2
       - include: ../cloud-databases-gen2/maintenance-windows.md
       - topicgroup:
           label: Managing backups
