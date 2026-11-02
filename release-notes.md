@@ -2,7 +2,7 @@
 
 copyright:
   years: 2025, 2026
-lastupdated: "2026-10-30"
+lastupdated: "2026-11-02"
 
 keywords: databases-for-postgresql release notes gen 2
 
@@ -19,7 +19,12 @@ content-type: release-note
 
 [Gen 2]{: tag-purple}
 
+## 2 November 2026
+{: #cloud-databases-for-postgresql-gen2-02nov2026}
+{: release-note}
 
+{{site.data.keyword.databases-for-postgresql}} Gen 1 to Gen 2 migration is now generally available
+:  Migration from Gen 1 (Classic) to Gen 2 (VPC) is now available for {{site.data.keyword.databases-for-postgresql}}. You can migrate by using the Migration Hub in the {{site.data.keyword.cloud_notm}} console, Terraform, the API, or the CLI. Both read replica and backup-and-restore migration paths are available. For more information, see [Migrating {{site.data.keyword.databases-for-postgresql}} from Gen 1 to Gen 2](/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-migrating-postgresql-gen1-to-gen2&interface=cli).
 
 ## 21 October 2026
 {: #cloud-databases-for-postgresql-gen2-21oct2026}
