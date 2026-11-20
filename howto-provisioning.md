@@ -2,7 +2,7 @@
 
 copyright:
   years: 2026
-lastupdated: "2026-10-20"
+lastupdated: "2026-11-20"
 
 keywords: provision cloud databases, terraform, provisioning parameters, cli, resource controller api, provision PostgreSQL, Gen 2, single node, single member, non-ha, single zone
 
@@ -25,13 +25,15 @@ By default, all deployments are provisioned as highly available, standard two-me
 ## Single-node deployments (Beta)
 {: #single-node-overview}
 
-Single-node deployments are available as a Beta feature for selected {{site.data.keyword.databases-for-postgresql}} deployments. They are intended for evaluation purposes only, and functionality, pricing, and availability will evolve at general availability. 
+Single-node deployments are available as a Beta feature for selected {{site.data.keyword.databases-for-postgresql}} deployments. They are intended for evaluation purposes only, and functionality, pricing, and availability will evolve at general availability.
 {: beta}
 
 A single-node deployment provisions one member instead of the default two-member high-availability formation. Single-node deployments are intended for nonproduction workloads, such as development, testing, and proof-of-concept workloads.
 
-Single-node provisioning is supported only for {{site.data.keyword.databases-for-postgresql}} on Gen 2. 
+Single-node provisioning is supported only in Frankfurt (eu-de).
 {: restriction}
+
+For more information about region availability, see [Single-node deployments](/docs/cloud-databases-gen2?topic=cloud-databases-gen2-single-node){: external}.
 
 ### Current limitations
 {: #single-node-limitations}
@@ -41,7 +43,7 @@ Single-node provisioning is supported only for {{site.data.keyword.databases-for
 - Scaling to larger deployment profiles is not supported.
 - Availability is limited to supported database services and regions.
 
-For production workloads that require resiliency to infrastructure failures and maintenance events, use a highly available deployment. 
+For production workloads that require resiliency to infrastructure failures and maintenance events, use a highly available deployment.
 {: important}
 
 ### Considerations before you provision a single-node instance
