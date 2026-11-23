@@ -58,16 +58,16 @@
     "view_more": "/docs/databases-for-postgresql-gen2?topic=databases-for-postgresql-gen2-postgresql-relnotes",
     "tiles": [
       {
-        "date": "March 2026",
-        "title": "Databases for PostgreSQL Gen 2 available in Chennai"
+        "date": "November 2026",
+        "title": "New regions available for Gen 1 to Gen 2 migration"
       },
       {
-        "date": "February 2026",
-        "title": "GA of Databases for PostgreSQL Gen 2"
+        "date": "November 2026",
+        "title": "GA of Databases for PostgreSQL Gen 1 to Gen 2 migration"
       },
       {
-        "date": "December 2025",
-        "title": "Introducing the Beta of Databases for PostgreSQL Gen 2"
+        "date": "October 2026",
+        "title": "Single-node deployments (Beta) now available"
       }
     ]
   }
